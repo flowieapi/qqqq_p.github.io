@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <title>Flowie VPN Admin Panel</title>
@@ -7,44 +8,151 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #0f1419; color: white; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .header { background: #1a1f25; padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #30D158; }
-        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: #1a1f25; padding: 20px; border-radius: 10px; text-align: center; border: 1px solid #2d3748; }
-        .stat-value { font-size: 2em; font-weight: bold; color: #30D158; }
-        .stat-label { font-size: 12px; color: #94a3b8; text-transform: uppercase; }
-        .purchase-list { background: #1a1f25; border-radius: 10px; overflow: hidden; border: 1px solid #2d3748; }
-        .purchase-item { padding: 15px; border-bottom: 1px solid #2d3748; }
-        .purchase-item:hover { background: #2d3748; }
-        .status-badge { padding: 5px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
-        .status-pending { background: #f59e0b; color: black; }
-        .status-confirmed { background: #30D158; color: white; }
-        .status-rejected { background: #ef4444; color: white; }
-        .btn { padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin: 2px; }
-        .btn-approve { background: #30D158; color: white; }
-        .btn-reject { background: #ef4444; color: white; }
-        .btn-view { background: #3b82f6; color: white; }
-        .search { margin-bottom: 20px; }
-        .search input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #2d3748; background: #1a1f25; color: white; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f1419;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #1a1f25;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #30D158;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #1a1f25;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #2d3748;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #30D158;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .purchase-list {
+            background: #1a1f25;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #2d3748;
+        }
+
+        .purchase-item {
+            padding: 15px;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .purchase-item:hover {
+            background: #2d3748;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background: #f59e0b;
+            color: black;
+        }
+
+        .status-confirmed {
+            background: #30D158;
+            color: white;
+        }
+
+        .status-rejected {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 2px;
+        }
+
+        .btn-approve {
+            background: #30D158;
+            color: white;
+        }
+
+        .btn-reject {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-view {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .search {
+            margin-bottom: 20px;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #2d3748;
+            background: #1a1f25;
+            color: white;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h1>Flowie VPN Admin Panel</h1>
             <p>Управление покупками VPN</p>
         </div>
-        
+
         <div class="search">
             <input type="text" id="searchInput" placeholder="Поиск по номеру заказа или имени...">
         </div>
-        
+
         <div class="stats" id="stats">
             <!-- Статистика загрузится через JS -->
         </div>
-        
+
         <div class="purchase-list" id="purchases-container">
             <!-- Список покупок загрузится через JS -->
         </div>
@@ -86,7 +194,7 @@
                     .orderBy('created_at', 'desc')
                     .limit(100)
                     .get();
-                
+
                 updateStats(snapshot);
                 displayPurchases(snapshot);
             } catch (error) {
@@ -103,12 +211,12 @@
                 confirmed: 0,
                 rejected: 0
             };
-            
+
             snapshot.forEach(doc => {
                 const data = doc.data();
                 stats[data.status]++;
             });
-            
+
             document.getElementById('stats').innerHTML = `
                 <div class="stat-card">
                     <div class="stat-value">${stats.total}</div>
@@ -130,54 +238,71 @@
         }
 
         // Отображение покупок
+        // Заменить функцию displayPurchases в админ-панели:
         function displayPurchases(snapshot) {
             let html = '';
-            
+
             snapshot.forEach(doc => {
                 const data = doc.data();
                 const id = doc.id;
-                
+
+                // Форматируем время
+                const time = new Date(data.created_at || data.timestamp).toLocaleString('ru-RU');
+
                 html += `
-                    <div class="purchase-item" data-id="${id}">
-                        <div style="display: flex; justify-content: space-between; align-items: start;">
-                            <div>
-                                <strong style="color: #30D158;">${data.name} - ${data.amount}₽</strong>
-                                <div style="font-size: 0.9em; color: #94a3b8; margin-top: 5px;">
-                                    <div>Заказ: <strong>${data.order_id}</strong></div>
-                                    <div>Дата: ${data.date}</div>
-                                    <div>Пользователь: ${data.user_name} (@${data.username || 'нет'})</div>
-                                    <div>ID: ${data.user_id}</div>
-                                </div>
-                            </div>
-                            <div style="text-align: right;">
-                                <span class="status-badge status-${data.status}">
-                                    ${getStatusText(data.status)}
-                                </span>
-                                <div style="margin-top: 10px;">
-                                    ${data.status === 'pending' ? `
-                                        <button class="btn btn-approve" onclick="updateStatus('${id}', 'confirmed')">
-                                            ✅ Принять
-                                        </button>
-                                        <button class="btn btn-reject" onclick="updateStatus('${id}', 'rejected')">
-                                            ❌ Отклонить
-                                        </button>
-                                    ` : ''}
-                                    ${data.receipt_url ? `
-                                        <button class="btn btn-view" onclick="window.open('${data.receipt_url}', '_blank')">
-                                            📎 Чек
-                                        </button>
-                                    ` : ''}
-                                </div>
-                            </div>
+            <div class="purchase-item" data-id="${id}">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <strong style="color: #30D158;">${data.name} - ${data.amount}₽</strong>
+                        <div style="font-size: 0.9em; color: #94a3b8; margin-top: 5px;">
+                            <div><strong>Заказ:</strong> ${data.order_id || 'Нет номера'}</div>
+                            <div><strong>Время:</strong> ${time}</div>
+                            <div><strong>Сумма заказа:</strong> ${data.amount}₽</div>
+                            <div><strong>Тариф:</strong> ${getVpnTariff(data.name)}</div>
+                            <div><strong>Пользователь:</strong> ${data.user_name} (@${data.username || 'нет'})</div>
+                            <div><strong>ID:</strong> ${data.user_id}</div>
+                            ${data.firebase_id ? `<div><strong>Firebase ID:</strong> ${data.firebase_id}</div>` : ''}
                         </div>
                     </div>
-                `;
+                    <div style="text-align: right;">
+                        <span class="status-badge status-${data.status}">
+                            ${getStatusText(data.status)}
+                        </span>
+                        <div style="margin-top: 10px;">
+                            ${data.status === 'pending' ? `
+                                <button class="btn btn-approve" onclick="updateStatus('${id}', 'confirmed')">
+                                    ✅ Принять
+                                </button>
+                                <button class="btn btn-reject" onclick="updateStatus('${id}', 'rejected')">
+                                    ❌ Отклонить
+                                </button>
+                            ` : ''}
+                            ${data.receipt_url ? `
+                                <button class="btn btn-view" onclick="window.open('${data.receipt_url}', '_blank')">
+                                    📎 Чек
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
             });
-            
+
             document.getElementById('purchases-container').innerHTML = html || '<div class="purchase-item">Нет данных</div>';
         }
 
+        // Добавить функцию определения тарифа:
+        function getVpnTariff(name) {
+            if (!name) return 'Не указан';
+            if (name.includes('Лайт') || name.includes('Дешевый')) return 'VPN Дешевый';
+            if (name.includes('Про') || name.includes('Средний')) return 'VPN Средний';
+            if (name.includes('Vip') || name.includes('ВИП')) return 'VPN ВИП';
+            return name;
+        }
+
         // Обновление статуса
+        // Обновить функцию updateStatus в админ-панели:
         async function updateStatus(docId, status) {
             if (!confirm(`Вы уверены, что хотите ${status === 'confirmed' ? 'подтвердить' : 'отклонить'} этот заказ?`)) {
                 return;
@@ -187,33 +312,41 @@
                 const docRef = db.collection('purchases').doc(docId);
                 const doc = await docRef.get();
                 const data = doc.data();
-                
+
                 await docRef.update({
                     status: status,
                     updated_at: firebase.firestore.FieldValue.serverTimestamp(),
                     admin_action_at: new Date().toISOString(),
-                    admin_action_by: 'admin_panel'
+                    admin_action_by: 'admin_panel',
+                    admin_notified: true
                 });
-                
+
                 // Отправляем уведомление пользователю в Telegram
                 if (data.user_id) {
                     await sendUserNotification(data.user_id, data.order_id, status);
                 }
-                
-                alert(`Статус обновлен на: ${getStatusText(status)}`);
-                
+
+                // Обновляем статистику
+                const snapshot = await db.collection('purchases')
+                    .orderBy('created_at', 'desc')
+                    .limit(100)
+                    .get();
+                updateStats(snapshot);
+
+                showNotification(`✅ Статус обновлен на: ${getStatusText(status)}`);
+
             } catch (error) {
                 console.error('Error updating status:', error);
-                alert('Ошибка обновления статуса');
+                showNotification('❌ Ошибка обновления статуса');
             }
         }
 
         // Отправка уведомления пользователю
         async function sendUserNotification(userId, orderId, status) {
-            const message = status === 'confirmed' 
+            const message = status === 'confirmed'
                 ? `🎉 Ваш заказ ${orderId} подтвержден! VPN активирован.`
                 : `❌ Ваш заказ ${orderId} отклонен. Свяжитесь с поддержкой @flowie_support`;
-            
+
             try {
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
@@ -247,26 +380,26 @@
             const searchInput = document.getElementById('searchInput');
             searchInput.addEventListener('input', async (e) => {
                 const searchTerm = e.target.value.toLowerCase();
-                
+
                 try {
                     const snapshot = await db.collection('purchases')
                         .orderBy('created_at', 'desc')
                         .limit(100)
                         .get();
-                    
+
                     const filteredDocs = snapshot.docs.filter(doc => {
                         const data = doc.data();
                         return data.order_id.toLowerCase().includes(searchTerm) ||
-                               data.user_name.toLowerCase().includes(searchTerm) ||
-                               (data.username && data.username.toLowerCase().includes(searchTerm));
+                            data.user_name.toLowerCase().includes(searchTerm) ||
+                            (data.username && data.username.toLowerCase().includes(searchTerm));
                     });
-                    
+
                     const filteredSnapshot = {
                         docs: filteredDocs,
                         size: filteredDocs.length,
                         forEach: (callback) => filteredDocs.forEach(callback)
                     };
-                    
+
                     updateStats(filteredSnapshot);
                     displayPurchases(filteredSnapshot);
                 } catch (error) {
@@ -289,4 +422,5 @@
         document.addEventListener('DOMContentLoaded', initAdmin);
     </script>
 </body>
+
 </html>
