@@ -338,6 +338,55 @@
             color: #ddd;
         }
         
+        .refresh-btn {
+            background: #6f42c1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 10px;
+        }
+        
+        .refresh-btn:hover {
+            background: #5a32a3;
+        }
+        
+        .database-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .db-btn {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .db-btn.active {
+            background: rgba(255, 255, 255, 0.4);
+            border-color: white;
+        }
+        
+        .debug-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #666;
+            border: 1px solid #e9ecef;
+        }
+        
         @media (max-width: 768px) {
             .admin-header h1 {
                 font-size: 2rem;
@@ -364,6 +413,11 @@
         <div class="admin-header">
             <h1><i class="fas fa-cogs"></i> Админ панель - Управление заказами</h1>
             <p>Всего заказов: <span id="totalOrders">0</span></p>
+            <div class="database-selector">
+                <button class="db-btn active" data-db="payments">Папка payments</button>
+                <button class="db-btn" data-db="orders">Папка orders</button>
+                <button class="db-btn" data-db="all">Все папки</button>
+            </div>
         </div>
         
         <div class="admin-stats">
@@ -410,12 +464,22 @@
         
         <div class="orders-container">
             <div class="orders-header">
-                <h2><i class="fas fa-list"></i> Список заказов</h2>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">Все</button>
-                    <button class="filter-btn" data-filter="pending">Ожидают</button>
-                    <button class="filter-btn" data-filter="approved">Одобренные</button>
-                    <button class="filter-btn" data-filter="declined">Отклоненные</button>
+                <div>
+                    <h2><i class="fas fa-list"></i> Список заказов</h2>
+                    <div id="debugInfo" class="debug-info" style="display: none;">
+                        Загрузка данных...
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Все</button>
+                        <button class="filter-btn" data-filter="pending">Ожидают</button>
+                        <button class="filter-btn" data-filter="approved">Одобренные</button>
+                        <button class="filter-btn" data-filter="declined">Отклоненные</button>
+                    </div>
+                    <button class="refresh-btn" onclick="loadAllOrders()">
+                        <i class="fas fa-sync-alt"></i> Обновить
+                    </button>
                 </div>
             </div>
             
@@ -464,20 +528,33 @@
         
         let orders = [];
         let currentFilter = 'all';
+        let currentDatabase = 'payments';
         
-        // Загрузка заказов
-        async function loadOrders() {
+        // Загрузка всех заказов из разных папок
+        async function loadAllOrders() {
             try {
                 console.log("Загрузка заказов из Firebase...");
+                showDebugInfo("Загрузка данных из Firebase...");
                 
-                const snapshot = await database.ref('orders').once('value');
+                const loadingElement = document.getElementById('loadingOrders');
+                if (loadingElement) {
+                    loadingElement.style.display = 'block';
+                }
+                
+                // Очищаем текущие заказы
                 orders = [];
-                snapshot.forEach((childSnapshot) => {
-                    const order = childSnapshot.val();
-                    orders.push(order);
-                });
+                
+                // Загружаем данные из выбранной папки или из всех папок
+                if (currentDatabase === 'payments' || currentDatabase === 'all') {
+                    await loadFromDatabase('payments');
+                }
+                
+                if (currentDatabase === 'orders' || currentDatabase === 'all') {
+                    await loadFromDatabase('orders');
+                }
                 
                 console.log(`Загружено ${orders.length} заказов`);
+                showDebugInfo(`Загружено ${orders.length} заказов из папки "${currentDatabase}"`);
                 
                 // Сортируем по дате (новые сверху)
                 orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
@@ -487,13 +564,61 @@
                 
             } catch (error) {
                 console.error("Ошибка загрузки заказов:", error);
+                showDebugInfo(`Ошибка: ${error.message}`);
                 document.getElementById('ordersList').innerHTML = `
                     <div class="no-orders">
                         <i class="fas fa-exclamation-circle"></i>
                         <h3>Ошибка загрузки заказов</h3>
                         <p>${error.message}</p>
+                        <button class="action-btn" onclick="loadAllOrders()" style="margin-top: 15px;">
+                            <i class="fas fa-sync-alt"></i> Попробовать снова
+                        </button>
                     </div>
                 `;
+            } finally {
+                const loadingElement = document.getElementById('loadingOrders');
+                if (loadingElement) {
+                    loadingElement.style.display = 'none';
+                }
+            }
+        }
+        
+        // Загрузка из конкретной папки базы данных
+        async function loadFromDatabase(dbPath) {
+            try {
+                console.log(`Загрузка из папки: ${dbPath}`);
+                const snapshot = await database.ref(dbPath).once('value');
+                
+                if (!snapshot.exists()) {
+                    console.log(`Папка ${dbPath} пуста или не существует`);
+                    return;
+                }
+                
+                snapshot.forEach((childSnapshot) => {
+                    const order = childSnapshot.val();
+                    // Добавляем информацию о том, из какой папки пришел заказ
+                    order.source = dbPath;
+                    order.fullId = `${dbPath}/${order.id}`;
+                    orders.push(order);
+                });
+                
+                console.log(`Из папки ${dbPath} загружено: ${snapshot.numChildren()} заказов`);
+                
+            } catch (error) {
+                console.error(`Ошибка загрузки из папки ${dbPath}:`, error);
+            }
+        }
+        
+        // Показать отладочную информацию
+        function showDebugInfo(message) {
+            const debugElement = document.getElementById('debugInfo');
+            if (debugElement) {
+                debugElement.textContent = message;
+                debugElement.style.display = 'block';
+                // Автоматически скрываем через 5 секунд
+                setTimeout(() => {
+                    debugElement.style.display = 'none';
+                }, 5000);
             }
         }
         
@@ -525,6 +650,9 @@
                         <i class="fas fa-shopping-cart"></i>
                         <h3>Заказов пока нет</h3>
                         <p>Когда пользователи отправят заказы, они появятся здесь</p>
+                        <p style="margin-top: 10px; color: #999; font-size: 0.9rem;">
+                            Текущая папка: ${currentDatabase}
+                        </p>
                     </div>
                 `;
                 return;
@@ -541,6 +669,10 @@
                         <i class="fas fa-filter"></i>
                         <h3>Нет заказов с выбранным фильтром</h3>
                         <p>Попробуйте выбрать другой фильтр</p>
+                        <p style="margin-top: 10px; color: #999; font-size: 0.9rem;">
+                            Текущий фильтр: ${currentFilter}<br>
+                            Текущая папка: ${currentDatabase}
+                        </p>
                     </div>
                 `;
                 return;
@@ -558,12 +690,22 @@
                     minute: '2-digit'
                 });
                 
+                // Определяем имя клиента (используем разные поля в зависимости от структуры данных)
+                const userName = order.userName || order.payerName || 'Не указано';
+                const userEmail = order.userEmail || order.payerEmail || 'Не указан';
+                const tariff = order.tariff || order.planName || 'Не указан';
+                
                 html += `
                     <div class="order-item" data-order-id="${order.id}">
                         <div class="order-header">
                             <div>
                                 <h3>Заказ #${order.id.substring(0, 8)}</h3>
-                                <div class="order-id">ID: ${order.id}</div>
+                                <div class="order-id">
+                                    ID: ${order.id}
+                                    <span style="color: #999; font-size: 0.8rem; margin-left: 10px;">
+                                        (из папки: ${order.source || 'unknown'})
+                                    </span>
+                                </div>
                             </div>
                             <div class="order-status status-${order.status}">
                                 ${getStatusText(order.status)}
@@ -573,7 +715,7 @@
                         <div class="order-details">
                             <div class="detail-item">
                                 <h4>Тариф</h4>
-                                <p>${order.tariff || 'Не указан'}</p>
+                                <p>${tariff}</p>
                             </div>
                             <div class="detail-item">
                                 <h4>Цена</h4>
@@ -581,24 +723,30 @@
                             </div>
                             <div class="detail-item">
                                 <h4>Имя клиента</h4>
-                                <p>${order.userName || 'Не указано'}</p>
+                                <p>${userName}</p>
                             </div>
                             <div class="detail-item">
                                 <h4>Email</h4>
-                                <p>${order.userEmail || 'Не указан'}</p>
+                                <p>${userEmail}</p>
                             </div>
                             <div class="detail-item">
                                 <h4>Дата заказа</h4>
                                 <p>${formattedDate}</p>
                             </div>
+                            ${order.userId ? `
+                            <div class="detail-item">
+                                <h4>User ID</h4>
+                                <p>${order.userId}</p>
+                            </div>
+                            ` : ''}
                         </div>
                         
                         <div class="order-actions">
                             ${order.status === 'pending' ? `
-                                <button class="action-btn approve-btn" onclick="updateOrderStatus('${order.id}', 'approved')">
+                                <button class="action-btn approve-btn" onclick="updateOrderStatus('${order.id}', '${order.source || 'payments'}', 'approved')">
                                     <i class="fas fa-check"></i> Одобрить
                                 </button>
-                                <button class="action-btn decline-btn" onclick="updateOrderStatus('${order.id}', 'declined')">
+                                <button class="action-btn decline-btn" onclick="updateOrderStatus('${order.id}', '${order.source || 'payments'}', 'declined')">
                                     <i class="fas fa-times"></i> Отклонить
                                 </button>
                             ` : ''}
@@ -607,6 +755,9 @@
                                     <i class="fas fa-receipt"></i> Просмотреть чек
                                 </button>
                             ` : ''}
+                            <button class="action-btn" onclick="showOrderDetails('${order.id}')" style="background: #6f42c1; color: white;">
+                                <i class="fas fa-info-circle"></i> Подробнее
+                            </button>
                         </div>
                     </div>
                 `;
@@ -626,19 +777,21 @@
         }
         
         // Обновление статуса заказа
-        async function updateOrderStatus(orderId, newStatus) {
+        async function updateOrderStatus(orderId, sourcePath, newStatus) {
             try {
                 if (!confirm(`Вы уверены, что хотите ${newStatus === 'approved' ? 'одобрить' : 'отклонить'} этот заказ?`)) {
                     return;
                 }
                 
-                await database.ref('orders/' + orderId).update({
+                const path = sourcePath || 'payments';
+                
+                await database.ref(`${path}/${orderId}`).update({
                     status: newStatus,
                     adminNote: `Статус изменен администратором ${new Date().toLocaleString('ru-RU')}`
                 });
                 
                 // Обновляем локальные данные
-                const orderIndex = orders.findIndex(o => o.id === orderId);
+                const orderIndex = orders.findIndex(o => o.id === orderId && o.source === path);
                 if (orderIndex !== -1) {
                     orders[orderIndex].status = newStatus;
                 }
@@ -652,6 +805,31 @@
                 console.error("Ошибка обновления статуса:", error);
                 alert("Ошибка при обновлении статуса: " + error.message);
             }
+        }
+        
+        // Показать детали заказа
+        function showOrderDetails(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) {
+                alert('Заказ не найден');
+                return;
+            }
+            
+            let details = `Детали заказа #${orderId}\n\n`;
+            details += `Тариф: ${order.tariff || order.planName}\n`;
+            details += `Цена: ${order.price} ₽\n`;
+            details += `Статус: ${getStatusText(order.status)}\n`;
+            details += `Имя: ${order.userName || order.payerName}\n`;
+            details += `Email: ${order.userEmail || order.payerEmail}\n`;
+            details += `User ID: ${order.userId || 'Не указан'}\n`;
+            details += `Дата: ${new Date(order.timestamp).toLocaleString('ru-RU')}\n`;
+            details += `Папка: ${order.source || 'unknown'}\n`;
+            
+            if (order.adminNote) {
+                details += `\nЗаметка администратора:\n${order.adminNote}\n`;
+            }
+            
+            alert(details);
         }
         
         // Просмотр чека
@@ -683,18 +861,64 @@
             });
         }
         
-        // Режим реального времени (опционально)
-        function setupRealtimeUpdates() {
-            database.ref('orders').on('value', (snapshot) => {
-                console.log("Обновление заказов в реальном времени...");
-                loadOrders();
+        // Инициализация селектора базы данных
+        function initDatabaseSelector() {
+            document.querySelectorAll('.db-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.db-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentDatabase = this.getAttribute('data-db');
+                    showDebugInfo(`Переключение на папку: ${currentDatabase}`);
+                    loadAllOrders();
+                });
             });
         }
         
+        // Режим реального времени (опционально)
+        function setupRealtimeUpdates() {
+            // Слушаем изменения в обеих папках
+            database.ref('payments').on('value', (snapshot) => {
+                console.log("Обновление заказов в реальном времени из папки payments...");
+                loadAllOrders();
+            });
+            
+            database.ref('orders').on('value', (snapshot) => {
+                console.log("Обновление заказов в реальном времени из папки orders...");
+                loadAllOrders();
+            });
+        }
+        
+        // Проверка подключения к Firebase
+        async function testFirebaseConnection() {
+            try {
+                const testRef = database.ref('connection_test');
+                await testRef.set({
+                    test: true,
+                    timestamp: new Date().toISOString(),
+                    message: 'Админ панель подключена'
+                });
+                console.log("Подключение к Firebase успешно!");
+                return true;
+            } catch (error) {
+                console.error("Ошибка подключения к Firebase:", error);
+                showDebugInfo(`Ошибка подключения: ${error.message}`);
+                return false;
+            }
+        }
+        
         // Инициализация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Проверяем подключение
+            await testFirebaseConnection();
+            
+            // Инициализируем UI
             initFilters();
-            loadOrders();
+            initDatabaseSelector();
+            
+            // Загружаем заказы
+            loadAllOrders();
+            
+            // Настраиваем обновление в реальном времени
             setupRealtimeUpdates();
             
             // Закрытие модального окна по клику вне его
@@ -703,6 +927,11 @@
                     closeReceiptModal();
                 }
             });
+            
+            // Обновление каждые 30 секунд
+            setInterval(() => {
+                loadAllOrders();
+            }, 30000);
         });
     </script>
 </body>
