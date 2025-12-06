@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Админ панель - Управление заказами</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,17 +12,19 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
             background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
             color: #f0f0f0;
             overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
         }
         
-        /* Эффект частиц */
+        /* Эффект частиц - только для десктопа */
         .particles-bg {
             position: fixed;
             top: 0;
@@ -55,11 +57,11 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             color: white;
-            padding: 40px;
-            border-radius: 24px;
-            margin-bottom: 40px;
+            padding: 25px 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
             box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.4),
+                0 10px 30px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(20, 220, 130, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(20, 220, 130, 0.2);
@@ -82,29 +84,31 @@
         }
         
         .admin-header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             background: linear-gradient(to right, #fff, #14dc82);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             font-weight: 700;
+            line-height: 1.3;
         }
         
         .admin-header p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             opacity: 0.9;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            line-height: 1.4;
         }
         
         .admin-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
             animation: fadeInUp 0.8s ease-out 0.2s both;
         }
         
@@ -112,17 +116,17 @@
             background: rgba(30, 35, 45, 0.7);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
+            padding: 20px 15px;
+            border-radius: 16px;
             box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.3),
+                0 8px 20px rgba(0, 0, 0, 0.3),
                 0 0 0 1px rgba(255, 255, 255, 0.05),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
-            gap: 25px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            gap: 15px;
+            transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -141,11 +145,11 @@
         }
         
         .stat-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-5px);
             box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 12px 25px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(20, 220, 130, 0.2),
-                0 0 20px rgba(20, 220, 130, 0.2),
+                0 0 15px rgba(20, 220, 130, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
         
@@ -154,16 +158,16 @@
         }
         
         .stat-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 18px;
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.2rem;
+            font-size: 1.6rem;
             flex-shrink: 0;
             box-shadow: 
-                0 10px 20px rgba(0, 0, 0, 0.2),
+                0 6px 15px rgba(0, 0, 0, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
@@ -173,7 +177,7 @@
             content: '';
             position: absolute;
             inset: 1px;
-            border-radius: 17px;
+            border-radius: 13px;
             background: rgba(255, 255, 255, 0.05);
         }
         
@@ -184,44 +188,45 @@
         
         .pending .stat-icon {
             background: linear-gradient(135deg, #ffc107, #ff9800);
-            box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
         }
         
         .approved .stat-icon {
             background: linear-gradient(135deg, #14dc82, #0fa968);
-            box-shadow: 0 0 20px rgba(20, 220, 130, 0.3);
+            box-shadow: 0 0 15px rgba(20, 220, 130, 0.3);
         }
         
         .declined .stat-icon {
             background: linear-gradient(135deg, #ff4d4d, #ff3333);
-            box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
         }
         
         .total .stat-icon {
             background: linear-gradient(135deg, #4A00E0, #8E2DE2);
-            box-shadow: 0 0 20px rgba(74, 0, 224, 0.3);
+            box-shadow: 0 0 15px rgba(74, 0, 224, 0.3);
         }
         
         .stat-info h3 {
-            font-size: 3rem;
-            margin-bottom: 8px;
+            font-size: 2rem;
+            margin-bottom: 5px;
             font-weight: 800;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         
         .stat-info p {
             color: #b0b0c0;
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 500;
+            line-height: 1.2;
         }
         
         .orders-container {
             background: rgba(30, 35, 45, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
+            border-radius: 20px;
             box-shadow: 
-                0 20px 50px rgba(0, 0, 0, 0.4),
+                0 10px 30px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(20, 220, 130, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(20, 220, 130, 0.2);
@@ -231,11 +236,11 @@
         
         .orders-header {
             background: rgba(40, 45, 55, 0.8);
-            padding: 25px 30px;
+            padding: 20px;
             border-bottom: 1px solid rgba(20, 220, 130, 0.15);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 15px;
             position: relative;
         }
         
@@ -251,30 +256,42 @@
         
         .orders-header h2 {
             color: #fff;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 600;
             display: flex;
             align-items: center;
+            gap: 10px;
+        }
+        
+        .header-controls {
+            display: flex;
+            flex-direction: column;
             gap: 15px;
         }
         
         .filter-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
         }
         
         .filter-btn {
-            padding: 12px 24px;
+            padding: 10px 12px;
             border: 1px solid rgba(20, 220, 130, 0.3);
             background: rgba(30, 35, 45, 0.6);
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 500;
             color: #b0b0c0;
             position: relative;
             overflow: hidden;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-height: 44px;
         }
         
         .filter-btn::before {
@@ -293,11 +310,7 @@
             color: #fff;
             border-color: #14dc82;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(20, 220, 130, 0.2);
-        }
-        
-        .filter-btn:hover::before {
-            left: 100%;
+            box-shadow: 0 4px 12px rgba(20, 220, 130, 0.2);
         }
         
         .filter-btn.active {
@@ -305,17 +318,68 @@
             color: #0d1117;
             border-color: #14dc82;
             font-weight: 600;
-            box-shadow: 0 0 20px rgba(20, 220, 130, 0.3);
+            box-shadow: 0 0 15px rgba(20, 220, 130, 0.3);
+        }
+        
+        .refresh-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(135deg, #14dc82, #0fa968);
+            color: #0d1117;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(20, 220, 130, 0.3);
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+            min-height: 44px;
+            font-size: 0.95rem;
+        }
+        
+        .refresh-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .refresh-btn:hover {
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(20, 220, 130, 0.4);
+        }
+        
+        .refresh-btn:hover::before {
+            left: 100%;
+        }
+        
+        .refresh-btn:active i {
+            transform: rotate(180deg);
         }
         
         .orders-list {
             padding: 0;
-            max-height: 600px;
+            max-height: 50vh;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .order-item {
-            padding: 30px;
+            padding: 20px;
             border-bottom: 1px solid rgba(20, 220, 130, 0.1);
             transition: all 0.3s;
             background: rgba(40, 45, 55, 0.3);
@@ -328,7 +392,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 4px;
+            width: 3px;
             height: 100%;
             background: linear-gradient(to bottom, transparent, #14dc82, transparent);
             opacity: 0;
@@ -337,8 +401,8 @@
         
         .order-item:hover {
             background: rgba(40, 45, 55, 0.5);
-            transform: translateX(5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateX(3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
         
         .order-item:hover::before {
@@ -351,34 +415,39 @@
         
         .order-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
         }
         
         .order-id {
             font-family: 'JetBrains Mono', monospace;
             color: #b0b0c0;
-            font-size: 0.95rem;
-            margin-top: 5px;
+            font-size: 0.8rem;
+            margin-top: 3px;
+            line-height: 1.3;
         }
         
         .order-status {
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 6px;
+            width: fit-content;
+            min-width: 120px;
         }
         
         .order-status::before {
             content: '';
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
+            flex-shrink: 0;
         }
         
         .status-pending {
@@ -389,7 +458,7 @@
         
         .status-pending::before {
             background: #ffc107;
-            box-shadow: 0 0 10px #ffc107;
+            box-shadow: 0 0 8px #ffc107;
         }
         
         .status-approved {
@@ -400,7 +469,7 @@
         
         .status-approved::before {
             background: #14dc82;
-            box-shadow: 0 0 10px #14dc82;
+            box-shadow: 0 0 8px #14dc82;
         }
         
         .status-declined {
@@ -411,50 +480,68 @@
         
         .status-declined::before {
             background: #ff4d4d;
-            box-shadow: 0 0 10px #ff4d4d;
+            box-shadow: 0 0 8px #ff4d4d;
         }
         
         .order-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-item {
+            background: rgba(40, 45, 55, 0.5);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         
         .detail-item h4 {
             color: #8a8aa0;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
+            font-size: 0.75rem;
+            margin-bottom: 5px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            line-height: 1.2;
         }
         
         .detail-item p {
             color: #fff;
             font-weight: 500;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
+            line-height: 1.3;
+            word-break: break-word;
+        }
+        
+        .detail-item p i {
+            margin-right: 5px;
+            color: #14dc82;
         }
         
         .order-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 25px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 15px;
         }
         
         .action-btn {
-            padding: 12px 24px;
+            padding: 10px 12px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
             position: relative;
             overflow: hidden;
+            font-size: 0.85rem;
+            min-height: 44px;
         }
         
         .action-btn::before {
@@ -479,8 +566,8 @@
         
         .approve-btn:hover {
             background: linear-gradient(135deg, #1cf0a0, #14dc82);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(20, 220, 130, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(20, 220, 130, 0.4);
         }
         
         .decline-btn {
@@ -490,8 +577,8 @@
         
         .decline-btn:hover {
             background: linear-gradient(135deg, #ff6666, #ff4d4d);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 77, 77, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 77, 77, 0.4);
         }
         
         .view-receipt-btn {
@@ -501,8 +588,8 @@
         
         .view-receipt-btn:hover {
             background: linear-gradient(135deg, #5a1cf0, #9a3de2);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(74, 0, 224, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 0, 224, 0.4);
         }
         
         .info-btn {
@@ -512,177 +599,168 @@
         
         .info-btn:hover {
             background: linear-gradient(135deg, #8254d4, #9b5fe0);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(111, 66, 193, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(111, 66, 193, 0.4);
         }
         
-        .receipt-modal {
+        /* Модальные окна для мобильных */
+        .receipt-modal,
+        .details-modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(13, 17, 23, 0.95);
+            background: rgba(13, 17, 23, 0.98);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 10px;
             animation: fadeIn 0.3s ease-out;
+            overflow: hidden;
         }
         
-        .receipt-modal.active {
+        .receipt-modal.active,
+        .details-modal.active {
             display: flex;
         }
         
-        .receipt-content {
-            background: rgba(30, 35, 45, 0.9);
+        .receipt-content,
+        .details-content {
+            background: rgba(30, 35, 45, 0.95);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
-            border-radius: 24px;
-            max-width: 900px;
+            border-radius: 16px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.5),
+                0 20px 40px rgba(0, 0, 0, 0.5),
                 0 0 0 1px rgba(20, 220, 130, 0.2);
             border: 1px solid rgba(20, 220, 130, 0.3);
             animation: scaleUp 0.3s ease-out;
         }
         
-        .receipt-header {
-            padding: 25px 30px;
+        .receipt-header,
+        .details-header {
+            padding: 20px;
             border-bottom: 1px solid rgba(20, 220, 130, 0.2);
+            background: rgba(40, 45, 55, 0.8);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(40, 45, 55, 0.8);
+            position: sticky;
+            top: 0;
+            z-index: 2;
         }
         
-        .receipt-header h3 {
+        .receipt-header h3,
+        .details-header h3 {
             margin: 0;
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .close-modal {
             background: rgba(20, 220, 130, 0.1);
             border: 1px solid rgba(20, 220, 130, 0.3);
             color: #14dc82;
-            font-size: 1.8rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            font-size: 1.5rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
         }
         
         .close-modal:hover {
             background: rgba(20, 220, 130, 0.2);
             transform: rotate(90deg);
-            box-shadow: 0 0 15px rgba(20, 220, 130, 0.3);
+            box-shadow: 0 0 12px rgba(20, 220, 130, 0.3);
         }
         
         .receipt-image {
-            padding: 30px;
+            padding: 20px;
             text-align: center;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .receipt-image img {
             max-width: 100%;
             max-height: 60vh;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.1);
             animation: fadeIn 0.5s ease-out;
         }
         
         .loading {
             text-align: center;
-            padding: 60px;
+            padding: 40px 20px;
             color: #b0b0c0;
             animation: fadeIn 0.5s ease-out;
         }
         
         .loading i {
-            font-size: 3.5rem;
-            margin-bottom: 25px;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
             color: #14dc82;
             animation: pulse 2s infinite;
         }
         
+        .loading p {
+            font-size: 1rem;
+        }
+        
         .no-orders {
             text-align: center;
-            padding: 80px 40px;
+            padding: 40px 20px;
             color: #8a8aa0;
             animation: fadeIn 0.5s ease-out;
         }
         
         .no-orders i {
-            font-size: 4rem;
-            margin-bottom: 25px;
+            font-size: 3rem;
+            margin-bottom: 15px;
             color: rgba(20, 220, 130, 0.3);
-            filter: drop-shadow(0 0 10px rgba(20, 220, 130, 0.2));
+            filter: drop-shadow(0 0 8px rgba(20, 220, 130, 0.2));
         }
         
-        .refresh-btn {
-            background: linear-gradient(135deg, #14dc82, #0fa968);
-            color: #0d1117;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(20, 220, 130, 0.3);
-            position: relative;
-            overflow: hidden;
+        .no-orders h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #fff;
         }
         
-        .refresh-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.6s;
-        }
-        
-        .refresh-btn:hover {
-            transform: translateY(-3px) rotate(5deg);
-            box-shadow: 0 8px 25px rgba(20, 220, 130, 0.4);
-        }
-        
-        .refresh-btn:hover::before {
-            left: 100%;
-        }
-        
-        .refresh-btn:active i {
-            transform: rotate(180deg);
+        .no-orders p {
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
         
         .database-selector {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 20px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 15px;
         }
         
         .db-btn {
-            padding: 10px 20px;
+            padding: 10px 12px;
             background: rgba(255, 255, 255, 0.08);
             color: rgba(255, 255, 255, 0.8);
             border: 1px solid rgba(20, 220, 130, 0.2);
@@ -692,6 +770,13 @@
             font-weight: 500;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-align: center;
+            min-height: 44px;
         }
         
         .db-btn:hover {
@@ -699,7 +784,7 @@
             color: #fff;
             transform: translateY(-2px);
             border-color: rgba(20, 220, 130, 0.4);
-            box-shadow: 0 5px 15px rgba(20, 220, 130, 0.2);
+            box-shadow: 0 4px 12px rgba(20, 220, 130, 0.2);
         }
         
         .db-btn.active {
@@ -707,21 +792,57 @@
             color: #0d1117;
             border-color: #14dc82;
             font-weight: 600;
-            box-shadow: 0 0 20px rgba(20, 220, 130, 0.3);
+            box-shadow: 0 0 15px rgba(20, 220, 130, 0.3);
         }
         
         .debug-info {
             background: rgba(20, 220, 130, 0.1);
-            padding: 15px 20px;
-            border-radius: 10px;
-            margin: 15px 0;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #a0ffd0;
             border: 1px solid rgba(20, 220, 130, 0.2);
-            border-left: 4px solid #14dc82;
+            border-left: 3px solid #14dc82;
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
+            display: none;
+            line-height: 1.3;
+        }
+        
+        /* Детали заказа для мобильных */
+        .details-body {
+            padding: 20px;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .details-item {
+            background: rgba(40, 45, 55, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .details-item h4 {
+            color: #8a8aa0;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .details-item p {
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 500;
+            word-break: break-word;
         }
         
         /* Анимации */
@@ -737,7 +858,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -748,7 +869,7 @@
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -759,7 +880,7 @@
         @keyframes scaleUp {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: scale(0.95);
             }
             to {
                 opacity: 1;
@@ -787,239 +908,360 @@
                 transform: translateY(0);
             }
             50% {
-                transform: translateY(-10px);
+                transform: translateY(-8px);
             }
         }
         
         /* Стили для скроллбара */
         ::-webkit-scrollbar {
-            width: 12px;
+            width: 6px;
         }
         
         ::-webkit-scrollbar-track {
             background: rgba(40, 45, 55, 0.3);
-            border-radius: 6px;
-            margin: 4px;
+            border-radius: 3px;
+            margin: 2px;
         }
         
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(to bottom, #14dc82, #0fa968);
-            border-radius: 6px;
-            border: 2px solid rgba(30, 35, 45, 0.8);
+            border-radius: 3px;
+            border: 1px solid rgba(30, 35, 45, 0.8);
         }
         
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(to bottom, #1cf0a0, #14dc82);
         }
         
-        /* Неоновые эффекты */
-        .neon-border {
-            position: relative;
-            border: 1px solid rgba(20, 220, 130, 0.3);
-            box-shadow: 
-                0 0 10px rgba(20, 220, 130, 0.2),
-                inset 0 0 10px rgba(20, 220, 130, 0.1);
-        }
-        
-        .neon-text {
-            text-shadow: 0 0 5px rgba(20, 220, 130, 0.5),
-                         0 0 10px rgba(20, 220, 130, 0.3),
-                         0 0 15px rgba(20, 220, 130, 0.2);
-        }
-        
         /* Эффекты свечения */
         .glow {
-            filter: drop-shadow(0 0 8px rgba(20, 220, 130, 0.3));
+            filter: drop-shadow(0 0 6px rgba(20, 220, 130, 0.3));
         }
         
-        /* Стили для модального окна деталей */
-        .details-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(13, 17, 23, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 1001;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            animation: fadeIn 0.3s ease-out;
-        }
-        
-        .details-modal.active {
-            display: flex;
-        }
-        
-        .details-content {
-            background: rgba(30, 35, 45, 0.95);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: 24px;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(20, 220, 130, 0.2);
-            border: 1px solid rgba(20, 220, 130, 0.3);
-            animation: scaleUp 0.3s ease-out;
-        }
-        
-        .details-header {
-            padding: 25px 30px;
-            border-bottom: 1px solid rgba(20, 220, 130, 0.2);
-            background: rgba(40, 45, 55, 0.8);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .details-body {
-            padding: 30px;
-        }
-        
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .details-item {
-            background: rgba(40, 45, 55, 0.6);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .details-item h4 {
-            color: #8a8aa0;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .details-item p {
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        
-        @media (max-width: 768px) {
-            .admin-header {
-                padding: 30px 20px;
+        /* Портретный режим телефона (высота больше ширины) */
+        @media (max-height: 700px) and (orientation: portrait) {
+            .orders-list {
+                max-height: 40vh;
             }
             
-            .admin-header h1 {
-                font-size: 2.2rem;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+            .stat-card {
+                padding: 15px 12px;
             }
             
-            .admin-stats {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .stat-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1.4rem;
             }
             
-            .order-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+            .stat-info h3 {
+                font-size: 1.7rem;
             }
             
             .order-details {
                 grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .orders-header {
-                flex-direction: column;
-                gap: 20px;
-                align-items: stretch;
-            }
-            
-            .filter-buttons {
-                justify-content: center;
-            }
-            
-            .order-actions {
-                justify-content: center;
-            }
-            
-            .action-btn {
-                flex: 1;
-                min-width: 140px;
-                justify-content: center;
-            }
-            
-            .database-selector {
-                justify-content: center;
+                gap: 10px;
             }
         }
         
-        @media (max-width: 480px) {
+        /* Ландшафтный режим телефона */
+        @media (max-height: 500px) and (orientation: landscape) {
             body {
-                padding: 10px;
+                padding: 5px;
             }
             
-            .admin-header {
-                padding: 25px 15px;
-                border-radius: 20px;
-            }
-            
-            .admin-header h1 {
-                font-size: 1.8rem;
+            .admin-stats {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
             }
             
             .stat-card {
-                padding: 20px;
-                flex-direction: column;
-                text-align: center;
-                gap: 20px;
+                padding: 12px 10px;
+                gap: 10px;
             }
             
             .stat-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 1.8rem;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
             }
             
-            .orders-container {
-                border-radius: 20px;
+            .stat-info h3 {
+                font-size: 1.5rem;
+            }
+            
+            .orders-list {
+                max-height: 30vh;
+            }
+        }
+        
+        /* Маленькие телефоны */
+        @media (max-width: 360px) {
+            .admin-header h1 {
+                font-size: 1.6rem;
+                gap: 10px;
+            }
+            
+            .admin-header h1 i {
+                font-size: 1.4rem;
+            }
+            
+            .stat-info h3 {
+                font-size: 1.7rem;
+            }
+            
+            .stat-info p {
+                font-size: 0.8rem;
+            }
+            
+            .orders-header h2 {
+                font-size: 1.3rem;
+            }
+            
+            .order-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .database-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Очень маленькие телефоны */
+        @media (max-width: 320px) {
+            body {
+                padding: 8px;
+            }
+            
+            .admin-header {
+                padding: 20px 15px;
+            }
+            
+            .admin-header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .stat-card {
+                padding: 15px 10px;
+            }
+            
+            .stat-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3rem;
+            }
+            
+            .order-actions {
+                grid-template-columns: 1fr;
             }
             
             .action-btn {
-                width: 100%;
-                justify-content: center;
+                font-size: 0.8rem;
+            }
+        }
+        
+        /* Десктоп и планшеты (минимум 768px) */
+        @media (min-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            
+            .admin-header {
+                padding: 40px;
+                border-radius: 24px;
+                margin-bottom: 30px;
+            }
+            
+            .admin-header h1 {
+                font-size: 2.5rem;
+                gap: 20px;
+            }
+            
+            .admin-stats {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 25px;
+                margin-bottom: 30px;
+            }
+            
+            .stat-card {
+                padding: 30px;
+                border-radius: 20px;
+                gap: 25px;
+            }
+            
+            .stat-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 2.2rem;
+                border-radius: 18px;
+            }
+            
+            .stat-info h3 {
+                font-size: 3rem;
+            }
+            
+            .stat-info p {
+                font-size: 1rem;
+            }
+            
+            .orders-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 25px 30px;
+            }
+            
+            .header-controls {
+                flex-direction: row;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .filter-buttons {
+                grid-template-columns: repeat(4, auto);
+                gap: 12px;
+            }
+            
+            .filter-btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+            
+            .refresh-container {
+                flex-direction: row;
+            }
+            
+            .refresh-btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+                flex: 0;
+                white-space: nowrap;
+            }
+            
+            .order-details {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 25px;
+            }
+            
+            .order-actions {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 12px;
+            }
+            
+            .action-btn {
+                padding: 12px 24px;
+                font-size: 0.95rem;
+            }
+            
+            .database-selector {
+                grid-template-columns: repeat(3, auto);
+                gap: 12px;
+            }
+            
+            .db-btn {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+            
+            .orders-list {
+                max-height: 600px;
+            }
+            
+            /* Включаем эффект частиц только на десктопе */
+            .particles-bg {
+                display: block;
+            }
+        }
+        
+        /* Скрываем эффект частиц на мобильных для производительности */
+        @media (max-width: 767px) {
+            .particles-bg {
+                display: none;
+            }
+        }
+        
+        /* Ориентация телефона */
+        @media (orientation: portrait) {
+            .order-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (orientation: landscape) and (max-height: 500px) {
+            .order-details {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .order-actions {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        /* Улучшение касаний для мобильных */
+        @media (hover: none) and (pointer: coarse) {
+            .stat-card:hover,
+            .filter-btn:hover,
+            .action-btn:hover,
+            .refresh-btn:hover,
+            .db-btn:hover,
+            .close-modal:hover {
+                transform: none;
+            }
+            
+            .stat-card:active,
+            .filter-btn:active,
+            .action-btn:active,
+            .refresh-btn:active,
+            .db-btn:active,
+            .close-modal:active {
+                transform: scale(0.98);
+            }
+            
+            .order-item:hover {
+                transform: none;
+                background: rgba(40, 45, 55, 0.4);
+            }
+            
+            .order-item:active {
+                transform: translateX(3px);
+                background: rgba(40, 45, 55, 0.5);
+            }
+        }
+        
+        /* Улучшение читаемости на iOS */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                -webkit-font-smoothing: antialiased;
+            }
+            
+            .orders-list {
+                -webkit-overflow-scrolling: touch;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Эффект частиц на фоне -->
+    <!-- Эффект частиц на фоне (только для десктопа) -->
     <div id="particlesContainer" class="particles-bg"></div>
     
     <div class="admin-container">
         <div class="admin-header">
-            <h1><i class="fas fa-cogs glow"></i> Админ панель - Управление заказами</h1>
+            <h1><i class="fas fa-cogs glow"></i> Админ панель</h1>
             <p>Всего заказов: <span id="totalOrders" class="neon-text">0</span></p>
             <p>Последнее обновление: <span id="lastUpdate">только что</span></p>
             <div class="database-selector">
                 <button class="db-btn active" data-db="payments">
-                    <i class="fas fa-folder"></i> Папка payments
+                    <i class="fas fa-folder"></i> Payments
                 </button>
                 <button class="db-btn" data-db="orders">
-                    <i class="fas fa-folder-open"></i> Папка orders
+                    <i class="fas fa-folder-open"></i> Orders
                 </button>
                 <button class="db-btn" data-db="all">
-                    <i class="fas fa-folder-tree"></i> Все папки
+                    <i class="fas fa-folder-tree"></i> Все
                 </button>
             </div>
         </div>
@@ -1031,7 +1273,7 @@
                 </div>
                 <div class="stat-info">
                     <h3 id="pendingCount">0</h3>
-                    <p>Ожидают проверки</p>
+                    <p>Ожидают</p>
                 </div>
             </div>
             
@@ -1061,20 +1303,15 @@
                 </div>
                 <div class="stat-info">
                     <h3 id="totalRevenue">0</h3>
-                    <p>Общая выручка (₽)</p>
+                    <p>Выручка (₽)</p>
                 </div>
             </div>
         </div>
         
         <div class="orders-container">
             <div class="orders-header">
-                <div>
-                    <h2><i class="fas fa-list glow"></i> Список заказов</h2>
-                    <div id="debugInfo" class="debug-info" style="display: none;">
-                        <i class="fas fa-info-circle"></i> Загрузка данных...
-                    </div>
-                </div>
-                <div style="display: flex; align-items: center; gap: 15px;">
+                <h2><i class="fas fa-list glow"></i> Список заказов</h2>
+                <div class="header-controls">
                     <div class="filter-buttons">
                         <button class="filter-btn active" data-filter="all">
                             <i class="fas fa-layer-group"></i> Все
@@ -1083,16 +1320,22 @@
                             <i class="fas fa-clock"></i> Ожидают
                         </button>
                         <button class="filter-btn" data-filter="approved">
-                            <i class="fas fa-check"></i> Одобренные
+                            <i class="fas fa-check"></i> Одобр.
                         </button>
                         <button class="filter-btn" data-filter="declined">
-                            <i class="fas fa-times"></i> Отклоненные
+                            <i class="fas fa-times"></i> Откл.
                         </button>
                     </div>
-                    <button class="refresh-btn" onclick="loadAllOrders()">
-                        <i class="fas fa-sync-alt"></i> Обновить
-                    </button>
+                    <div class="refresh-container">
+                        <button class="refresh-btn" onclick="loadAllOrders()">
+                            <i class="fas fa-sync-alt"></i> Обновить
+                        </button>
+                    </div>
                 </div>
+            </div>
+            
+            <div id="debugInfo" class="debug-info">
+                <i class="fas fa-info-circle"></i> Загрузка данных...
             </div>
             
             <div class="orders-list" id="ordersList">
@@ -1108,11 +1351,11 @@
     <div class="receipt-modal" id="receiptModal">
         <div class="receipt-content">
             <div class="receipt-header">
-                <h3><i class="fas fa-receipt"></i> Просмотр чека</h3>
+                <h3><i class="fas fa-receipt"></i> Чек</h3>
                 <button class="close-modal" onclick="closeReceiptModal()">&times;</button>
             </div>
             <div class="receipt-image" id="receiptImageContainer">
-                <img id="receiptImage" src="" alt="Чек об оплате">
+                <img id="receiptImage" src="" alt="Чек об оплате" onerror="this.onerror=null; this.src='data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"300\" viewBox=\"0 0 400 300\"><rect width=\"400\" height=\"300\" fill=\"%23161b22\"/><text x=\"200\" y=\"150\" font-family=\"Arial\" font-size=\"20\" fill=\"%2314dc82\" text-anchor=\"middle\">Изображение не загружено</text></svg>';">
             </div>
         </div>
     </div>
@@ -1121,7 +1364,7 @@
     <div class="details-modal" id="detailsModal">
         <div class="details-content">
             <div class="details-header">
-                <h3><i class="fas fa-info-circle"></i> Детали заказа</h3>
+                <h3><i class="fas fa-info-circle"></i> Детали</h3>
                 <button class="close-modal" onclick="closeDetailsModal()">&times;</button>
             </div>
             <div class="details-body" id="detailsBody">
@@ -1135,22 +1378,24 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     
     <script>
-        // Создание эффекта частиц на фоне
+        // Создание эффекта частиц на фоне (только для десктопа)
         function createParticles() {
+            if (window.innerWidth < 768) return; // Только для десктопа
+            
             const container = document.getElementById('particlesContainer');
-            const particleCount = 15;
+            const particleCount = 12;
             const colors = [
-                'rgba(20, 220, 130, 0.2)',
                 'rgba(20, 220, 130, 0.15)',
-                'rgba(74, 0, 224, 0.15)',
-                'rgba(142, 45, 226, 0.15)'
+                'rgba(20, 220, 130, 0.1)',
+                'rgba(74, 0, 224, 0.1)',
+                'rgba(142, 45, 226, 0.1)'
             ];
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
-                const size = Math.random() * 60 + 40;
+                const size = Math.random() * 50 + 30;
                 const color = colors[Math.floor(Math.random() * colors.length)];
-                const duration = Math.random() * 10 + 10;
+                const duration = Math.random() * 8 + 8;
                 const delay = Math.random() * 5;
                 
                 particle.style.width = size + 'px';
@@ -1160,8 +1405,8 @@
                 particle.style.position = 'absolute';
                 particle.style.left = Math.random() * 100 + 'vw';
                 particle.style.top = Math.random() * 100 + 'vh';
-                particle.style.opacity = '0.3';
-                particle.style.filter = 'blur(40px)';
+                particle.style.opacity = '0.2';
+                particle.style.filter = 'blur(30px)';
                 
                 // Анимация плавающего движения
                 particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite alternate`;
@@ -1193,8 +1438,7 @@
         // Загрузка всех заказов из разных папок
         async function loadAllOrders() {
             try {
-                console.log("Загрузка заказов из Firebase...");
-                showDebugInfo("Загрузка данных из Firebase...");
+                showDebugInfo("Загрузка данных...");
                 
                 const loadingElement = document.getElementById('loadingOrders');
                 if (loadingElement) {
@@ -1203,6 +1447,9 @@
                 
                 // Очищаем текущие заказы
                 orders = [];
+                
+                // Показываем скелетон загрузки
+                showSkeletonLoading();
                 
                 // Загружаем данные из выбранной папки или из всех папок
                 if (currentDatabase === 'payments' || currentDatabase === 'all') {
@@ -1213,8 +1460,7 @@
                     await loadFromDatabase('orders');
                 }
                 
-                console.log(`Загружено ${orders.length} заказов`);
-                showDebugInfo(`Загружено ${orders.length} заказов из папки "${currentDatabase}"`);
+                showDebugInfo(`Загружено ${orders.length} заказов`);
                 
                 // Сортируем по дате (новые сверху)
                 orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
@@ -1225,8 +1471,7 @@
                 // Обновляем время последнего обновления
                 document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('ru-RU', {
                     hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
+                    minute: '2-digit'
                 });
                 
             } catch (error) {
@@ -1235,10 +1480,10 @@
                 document.getElementById('ordersList').innerHTML = `
                     <div class="no-orders">
                         <i class="fas fa-exclamation-circle"></i>
-                        <h3>Ошибка загрузки заказов</h3>
+                        <h3>Ошибка загрузки</h3>
                         <p>${error.message}</p>
                         <button class="action-btn" onclick="loadAllOrders()" style="margin-top: 15px; background: linear-gradient(135deg, #14dc82, #0fa968); color: #0d1117;">
-                            <i class="fas fa-sync-alt"></i> Попробовать снова
+                            <i class="fas fa-sync-alt"></i> Повторить
                         </button>
                     </div>
                 `;
@@ -1250,26 +1495,57 @@
             }
         }
         
+        // Показать скелетон загрузки
+        function showSkeletonLoading() {
+            const ordersList = document.getElementById('ordersList');
+            let skeletonHtml = '';
+            
+            for (let i = 0; i < 3; i++) {
+                skeletonHtml += `
+                    <div class="order-item" style="opacity: 0.6;">
+                        <div class="order-header">
+                            <div>
+                                <h3 style="background: rgba(255,255,255,0.1); width: 120px; height: 24px; border-radius: 4px;"></h3>
+                                <div class="order-id" style="background: rgba(255,255,255,0.05); width: 180px; height: 16px; border-radius: 3px; margin-top: 8px;"></div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.1); width: 100px; height: 32px; border-radius: 16px;"></div>
+                        </div>
+                        
+                        <div class="order-details">
+                            ${Array(4).fill().map(() => `
+                                <div class="detail-item">
+                                    <h4 style="background: rgba(255,255,255,0.05); width: 60px; height: 14px; border-radius: 2px;"></h4>
+                                    <p style="background: rgba(255,255,255,0.1); width: 100%; height: 20px; border-radius: 3px; margin-top: 8px;"></p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="order-actions">
+                            <div style="background: rgba(20,220,130,0.1); width: 100%; height: 44px; border-radius: 8px;"></div>
+                            <div style="background: rgba(255,77,77,0.1); width: 100%; height: 44px; border-radius: 8px;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            ordersList.innerHTML = skeletonHtml;
+        }
+        
         // Загрузка из конкретной папки базы данных
         async function loadFromDatabase(dbPath) {
             try {
-                console.log(`Загрузка из папки: ${dbPath}`);
                 const snapshot = await database.ref(dbPath).once('value');
                 
                 if (!snapshot.exists()) {
-                    console.log(`Папка ${dbPath} пуста или не существует`);
                     return;
                 }
                 
                 snapshot.forEach((childSnapshot) => {
                     const order = childSnapshot.val();
-                    // Добавляем информацию о том, из какой папки пришел заказ
                     order.source = dbPath;
                     order.fullId = `${dbPath}/${order.id}`;
                     orders.push(order);
                 });
-                
-                console.log(`Из папки ${dbPath} загружено: ${snapshot.numChildren()} заказов`);
                 
             } catch (error) {
                 console.error(`Ошибка загрузки из папки ${dbPath}:`, error);
@@ -1282,10 +1558,9 @@
             if (debugElement) {
                 debugElement.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
                 debugElement.style.display = 'block';
-                // Автоматически скрываем через 5 секунд
                 setTimeout(() => {
                     debugElement.style.display = 'none';
-                }, 5000);
+                }, 3000);
             }
         }
         
@@ -1295,7 +1570,6 @@
             const approvedCount = orders.filter(o => o.status === 'approved').length;
             const declinedCount = orders.filter(o => o.status === 'declined').length;
             
-            // Расчет общей выручки
             const totalRevenue = orders
                 .filter(o => o.status === 'approved')
                 .reduce((sum, order) => sum + parseInt(order.price || 0), 0);
@@ -1317,8 +1591,8 @@
                         <i class="fas fa-shopping-cart"></i>
                         <h3>Заказов пока нет</h3>
                         <p>Когда пользователи отправят заказы, они появятся здесь</p>
-                        <p style="margin-top: 10px; color: #999; font-size: 0.9rem;">
-                            Текущая папка: ${currentDatabase}
+                        <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">
+                            Папка: ${currentDatabase}
                         </p>
                     </div>
                 `;
@@ -1334,11 +1608,11 @@
                 ordersList.innerHTML = `
                     <div class="no-orders">
                         <i class="fas fa-filter"></i>
-                        <h3>Нет заказов с выбранным фильтром</h3>
-                        <p>Попробуйте выбрать другой фильтр</p>
-                        <p style="margin-top: 10px; color: #999; font-size: 0.9rem;">
-                            Текущий фильтр: ${getStatusText(currentFilter)}<br>
-                            Текущая папка: ${currentDatabase}
+                        <h3>Нет заказов</h3>
+                        <p>С выбранным фильтром</p>
+                        <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">
+                            Фильтр: ${getStatusText(currentFilter)}<br>
+                            Папка: ${currentDatabase}
                         </p>
                     </div>
                 `;
@@ -1352,27 +1626,27 @@
                 const formattedDate = date.toLocaleDateString('ru-RU', {
                     day: '2-digit',
                     month: '2-digit',
-                    year: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
                 });
                 
-                // Определяем имя клиента (используем разные поля в зависимости от структуры данных)
                 const userName = order.userName || order.payerName || 'Не указано';
                 const userEmail = order.userEmail || order.payerEmail || 'Не указан';
                 const tariff = order.tariff || order.planName || 'Не указан';
                 const price = order.price || '0';
                 
+                // Обрезаем длинные тексты для мобильных
+                const shortUserName = userName.length > 15 ? userName.substring(0, 15) + '...' : userName;
+                const shortEmail = userEmail.length > 20 ? userEmail.substring(0, 20) + '...' : userEmail;
+                const shortTariff = tariff.length > 15 ? tariff.substring(0, 15) + '...' : tariff;
+                
                 html += `
                     <div class="order-item" data-order-id="${order.id}">
                         <div class="order-header">
                             <div>
-                                <h3>Заказ #${order.id.substring(0, 8)}</h3>
+                                <h3>Заказ #${order.id.substring(0, 6)}</h3>
                                 <div class="order-id">
-                                    <i class="fas fa-folder" style="color: #14dc82;"></i> ID: ${order.id}
-                                    <span style="color: #8a8aa0; font-size: 0.8rem; margin-left: 10px;">
-                                        (${order.source || 'unknown'})
-                                    </span>
+                                    <i class="fas fa-folder" style="color: #14dc82;"></i> ${order.source || 'unknown'}
                                 </div>
                             </div>
                             <div class="order-status status-${order.status}">
@@ -1383,30 +1657,20 @@
                         <div class="order-details">
                             <div class="detail-item">
                                 <h4>Тариф</h4>
-                                <p><i class="fas fa-box" style="color: #14dc82; margin-right: 8px;"></i>${tariff}</p>
+                                <p><i class="fas fa-box"></i>${shortTariff}</p>
                             </div>
                             <div class="detail-item">
                                 <h4>Цена</h4>
-                                <p><i class="fas fa-ruble-sign" style="color: #14dc82; margin-right: 8px;"></i>${price} ₽</p>
+                                <p><i class="fas fa-ruble-sign"></i>${price} ₽</p>
                             </div>
                             <div class="detail-item">
-                                <h4>Имя клиента</h4>
-                                <p><i class="fas fa-user" style="color: #14dc82; margin-right: 8px;"></i>${userName}</p>
+                                <h4>Имя</h4>
+                                <p><i class="fas fa-user"></i>${shortUserName}</p>
                             </div>
                             <div class="detail-item">
                                 <h4>Email</h4>
-                                <p><i class="fas fa-envelope" style="color: #14dc82; margin-right: 8px;"></i>${userEmail}</p>
+                                <p><i class="fas fa-envelope"></i>${shortEmail}</p>
                             </div>
-                            <div class="detail-item">
-                                <h4>Дата заказа</h4>
-                                <p><i class="fas fa-calendar" style="color: #14dc82; margin-right: 8px;"></i>${formattedDate}</p>
-                            </div>
-                            ${order.userId ? `
-                            <div class="detail-item">
-                                <h4>User ID</h4>
-                                <p><i class="fas fa-id-card" style="color: #14dc82; margin-right: 8px;"></i>${order.userId}</p>
-                            </div>
-                            ` : ''}
                         </div>
                         
                         <div class="order-actions">
@@ -1420,7 +1684,7 @@
                             ` : ''}
                             ${order.receipt ? `
                                 <button class="action-btn view-receipt-btn" onclick="viewReceipt('${order.id}')">
-                                    <i class="fas fa-receipt"></i> Просмотреть чек
+                                    <i class="fas fa-receipt"></i> Чек
                                 </button>
                             ` : ''}
                             <button class="action-btn info-btn" onclick="showOrderDetailsModal('${order.id}')">
@@ -1437,7 +1701,7 @@
         // Получение текста статуса
         function getStatusText(status) {
             switch(status) {
-                case 'pending': return 'Ожидает проверки';
+                case 'pending': return 'Ожидает';
                 case 'approved': return 'Одобрен';
                 case 'declined': return 'Отклонен';
                 default: return status;
@@ -1456,10 +1720,9 @@
                 
                 await database.ref(`${path}/${orderId}`).update({
                     status: newStatus,
-                    adminNote: `Статус изменен администратором ${new Date().toLocaleString('ru-RU')}`
+                    adminNote: `Статус изменен ${new Date().toLocaleString('ru-RU')}`
                 });
                 
-                // Обновляем локальные данные
                 const orderIndex = orders.findIndex(o => o.id === orderId && o.source === path);
                 if (orderIndex !== -1) {
                     orders[orderIndex].status = newStatus;
@@ -1468,11 +1731,11 @@
                 updateStats();
                 displayOrders();
                 
-                showDebugInfo(`Статус заказа успешно изменен на "${getStatusText(newStatus)}"`);
+                showDebugInfo(`Статус изменен на "${getStatusText(newStatus)}"`);
                 
             } catch (error) {
                 console.error("Ошибка обновления статуса:", error);
-                showDebugInfo("Ошибка при обновлении статуса: " + error.message);
+                showDebugInfo("Ошибка: " + error.message);
             }
         }
         
@@ -1490,8 +1753,7 @@
                 month: '2-digit',
                 year: 'numeric',
                 hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
+                minute: '2-digit'
             });
             
             const userName = order.userName || order.payerName || 'Не указано';
@@ -1503,11 +1765,11 @@
                 <div class="details-grid">
                     <div class="details-item">
                         <h4>ID заказа</h4>
-                        <p>${order.id}</p>
+                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">${order.id}</p>
                     </div>
                     <div class="details-item">
                         <h4>Статус</h4>
-                        <p><span class="status-${order.status} order-status">${getStatusText(order.status)}</span></p>
+                        <p><span class="order-status status-${order.status}">${getStatusText(order.status)}</span></p>
                     </div>
                     <div class="details-item">
                         <h4>Тариф</h4>
@@ -1526,11 +1788,11 @@
                         <p>${userEmail}</p>
                     </div>
                     <div class="details-item">
-                        <h4>Дата создания</h4>
+                        <h4>Дата</h4>
                         <p>${formattedDate}</p>
                     </div>
                     <div class="details-item">
-                        <h4>Источник данных</h4>
+                        <h4>Источник</h4>
                         <p>${order.source || 'Неизвестно'}</p>
                     </div>
                 </div>
@@ -1538,38 +1800,38 @@
             
             if (order.userId) {
                 detailsHtml += `
-                    <div class="details-item" style="grid-column: span 2;">
+                    <div class="details-item">
                         <h4>User ID</h4>
-                        <p style="font-family: 'JetBrains Mono', monospace;">${order.userId}</p>
+                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; word-break: break-all;">${order.userId}</p>
                     </div>
                 `;
             }
             
             if (order.adminNote) {
                 detailsHtml += `
-                    <div class="details-item" style="grid-column: span 2; background: rgba(20, 220, 130, 0.1); border-color: rgba(20, 220, 130, 0.2);">
-                        <h4>Заметка администратора</h4>
+                    <div class="details-item" style="background: rgba(20, 220, 130, 0.1); border-color: rgba(20, 220, 130, 0.2);">
+                        <h4>Заметка</h4>
                         <p>${order.adminNote}</p>
-                    </div>
-                `;
-            }
-            
-            if (order.fileName) {
-                detailsHtml += `
-                    <div class="details-item">
-                        <h4>Имя файла чека</h4>
-                        <p>${order.fileName}</p>
                     </div>
                 `;
             }
             
             document.getElementById('detailsBody').innerHTML = detailsHtml;
             document.getElementById('detailsModal').classList.add('active');
+            
+            // Блокируем прокрутку фона на мобильных
+            document.body.style.overflow = 'hidden';
         }
         
-        // Закрытие модального окна деталей
+        // Закрытие модальных окон
         function closeDetailsModal() {
             document.getElementById('detailsModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.remove('active');
+            document.body.style.overflow = '';
         }
         
         // Просмотр чека
@@ -1579,14 +1841,10 @@
                 const receiptImage = document.getElementById('receiptImage');
                 receiptImage.src = order.receipt;
                 document.getElementById('receiptModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
             } else {
-                showDebugInfo('Чек не найден для этого заказа');
+                showDebugInfo('Чек не найден');
             }
-        }
-        
-        // Закрытие модального окна
-        function closeReceiptModal() {
-            document.getElementById('receiptModal').classList.remove('active');
         }
         
         // Инициализация фильтров
@@ -1608,7 +1866,7 @@
                     document.querySelectorAll('.db-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     currentDatabase = this.getAttribute('data-db');
-                    showDebugInfo(`Переключение на папку: ${currentDatabase}`);
+                    showDebugInfo(`Папка: ${currentDatabase}`);
                     loadAllOrders();
                 });
             });
@@ -1616,34 +1874,44 @@
         
         // Режим реального времени
         function setupRealtimeUpdates() {
-            // Слушаем изменения в обеих папках
             database.ref('payments').on('value', () => {
-                console.log("Обновление заказов в реальном времени из папки payments...");
                 loadAllOrders();
             });
             
             database.ref('orders').on('value', () => {
-                console.log("Обновление заказов в реальном времени из папки orders...");
                 loadAllOrders();
             });
         }
         
-        // Проверка подключения к Firebase
+        // Проверка подключения
         async function testFirebaseConnection() {
             try {
                 const testRef = database.ref('connection_test');
                 await testRef.set({
                     test: true,
-                    timestamp: new Date().toISOString(),
-                    message: 'Админ панель подключена'
+                    timestamp: new Date().toISOString()
                 });
-                console.log("Подключение к Firebase успешно!");
-                showDebugInfo("Подключение к Firebase успешно установлено");
+                showDebugInfo("Подключено к Firebase");
                 return true;
             } catch (error) {
-                console.error("Ошибка подключения к Firebase:", error);
-                showDebugInfo(`Ошибка подключения: ${error.message}`);
+                console.error("Ошибка подключения:", error);
+                showDebugInfo("Ошибка подключения");
                 return false;
+            }
+        }
+        
+        // Адаптация к изменению размера экрана
+        function handleResize() {
+            // Пересоздаем частицы при изменении размера (только для десктопа)
+            if (window.innerWidth >= 768) {
+                const container = document.getElementById('particlesContainer');
+                container.innerHTML = '';
+                createParticles();
+            }
+            
+            // Перерисовываем заказы для адаптации
+            if (orders.length > 0) {
+                displayOrders();
             }
         }
         
@@ -1678,20 +1946,26 @@
                 }
             });
             
-            // Обновление каждые 30 секунд
+            // Закрытие модальных окон по ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeReceiptModal();
+                    closeDetailsModal();
+                }
+            });
+            
+            // Обновление каждые 60 секунд
             setInterval(() => {
                 loadAllOrders();
-            }, 30000);
+            }, 60000);
             
-            // Добавляем стиль для анимации float
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes float {
-                    0%, 100% { transform: translateY(0); }
-                    50% { transform: translateY(-10px); }
-                }
-            `;
-            document.head.appendChild(style);
+            // Слушаем изменение размера окна
+            window.addEventListener('resize', handleResize);
+            
+            // Слушаем ориентацию устройства
+            window.addEventListener('orientationchange', function() {
+                setTimeout(handleResize, 100);
+            });
         });
     </script>
 </body>
