@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Админ панель - Управление заказами, тарифами и ссылками VPN</title>
+    <title>Админ панель - Управление заказами и ссылками VPN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -14,7 +15,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
-        
+
         body {
             background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
             min-height: 100vh;
@@ -23,7 +24,7 @@
             overflow-x: hidden;
             -webkit-text-size-adjust: 100%;
         }
-        
+
         .particles-bg {
             position: fixed;
             top: 0;
@@ -34,32 +35,32 @@
             pointer-events: none;
             overflow: hidden;
         }
-        
+
         .particles-bg div {
             position: absolute;
             border-radius: 50%;
             opacity: 0.1;
             filter: blur(20px);
         }
-        
+
         .admin-container {
             max-width: 1400px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
-        
+
         .admin-header {
-            background: linear-gradient(135deg, 
-                rgba(20, 220, 130, 0.15) 0%, 
-                rgba(20, 220, 130, 0.08) 100%);
+            background: linear-gradient(135deg,
+                    rgba(20, 220, 130, 0.15) 0%,
+                    rgba(20, 220, 130, 0.08) 100%);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             color: white;
             padding: 25px 20px;
             border-radius: 20px;
             margin-bottom: 20px;
-            box-shadow: 
+            box-shadow:
                 0 10px 30px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(20, 220, 130, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -68,7 +69,7 @@
             overflow: hidden;
             animation: slideDown 0.6s ease-out;
         }
-        
+
         .admin-header::before {
             content: '';
             position: absolute;
@@ -76,12 +77,12 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: linear-gradient(to right, 
-                transparent, 
-                rgba(20, 220, 130, 0.8), 
-                transparent);
+            background: linear-gradient(to right,
+                    transparent,
+                    rgba(20, 220, 130, 0.8),
+                    transparent);
         }
-        
+
         .admin-header h1 {
             font-size: 1.8rem;
             margin-bottom: 10px;
@@ -95,14 +96,14 @@
             font-weight: 700;
             line-height: 1.3;
         }
-        
+
         .admin-header p {
             font-size: 1rem;
             opacity: 0.9;
             margin-bottom: 10px;
             line-height: 1.4;
         }
-        
+
         .admin-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -110,14 +111,14 @@
             margin-bottom: 20px;
             animation: fadeInUp 0.8s ease-out 0.2s both;
         }
-        
+
         .stat-card {
             background: rgba(30, 35, 45, 0.7);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             padding: 20px 15px;
             border-radius: 16px;
-            box-shadow: 
+            box-shadow:
                 0 8px 20px rgba(0, 0, 0, 0.3),
                 0 0 0 1px rgba(255, 255, 255, 0.05),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -130,7 +131,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .stat-card::before {
             content: '';
             position: absolute;
@@ -142,20 +143,20 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        
+
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 
+            box-shadow:
                 0 12px 25px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(20, 220, 130, 0.2),
                 0 0 15px rgba(20, 220, 130, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
-        
+
         .stat-card:hover::before {
             opacity: 1;
         }
-        
+
         .stat-icon {
             width: 50px;
             height: 50px;
@@ -165,13 +166,13 @@
             justify-content: center;
             font-size: 1.6rem;
             flex-shrink: 0;
-            box-shadow: 
+            box-shadow:
                 0 6px 15px rgba(0, 0, 0, 0.2),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
         }
-        
+
         .stat-icon::before {
             content: '';
             position: absolute;
@@ -179,52 +180,52 @@
             border-radius: 13px;
             background: rgba(255, 255, 255, 0.05);
         }
-        
+
         .stat-icon i {
             position: relative;
             z-index: 1;
         }
-        
+
         .pending .stat-icon {
             background: linear-gradient(135deg, #ffc107, #ff9800);
             box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
         }
-        
+
         .approved .stat-icon {
             background: linear-gradient(135deg, #14dc82, #0fa968);
             box-shadow: 0 0 15px rgba(20, 220, 130, 0.3);
         }
-        
+
         .declined .stat-icon {
             background: linear-gradient(135deg, #ff4d4d, #ff3333);
             box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
         }
-        
+
         .total .stat-icon {
             background: linear-gradient(135deg, #4A00E0, #8E2DE2);
             box-shadow: 0 0 15px rgba(74, 0, 224, 0.3);
         }
-        
+
         .stat-info h3 {
             font-size: 2rem;
             margin-bottom: 5px;
             font-weight: 800;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
-        
+
         .stat-info p {
             color: #b0b0c0;
             font-size: 0.85rem;
             font-weight: 500;
             line-height: 1.2;
         }
-        
+
         .orders-container {
             background: rgba(30, 35, 45, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
-            box-shadow: 
+            box-shadow:
                 0 10px 30px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(20, 220, 130, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -233,7 +234,7 @@
             margin-bottom: 20px;
             animation: fadeInUp 0.8s ease-out 0.4s both;
         }
-        
+
         .orders-header {
             background: rgba(40, 45, 55, 0.8);
             padding: 20px;
@@ -243,7 +244,7 @@
             gap: 15px;
             position: relative;
         }
-        
+
         .orders-header::before {
             content: '';
             position: absolute;
@@ -253,7 +254,7 @@
             height: 1px;
             background: linear-gradient(to right, transparent, #14dc82, transparent);
         }
-        
+
         .orders-header h2 {
             color: #fff;
             font-size: 1.5rem;
@@ -262,19 +263,19 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .header-controls {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        
+
         .filter-buttons {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
         }
-        
+
         .filter-btn {
             padding: 10px 12px;
             border: 1px solid rgba(20, 220, 130, 0.3);
@@ -293,7 +294,7 @@
             gap: 6px;
             min-height: 44px;
         }
-        
+
         .filter-btn::before {
             content: '';
             position: absolute;
@@ -304,7 +305,7 @@
             background: linear-gradient(90deg, transparent, rgba(20, 220, 130, 0.1), transparent);
             transition: left 0.6s;
         }
-        
+
         .filter-btn:hover {
             background: rgba(20, 220, 130, 0.1);
             color: #fff;
@@ -312,7 +313,7 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(20, 220, 130, 0.2);
         }
-        
+
         .filter-btn.active {
             background: linear-gradient(135deg, #14dc82, #0fa968);
             color: #0d1117;
@@ -320,12 +321,12 @@
             font-weight: 600;
             box-shadow: 0 0 15px rgba(20, 220, 130, 0.3);
         }
-        
+
         .refresh-container {
             display: flex;
             gap: 10px;
         }
-        
+
         .refresh-btn {
             background: linear-gradient(135deg, #14dc82, #0fa968);
             color: #0d1117;
@@ -346,7 +347,7 @@
             min-height: 44px;
             font-size: 0.95rem;
         }
-        
+
         .refresh-btn::before {
             content: '';
             position: absolute;
@@ -357,27 +358,27 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.6s;
         }
-        
+
         .refresh-btn:hover {
             transform: translateY(-3px) rotate(5deg);
             box-shadow: 0 6px 20px rgba(20, 220, 130, 0.4);
         }
-        
+
         .refresh-btn:hover::before {
             left: 100%;
         }
-        
+
         .refresh-btn:active i {
             transform: rotate(180deg);
         }
-        
+
         .orders-list {
             padding: 0;
             max-height: 50vh;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
-        
+
         .order-item {
             padding: 20px;
             border-bottom: 1px solid rgba(20, 220, 130, 0.1);
@@ -386,7 +387,7 @@
             position: relative;
             animation: fadeIn 0.5s ease-out;
         }
-        
+
         .order-item::before {
             content: '';
             position: absolute;
@@ -398,28 +399,28 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
-        
+
         .order-item:hover {
             background: rgba(40, 45, 55, 0.5);
             transform: translateX(3px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
-        
+
         .order-item:hover::before {
             opacity: 1;
         }
-        
+
         .order-item:last-child {
             border-bottom: none;
         }
-        
+
         .order-header {
             display: flex;
             flex-direction: column;
             gap: 10px;
             margin-bottom: 15px;
         }
-        
+
         .order-id {
             font-family: 'JetBrains Mono', monospace;
             color: #b0b0c0;
@@ -427,7 +428,7 @@
             margin-top: 3px;
             line-height: 1.3;
         }
-        
+
         .order-status {
             padding: 6px 12px;
             border-radius: 16px;
@@ -441,7 +442,7 @@
             width: fit-content;
             min-width: 120px;
         }
-        
+
         .order-status::before {
             content: '';
             width: 6px;
@@ -449,54 +450,54 @@
             border-radius: 50%;
             flex-shrink: 0;
         }
-        
+
         .status-pending {
             background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 152, 0, 0.15));
             color: #ffc107;
             border: 1px solid rgba(255, 193, 7, 0.3);
         }
-        
+
         .status-pending::before {
             background: #ffc107;
             box-shadow: 0 0 8px #ffc107;
         }
-        
+
         .status-approved {
             background: linear-gradient(135deg, rgba(20, 220, 130, 0.15), rgba(15, 169, 104, 0.15));
             color: #14dc82;
             border: 1px solid rgba(20, 220, 130, 0.3);
         }
-        
+
         .status-approved::before {
             background: #14dc82;
             box-shadow: 0 0 8px #14dc82;
         }
-        
+
         .status-declined {
             background: linear-gradient(135deg, rgba(255, 77, 77, 0.15), rgba(255, 51, 51, 0.15));
             color: #ff4d4d;
             border: 1px solid rgba(255, 77, 77, 0.3);
         }
-        
+
         .status-declined::before {
             background: #ff4d4d;
             box-shadow: 0 0 8px #ff4d4d;
         }
-        
+
         .order-details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             margin-bottom: 20px;
         }
-        
+
         .detail-item {
             background: rgba(40, 45, 55, 0.5);
             padding: 12px;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        
+
         .detail-item h4 {
             color: #8a8aa0;
             font-size: 0.75rem;
@@ -505,7 +506,7 @@
             letter-spacing: 0.3px;
             line-height: 1.2;
         }
-        
+
         .detail-item p {
             color: #fff;
             font-weight: 500;
@@ -513,19 +514,19 @@
             line-height: 1.3;
             word-break: break-word;
         }
-        
+
         .detail-item p i {
             margin-right: 5px;
             color: #14dc82;
         }
-        
+
         .order-actions {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
             margin-top: 15px;
         }
-        
+
         .action-btn {
             padding: 10px 12px;
             border: none;
@@ -543,7 +544,7 @@
             font-size: 0.85rem;
             min-height: 44px;
         }
-        
+
         .action-btn::before {
             content: '';
             position: absolute;
@@ -554,55 +555,55 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.6s;
         }
-        
+
         .action-btn:hover::before {
             left: 100%;
         }
-        
+
         .approve-btn {
             background: linear-gradient(135deg, #14dc82, #0fa968);
             color: #0d1117;
         }
-        
+
         .approve-btn:hover {
             background: linear-gradient(135deg, #1cf0a0, #14dc82);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(20, 220, 130, 0.4);
         }
-        
+
         .decline-btn {
             background: linear-gradient(135deg, #ff4d4d, #ff3333);
             color: white;
         }
-        
+
         .decline-btn:hover {
             background: linear-gradient(135deg, #ff6666, #ff4d4d);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 77, 77, 0.4);
         }
-        
+
         .view-receipt-btn {
             background: linear-gradient(135deg, #4A00E0, #8E2DE2);
             color: white;
         }
-        
+
         .view-receipt-btn:hover {
             background: linear-gradient(135deg, #5a1cf0, #9a3de2);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(74, 0, 224, 0.4);
         }
-        
+
         .info-btn {
             background: linear-gradient(135deg, #6f42c1, #8e4ec9);
             color: white;
         }
-        
+
         .info-btn:hover {
             background: linear-gradient(135deg, #8254d4, #9b5fe0);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(111, 66, 193, 0.4);
         }
-        
+
         .receipt-modal,
         .details-modal {
             display: none;
@@ -621,12 +622,12 @@
             animation: fadeIn 0.3s ease-out;
             overflow: hidden;
         }
-        
+
         .receipt-modal.active,
         .details-modal.active {
             display: flex;
         }
-        
+
         .receipt-content,
         .details-content {
             background: rgba(30, 35, 45, 0.95);
@@ -637,13 +638,13 @@
             max-height: 90vh;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            box-shadow: 
+            box-shadow:
                 0 20px 40px rgba(0, 0, 0, 0.5),
                 0 0 0 1px rgba(20, 220, 130, 0.2);
             border: 1px solid rgba(20, 220, 130, 0.3);
             animation: scaleUp 0.3s ease-out;
         }
-        
+
         .receipt-header,
         .details-header {
             padding: 20px;
@@ -656,7 +657,7 @@
             top: 0;
             z-index: 2;
         }
-        
+
         .receipt-header h3,
         .details-header h3 {
             margin: 0;
@@ -667,7 +668,7 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .close-modal {
             background: rgba(20, 220, 130, 0.1);
             border: 1px solid rgba(20, 220, 130, 0.3);
@@ -683,13 +684,13 @@
             justify-content: center;
             flex-shrink: 0;
         }
-        
+
         .close-modal:hover {
             background: rgba(20, 220, 130, 0.2);
             transform: rotate(90deg);
             box-shadow: 0 0 12px rgba(20, 220, 130, 0.3);
         }
-        
+
         .receipt-image {
             padding: 20px;
             text-align: center;
@@ -698,7 +699,7 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .receipt-image img {
             max-width: 100%;
             max-height: 60vh;
@@ -707,57 +708,57 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             animation: fadeIn 0.5s ease-out;
         }
-        
+
         .loading {
             text-align: center;
             padding: 40px 20px;
             color: #b0b0c0;
             animation: fadeIn 0.5s ease-out;
         }
-        
+
         .loading i {
             font-size: 2.5rem;
             margin-bottom: 15px;
             color: #14dc82;
             animation: pulse 2s infinite;
         }
-        
+
         .loading p {
             font-size: 1rem;
         }
-        
+
         .no-orders {
             text-align: center;
             padding: 40px 20px;
             color: #8a8aa0;
             animation: fadeIn 0.5s ease-out;
         }
-        
+
         .no-orders i {
             font-size: 3rem;
             margin-bottom: 15px;
             color: rgba(20, 220, 130, 0.3);
             filter: drop-shadow(0 0 8px rgba(20, 220, 130, 0.2));
         }
-        
+
         .no-orders h3 {
             font-size: 1.3rem;
             margin-bottom: 10px;
             color: #fff;
         }
-        
+
         .no-orders p {
             font-size: 0.9rem;
             line-height: 1.4;
         }
-        
+
         .database-selector {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 8px;
             margin-top: 15px;
         }
-        
+
         .db-btn {
             padding: 10px 12px;
             background: rgba(255, 255, 255, 0.08);
@@ -777,7 +778,7 @@
             text-align: center;
             min-height: 44px;
         }
-        
+
         .db-btn:hover {
             background: rgba(20, 220, 130, 0.1);
             color: #fff;
@@ -785,7 +786,7 @@
             border-color: rgba(20, 220, 130, 0.4);
             box-shadow: 0 4px 12px rgba(20, 220, 130, 0.2);
         }
-        
+
         .db-btn.active {
             background: linear-gradient(135deg, #14dc82, #0fa968);
             color: #0d1117;
@@ -793,7 +794,7 @@
             font-weight: 600;
             box-shadow: 0 0 15px rgba(20, 220, 130, 0.3);
         }
-        
+
         .debug-info {
             background: rgba(20, 220, 130, 0.1);
             padding: 12px 15px;
@@ -809,25 +810,25 @@
             display: none;
             line-height: 1.3;
         }
-        
+
         .details-body {
             padding: 20px;
         }
-        
+
         .details-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 12px;
             margin-bottom: 20px;
         }
-        
+
         .details-item {
             background: rgba(40, 45, 55, 0.6);
             padding: 15px;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        
+
         .details-item h4 {
             color: #8a8aa0;
             font-size: 0.8rem;
@@ -835,20 +836,21 @@
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
-        
+
         .details-item p {
             color: #fff;
             font-size: 0.95rem;
             font-weight: 500;
             word-break: break-word;
         }
-        
+
+        /* Новые стили для управления ссылками */
         .links-container {
             background: rgba(30, 35, 45, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
-            box-shadow: 
+            box-shadow:
                 0 10px 30px rgba(0, 0, 0, 0.4),
                 0 0 0 1px rgba(0, 204, 255, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -857,14 +859,14 @@
             margin-bottom: 20px;
             animation: fadeInUp 0.8s ease-out 0.6s both;
         }
-        
+
         .links-header {
             background: rgba(40, 45, 55, 0.8);
             padding: 20px;
             border-bottom: 1px solid rgba(0, 204, 255, 0.15);
             position: relative;
         }
-        
+
         .links-header::before {
             content: '';
             position: absolute;
@@ -874,7 +876,7 @@
             height: 1px;
             background: linear-gradient(to right, transparent, #00ccff, transparent);
         }
-        
+
         .links-header h2 {
             color: #fff;
             font-size: 1.5rem;
@@ -883,19 +885,19 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .links-header h2 i {
             color: #00ccff;
         }
-        
+
         .links-form {
             padding: 20px;
         }
-        
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-group label {
             display: block;
             color: #fff;
@@ -903,14 +905,14 @@
             margin-bottom: 8px;
             font-size: 0.95rem;
         }
-        
+
         .form-group small {
             display: block;
             color: #8a8aa0;
             margin-top: 4px;
             font-size: 0.8rem;
         }
-        
+
         .form-input {
             width: 100%;
             padding: 12px 16px;
@@ -922,21 +924,21 @@
             font-family: 'JetBrains Mono', monospace;
             transition: all 0.3s;
         }
-        
+
         .form-input:focus {
             outline: none;
             border-color: #00ccff;
             background: rgba(0, 204, 255, 0.05);
             box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.1);
         }
-        
+
         .tariff-select {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 10px;
             margin-bottom: 15px;
         }
-        
+
         .tariff-option {
             display: flex;
             flex-direction: column;
@@ -949,18 +951,18 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .tariff-option:hover {
             background: rgba(255, 255, 255, 0.05);
             transform: translateY(-2px);
         }
-        
+
         .tariff-option.active {
             background: rgba(0, 204, 255, 0.1);
             border-color: #00ccff;
             box-shadow: 0 0 15px rgba(0, 204, 255, 0.2);
         }
-        
+
         .tariff-icon {
             width: 40px;
             height: 40px;
@@ -970,36 +972,36 @@
             justify-content: center;
             font-size: 1.2rem;
         }
-        
+
         .tariff-light .tariff-icon {
             background: rgba(0, 255, 136, 0.1);
             color: #00ff88;
         }
-        
+
         .tariff-pro .tariff-icon {
             background: rgba(0, 204, 255, 0.1);
             color: #00ccff;
         }
-        
+
         .tariff-flowi .tariff-icon {
             background: rgba(157, 78, 221, 0.1);
             color: #9d4edd;
         }
-        
+
         .tariff-option h4 {
             color: #fff;
             font-size: 1rem;
             margin: 0;
             text-align: center;
         }
-        
+
         .links-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-top: 25px;
         }
-        
+
         .save-btn {
             background: linear-gradient(135deg, #00ccff, #0099ff);
             color: #0d1117;
@@ -1015,12 +1017,12 @@
             gap: 8px;
             font-size: 1rem;
         }
-        
+
         .save-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 204, 255, 0.3);
         }
-        
+
         .test-btn {
             background: linear-gradient(135deg, #ffaa00, #ff8800);
             color: #0d1117;
@@ -1036,12 +1038,12 @@
             gap: 8px;
             font-size: 1rem;
         }
-        
+
         .test-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(255, 170, 0, 0.3);
         }
-        
+
         .link-preview {
             background: rgba(0, 204, 255, 0.05);
             border: 1px solid rgba(0, 204, 255, 0.2);
@@ -1050,18 +1052,18 @@
             margin-top: 15px;
             display: none;
         }
-        
+
         .link-preview.show {
             display: block;
             animation: fadeIn 0.3s;
         }
-        
+
         .link-preview h4 {
             color: #00ccff;
             margin: 0 0 10px 0;
             font-size: 0.95rem;
         }
-        
+
         .preview-link {
             color: #fff;
             font-family: 'JetBrains Mono', monospace;
@@ -1072,12 +1074,12 @@
             border-radius: 6px;
             margin-bottom: 10px;
         }
-        
+
         .preview-qr {
             text-align: center;
             padding: 10px;
         }
-        
+
         .qr-placeholder {
             width: 120px;
             height: 120px;
@@ -1090,7 +1092,7 @@
             font-size: 2rem;
             color: #8a8aa0;
         }
-        
+
         .success-message {
             background: rgba(0, 255, 136, 0.1);
             border: 1px solid rgba(0, 255, 136, 0.3);
@@ -1101,39 +1103,151 @@
             display: none;
             animation: fadeIn 0.3s;
         }
-        
+
         .success-message.show {
             display: block;
         }
-        
-        /* Стили для предпросмотра тарифа */
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleUp {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(40, 45, 55, 0.3);
+            border-radius: 3px;
+            margin: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #14dc82, #0fa968);
+            border-radius: 3px;
+            border: 1px solid rgba(30, 35, 45, 0.8);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #1cf0a0, #14dc82);
+        }
+
+        .glow {
+            filter: drop-shadow(0 0 6px rgba(20, 220, 130, 0.3));
+        }
+
+        @media (max-width: 768px) {
+            .tariff-select {
+                grid-template-columns: 1fr;
+            }
+
+            .links-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .particles-bg {
+                display: none;
+            }
+        }
+
         .preview-info {
             background: rgba(255, 255, 255, 0.03);
             padding: 15px;
             border-radius: 10px;
             margin-top: 10px;
         }
-        
+
         .preview-info h5 {
             color: #fff;
             font-size: 1.2rem;
             margin-bottom: 10px;
             font-weight: 600;
         }
-        
+
         .price-preview {
             font-size: 1.8rem;
             font-weight: 700;
             color: #00ccff;
             margin-bottom: 15px;
         }
-        
+
         .features-preview ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        
+
         .features-preview li {
             color: #b0b0c0;
             margin-bottom: 8px;
@@ -1141,7 +1255,7 @@
             position: relative;
             font-size: 0.9rem;
         }
-        
+
         .features-preview li:before {
             content: '✓';
             position: absolute;
@@ -1149,123 +1263,33 @@
             color: #00ff88;
             font-weight: bold;
         }
-        
+
         .download-preview {
             margin-top: 15px;
             padding-top: 15px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .download-preview small {
             color: #8a8aa0;
             font-size: 0.85rem;
         }
-        
+
         .download-preview span {
             color: #fff;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes scaleUp {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-        
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(40, 45, 55, 0.3);
-            border-radius: 3px;
-            margin: 2px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #14dc82, #0fa968);
-            border-radius: 3px;
-            border: 1px solid rgba(30, 35, 45, 0.8);
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(to bottom, #1cf0a0, #14dc82);
-        }
-        
-        .glow {
-            filter: drop-shadow(0 0 6px rgba(20, 220, 130, 0.3));
-        }
-        
-        @media (max-width: 768px) {
-            .tariff-select {
-                grid-template-columns: 1fr;
-            }
-            
-            .links-buttons {
-                grid-template-columns: 1fr;
-            }
-            
-            .particles-bg {
-                display: none;
-            }
-            
-            .database-selector {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
+        }ф
     </style>
 </head>
+
 <body>
     <div id="particlesContainer" class="particles-bg"></div>
-    
+
     <div class="admin-container">
         <div class="admin-header">
             <h1><i class="fas fa-cogs glow"></i> Админ панель VPN</h1>
-            <p>Управление заказами, тарифами и ссылками для скачивания</p>
+            <p>Управление заказами и ссылками для скачивания</p>
             <p>Последнее обновление: <span id="lastUpdate">только что</span></p>
             <div class="database-selector">
                 <button class="db-btn active" data-db="payments">
@@ -1282,8 +1306,7 @@
                 </button>
             </div>
         </div>
-        
-        <!-- Контейнер для управления ссылками VPN -->
+
         <div class="links-container" id="linksContainer" style="display: none;">
             <div class="links-header">
                 <h2><i class="fas fa-link"></i> Управление ссылками VPN</h2>
@@ -1309,25 +1332,27 @@
                         <h4>Флоуи VPN</h4>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="linkUrl">Ссылка для скачивания:</label>
-                    <input type="url" id="linkUrl" class="form-input" placeholder="https://ваш-сайт.com/download/vpn-light.conf">
+                    <input type="url" id="linkUrl" class="form-input"
+                        placeholder="https://ваш-сайт.com/download/vpn-light.conf">
                     <small>Прямая ссылка на .conf файл</small>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="linkName">Название файла:</label>
                     <input type="text" id="linkName" class="form-input" placeholder="flowi-vpn-light.conf">
                     <small>Отображается пользователям при скачивании</small>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="linkDescription">Описание:</label>
-                    <textarea id="linkDescription" class="form-input" rows="3" placeholder="Конфигурация для Лайт тарифа..."></textarea>
+                    <textarea id="linkDescription" class="form-input" rows="3"
+                        placeholder="Конфигурация для Лайт тарифа..."></textarea>
                     <small>Краткое описание для пользователей</small>
                 </div>
-                
+
                 <div class="links-buttons">
                     <button class="save-btn" onclick="saveVpnLink()">
                         <i class="fas fa-save"></i> Сохранить ссылку
@@ -1336,7 +1361,7 @@
                         <i class="fas fa-external-link-alt"></i> Проверить ссылку
                     </button>
                 </div>
-                
+
                 <div id="linkPreview" class="link-preview">
                     <h4>Предпросмотр:</h4>
                     <div class="preview-link" id="previewLink">https://example.com/vpn.conf</div>
@@ -1347,14 +1372,13 @@
                         <small>QR код для быстрого доступа</small>
                     </div>
                 </div>
-                
+
                 <div id="saveSuccess" class="success-message">
                     <i class="fas fa-check-circle"></i> Ссылка успешно сохранена!
                 </div>
             </div>
         </div>
-        
-        <!-- Контейнер для управления тарифами -->
+
         <div class="links-container" id="tariffsContainer" style="display: none;">
             <div class="links-header">
                 <h2><i class="fas fa-crown"></i> Управление тарифами</h2>
@@ -1380,37 +1404,40 @@
                         <h4>Флоуи VPN</h4>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="tariffName">Название тарифа:</label>
                     <input type="text" id="tariffName" class="form-input" placeholder="Лайт VPN">
                 </div>
-                
+
                 <div class="form-group">
                     <label for="tariffPrice">Цена в месяц (₽):</label>
                     <input type="number" id="tariffPrice" class="form-input" placeholder="299">
                 </div>
-                
+
                 <div class="form-group">
                     <label for="tariffDescription">Описание:</label>
-                    <textarea id="tariffDescription" class="form-input" rows="3" placeholder="Описание тарифа..."></textarea>
+                    <textarea id="tariffDescription" class="form-input" rows="3"
+                        placeholder="Описание тарифа..."></textarea>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="tariffFeatures">Особенности (каждая с новой строки):</label>
-                    <textarea id="tariffFeatures" class="form-input" rows="4" placeholder="Пинг: -30-50мс&#10;Лучшая регистрация урона&#10;Серверы в РФ и Европе"></textarea>
+                    <textarea id="tariffFeatures" class="form-input" rows="4"
+                        placeholder="Пинг: -30-50мс&#10;Лучшая регистрация урона&#10;Серверы в РФ и Европе"></textarea>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="tariffDownloadUrl">Ссылка для скачивания:</label>
-                    <input type="url" id="tariffDownloadUrl" class="form-input" placeholder="https://ваш-сайт.com/download/vpn-light.conf">
+                    <input type="url" id="tariffDownloadUrl" class="form-input"
+                        placeholder="https://ваш-сайт.com/download/vpn-light.conf">
                 </div>
-                
+
                 <div class="form-group">
                     <label for="tariffDownloadName">Название файла для скачивания:</label>
                     <input type="text" id="tariffDownloadName" class="form-input" placeholder="flowi-vpn-light.conf">
                 </div>
-                
+
                 <div class="links-buttons">
                     <button class="save-btn" onclick="saveTariff()">
                         <i class="fas fa-save"></i> Сохранить тариф
@@ -1419,7 +1446,7 @@
                         <i class="fas fa-sync-alt"></i> Обновить данные
                     </button>
                 </div>
-                
+
                 <div id="tariffPreview" class="link-preview">
                     <h4>Предпросмотр тарифа:</h4>
                     <div class="preview-info">
@@ -1433,13 +1460,13 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div id="tariffSaveSuccess" class="success-message">
                     <i class="fas fa-check-circle"></i> Тариф успешно сохранен!
                 </div>
             </div>
         </div>
-        
+
         <div class="admin-stats">
             <div class="stat-card pending">
                 <div class="stat-icon">
@@ -1450,7 +1477,7 @@
                     <p>Ожидают</p>
                 </div>
             </div>
-            
+
             <div class="stat-card approved">
                 <div class="stat-icon">
                     <i class="fas fa-check-circle"></i>
@@ -1460,7 +1487,7 @@
                     <p>Одобрено</p>
                 </div>
             </div>
-            
+
             <div class="stat-card declined">
                 <div class="stat-icon">
                     <i class="fas fa-times-circle"></i>
@@ -1470,7 +1497,7 @@
                     <p>Отклонено</p>
                 </div>
             </div>
-            
+
             <div class="stat-card total">
                 <div class="stat-icon">
                     <i class="fas fa-shopping-cart"></i>
@@ -1481,7 +1508,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="orders-container">
             <div class="orders-header">
                 <h2><i class="fas fa-list glow"></i> Список заказов</h2>
@@ -1507,11 +1534,11 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="debugInfo" class="debug-info">
                 <i class="fas fa-info-circle"></i> Загрузка данных...
             </div>
-            
+
             <div class="orders-list" id="ordersList">
                 <div class="loading" id="loadingOrders">
                     <i class="fas fa-spinner fa-spin"></i>
@@ -1520,7 +1547,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="receipt-modal" id="receiptModal">
         <div class="receipt-content">
             <div class="receipt-header">
@@ -1528,11 +1555,15 @@
                 <button class="close-modal" onclick="closeReceiptModal()">&times;</button>
             </div>
             <div class="receipt-image" id="receiptImageContainer">
-                <img id="receiptImage" src="" alt="Чек об оплате" onerror="this.onerror=null; this.src='data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"300\" viewBox=\"0 0 400 300\"><rect width=\"400\" height=\"300\" fill=\"%23161b22\"/><text x=\"200\" y=\"150\" font-family=\"Arial\" font-size=\"20\" fill=\"%2314dc82\" text-anchor=\"middle\">Изображение не загружено</text></svg>';">
+                <img id="receiptImage" src="" alt="Чек об оплате"
+                    onerror="this.onerror=null; this.src='data:image/svg+xml,<svg xmlns=\" http://www.w3.org/2000/svg\"
+                    width=\"400\" height=\"300\" viewBox=\"0 0 400 300\">
+                <rect width=\"400\" height=\"300\" fill=\"%23161b22\" /><text x=\"200\" y=\"150\" font-family=\"Arial\"
+                    font-size=\"20\" fill=\"%2314dc82\" text-anchor=\"middle\">Изображение не загружено</text></svg>';">
             </div>
         </div>
     </div>
-    
+
     <div class="details-modal" id="detailsModal">
         <div class="details-content">
             <div class="details-header">
@@ -1542,10 +1573,10 @@
             <div class="details-body" id="detailsBody"></div>
         </div>
     </div>
-    
+
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    
+
     <script>
         // Firebase конфигурация
         const firebaseConfig = {
@@ -1558,22 +1589,21 @@
             appId: "1:55860525820:web:75bd65ad5e04064b313579",
             measurementId: "G-P8YJD4HCJ2"
         };
-        
+
         // Инициализация Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        
+
         let orders = [];
         let currentFilter = 'all';
         let currentDatabase = 'payments';
         let currentTariff = 'light';
         let vpnLinks = {};
-        let tariffs = {};
-        
+
         // Создание эффекта частиц
         function createParticles() {
             if (window.innerWidth < 768) return;
-            
+
             const container = document.getElementById('particlesContainer');
             const particleCount = 12;
             const colors = [
@@ -1582,14 +1612,14 @@
                 'rgba(74, 0, 224, 0.1)',
                 'rgba(142, 45, 226, 0.1)'
             ];
-            
+
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 const size = Math.random() * 50 + 30;
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 const duration = Math.random() * 8 + 8;
                 const delay = Math.random() * 5;
-                
+
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
                 particle.style.background = `radial-gradient(circle, ${color}, transparent 70%)`;
@@ -1600,124 +1630,84 @@
                 particle.style.opacity = '0.2';
                 particle.style.filter = 'blur(30px)';
                 particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite alternate`;
-                
+
                 container.appendChild(particle);
             }
         }
-        
+
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', async () => {
             createParticles();
             await testFirebaseConnection();
-            
+
             initFilters();
             initDatabaseSelector();
             initTariffSelector();
-            
+
             loadVpnLinks();
-            loadTariffs();
             loadAllOrders();
-            
+
+            initTariffSelector();
+
             setupRealtimeUpdates();
-            
-            document.getElementById('receiptModal').addEventListener('click', function(e) {
+
+            document.getElementById('receiptModal').addEventListener('click', function (e) {
                 if (e.target === this) closeReceiptModal();
             });
-            
-            document.getElementById('detailsModal').addEventListener('click', function(e) {
+
+            document.getElementById('detailsModal').addEventListener('click', function (e) {
                 if (e.target === this) closeDetailsModal();
             });
-            
-            document.addEventListener('keydown', function(e) {
+
+            document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape') {
                     closeReceiptModal();
                     closeDetailsModal();
                 }
             });
-            
+
             setInterval(() => loadAllOrders(), 60000);
             window.addEventListener('resize', handleResize);
             window.addEventListener('orientationchange', () => setTimeout(handleResize, 100));
         });
-        
+
         // Инициализация селектора базы данных
         function initDatabaseSelector() {
             document.querySelectorAll('.db-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     document.querySelectorAll('.db-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     currentDatabase = this.getAttribute('data-db');
-                    
-                    // Показываем/скрываем соответствующие контейнеры
-                    const containers = {
-                        payments: {
-                            links: false,
-                            tariffs: false,
-                            stats: true,
-                            orders: true
-                        },
-                        orders: {
-                            links: false,
-                            tariffs: false,
-                            stats: true,
-                            orders: true
-                        },
-                        vpn_links: {
-                            links: true,
-                            tariffs: false,
-                            stats: false,
-                            orders: false
-                        },
-                        tariffs: {
-                            links: false,
-                            tariffs: true,
-                            stats: false,
-                            orders: false
-                        }
-                    };
-                    
-                    const settings = containers[currentDatabase] || containers.payments;
-                    
-                    document.getElementById('linksContainer').style.display = settings.links ? 'block' : 'none';
-                    document.getElementById('tariffsContainer').style.display = settings.tariffs ? 'block' : 'none';
-                    document.querySelector('.admin-stats').style.display = settings.stats ? 'grid' : 'none';
-                    document.querySelector('.orders-container').style.display = settings.orders ? 'block' : 'none';
-                    
-                    // Загружаем соответствующие данные
-                    switch(currentDatabase) {
-                        case 'vpn_links':
-                            loadVpnLinks();
-                            break;
-                        case 'tariffs':
-                            loadTariffs();
-                            break;
-                        default:
-                            showDebugInfo(`Папка: ${currentDatabase}`);
-                            loadAllOrders();
+
+                    if (currentDatabase === 'vpn_links') {
+                        document.getElementById('linksContainer').style.display = 'block';
+                        document.querySelector('.admin-stats').style.display = 'none';
+                        document.querySelector('.orders-container').style.display = 'none';
+                        loadVpnLinks();
+                    } else {
+                        document.getElementById('linksContainer').style.display = 'none';
+                        document.querySelector('.admin-stats').style.display = 'grid';
+                        document.querySelector('.orders-container').style.display = 'block';
+                        showDebugInfo(`Папка: ${currentDatabase}`);
+                        loadAllOrders();
                     }
                 });
             });
         }
-        
-        // Инициализация выбора тарифа для редактирования
+
+        // Инициализация выбора тарифа
         function initTariffSelector() {
             document.querySelectorAll('.tariff-option').forEach(option => {
-                option.addEventListener('click', function() {
+                option.addEventListener('click', function () {
                     document.querySelectorAll('.tariff-option').forEach(o => o.classList.remove('active'));
                     this.classList.add('active');
                     currentTariff = this.getAttribute('data-tariff');
-                    
-                    // Если мы в режиме управления тарифами
-                    if (currentDatabase === 'tariffs') {
-                        loadCurrentTariff();
-                    } else if (currentDatabase === 'vpn_links') {
-                        loadCurrentTariffLink();
-                    }
+                    loadCurrentTariffLink();
                 });
             });
         }
-        
-        // Загрузка сохраненных ссылок VPN
+
+        // Загрузка сохраненных ссылок
         async function loadVpnLinks() {
             try {
                 const snapshot = await database.ref('vpn_links').once('value');
@@ -1749,202 +1739,65 @@
                 showDebugInfo('Ошибка загрузки ссылок');
             }
         }
-        
-        // Загрузка тарифов из Firebase
-        async function loadTariffs() {
-            try {
-                const snapshot = await database.ref('tariffs').once('value');
-                if (snapshot.exists()) {
-                    tariffs = snapshot.val();
-                    loadCurrentTariff();
-                    updateTariffPreview();
-                    showDebugInfo(`Загружено ${Object.keys(tariffs).length} тарифов`);
-                } else {
-                    // Создаем базовую структуру, если тарифов нет
-                    tariffs = {
-                        light: {
-                            name: 'Лайт VPN',
-                            price: '299',
-                            monthly_price: '299',
-                            description: 'Конфигурация для Лайт тарифа',
-                            features: [
-                                'Пинг: -30-50мс',
-                                'Лучшая регистрация урона',
-                                'Серверы в РФ и Европе'
-                            ],
-                            download_url: '',
-                            download_name: 'flowi-vpn-light.conf'
-                        },
-                        pro: {
-                            name: 'Про VPN',
-                            price: '599',
-                            monthly_price: '599',
-                            description: 'Конфигурация для Про тарифа',
-                            features: [
-                                'Высокая скорость',
-                                'Больше хедшотов',
-                                'Приоритет на серверах',
-                                'Безлимитный трафик'
-                            ],
-                            download_url: '',
-                            download_name: 'flowi-vpn-pro.conf'
-                        },
-                        flowi: {
-                            name: 'Флоуи VPN',
-                            price: '999',
-                            monthly_price: '999',
-                            description: 'Конфигурация для Флоуи тарифа',
-                            features: [
-                                'Максимальный пинг',
-                                'Эксклюзивные серверы',
-                                'Приоритетная поддержка',
-                                'Персональный менеджер'
-                            ],
-                            download_url: '',
-                            download_name: 'flowi-vpn-premium.conf'
-                        }
-                    };
-                    
-                    await database.ref('tariffs').set(tariffs);
-                    loadCurrentTariff();
-                }
-            } catch (error) {
-                console.error('Ошибка загрузки тарифов:', error);
-                showDebugInfo('Ошибка загрузки тарифов');
-            }
-        }
-        
+
         // Загрузка текущей ссылки тарифа
         function loadCurrentTariffLink() {
             const link = vpnLinks[currentTariff] || {};
-            
+
             document.getElementById('linkUrl').value = link.url || '';
             document.getElementById('linkName').value = link.name || '';
             document.getElementById('linkDescription').value = link.description || '';
-            
+
             updatePreview();
         }
-        
-        // Загрузка текущего тарифа для редактирования
-        function loadCurrentTariff() {
-            const tariff = tariffs[currentTariff] || {};
-            
-            document.getElementById('tariffName').value = tariff.name || '';
-            document.getElementById('tariffPrice').value = tariff.price || tariff.monthly_price || '';
-            document.getElementById('tariffDescription').value = tariff.description || '';
-            
-            // Преобразуем массив особенностей в текст
-            if (Array.isArray(tariff.features)) {
-                document.getElementById('tariffFeatures').value = tariff.features.join('\n');
-            } else {
-                document.getElementById('tariffFeatures').value = '';
-            }
-            
-            document.getElementById('tariffDownloadUrl').value = tariff.download_url || '';
-            document.getElementById('tariffDownloadName').value = tariff.download_name || '';
-            
-            updateTariffPreview();
-        }
-        
+
         // Сохранение ссылки VPN
         async function saveVpnLink() {
             try {
                 const url = document.getElementById('linkUrl').value.trim();
                 const name = document.getElementById('linkName').value.trim();
                 const description = document.getElementById('linkDescription').value.trim();
-                
+
                 if (!url) {
                     alert('Пожалуйста, введите ссылку');
                     return;
                 }
-                
+
                 try {
                     new URL(url);
                 } catch (e) {
                     alert('Пожалуйста, введите корректный URL');
                     return;
                 }
-                
+
                 const linkData = {
                     url: url,
                     name: name || `flowi-vpn-${currentTariff}.conf`,
                     description: description || `Конфигурация для ${currentTariff} тарифа`,
                     updated: new Date().toISOString()
                 };
-                
+
                 await database.ref(`vpn_links/${currentTariff}`).set(linkData);
-                
+
                 vpnLinks[currentTariff] = linkData;
-                
+
                 const successMsg = document.getElementById('saveSuccess');
                 successMsg.classList.add('show');
                 successMsg.innerHTML = `
                     <i class="fas fa-check-circle"></i> 
                     Ссылка для ${getTariffName(currentTariff)} успешно сохранена!
                 `;
-                
+
                 setTimeout(() => successMsg.classList.remove('show'), 3000);
-                
+
                 updatePreview();
-                
+
             } catch (error) {
                 console.error('Ошибка сохранения ссылки:', error);
                 alert('Ошибка сохранения: ' + error.message);
             }
         }
-        
-        // Сохранение тарифа
-        async function saveTariff() {
-            try {
-                const name = document.getElementById('tariffName').value.trim();
-                const price = document.getElementById('tariffPrice').value.trim();
-                const description = document.getElementById('tariffDescription').value.trim();
-                const featuresText = document.getElementById('tariffFeatures').value.trim();
-                const downloadUrl = document.getElementById('tariffDownloadUrl').value.trim();
-                const downloadName = document.getElementById('tariffDownloadName').value.trim();
-                
-                if (!name || !price) {
-                    alert('Пожалуйста, заполните название и цену');
-                    return;
-                }
-                
-                // Преобразуем текст особенностей в массив
-                const features = featuresText.split('\n')
-                    .map(f => f.trim())
-                    .filter(f => f.length > 0);
-                
-                const tariffData = {
-                    name: name,
-                    price: price,
-                    monthly_price: price,
-                    description: description || `Конфигурация для ${name}`,
-                    features: features,
-                    download_url: downloadUrl,
-                    download_name: downloadName || `flowi-vpn-${currentTariff}.conf`,
-                    updated: new Date().toISOString()
-                };
-                
-                await database.ref(`tariffs/${currentTariff}`).set(tariffData);
-                
-                tariffs[currentTariff] = tariffData;
-                
-                const successMsg = document.getElementById('tariffSaveSuccess');
-                successMsg.classList.add('show');
-                successMsg.innerHTML = `
-                    <i class="fas fa-check-circle"></i> 
-                    Тариф "${name}" успешно сохранен!
-                `;
-                
-                setTimeout(() => successMsg.classList.remove('show'), 3000);
-                
-                updateTariffPreview();
-                
-            } catch (error) {
-                console.error('Ошибка сохранения тарифа:', error);
-                alert('Ошибка сохранения: ' + error.message);
-            }
-        }
-        
+
         // Тестирование ссылки
         function testVpnLink() {
             const url = document.getElementById('linkUrl').value.trim();
@@ -1952,11 +1805,11 @@
                 alert('Сначала введите ссылку');
                 return;
             }
-            
+
             window.open(url, '_blank');
         }
-        
-        // Обновление предпросмотра ссылки
+
+        // Обновление предпросмотра
         function updatePreview() {
             const link = vpnLinks[currentTariff];
             if (link && link.url) {
@@ -1966,33 +1819,7 @@
                 document.getElementById('linkPreview').classList.remove('show');
             }
         }
-        
-        // Обновление предпросмотра тарифа
-        function updateTariffPreview() {
-            const tariff = tariffs[currentTariff];
-            if (tariff) {
-                document.getElementById('previewTariffName').textContent = tariff.name;
-                document.getElementById('previewTariffPrice').textContent = `${tariff.price} ₽/мес`;
-                
-                const featuresList = document.querySelector('#previewTariffFeatures ul');
-                featuresList.innerHTML = '';
-                
-                if (Array.isArray(tariff.features)) {
-                    tariff.features.forEach(feature => {
-                        const li = document.createElement('li');
-                        li.textContent = feature;
-                        featuresList.appendChild(li);
-                    });
-                }
-                
-                document.getElementById('previewDownloadName').textContent = tariff.download_name;
-                
-                document.getElementById('tariffPreview').classList.add('show');
-            } else {
-                document.getElementById('tariffPreview').classList.remove('show');
-            }
-        }
-        
+
         // Получение имени тарифа
         function getTariffName(tariffId) {
             const names = {
@@ -2002,37 +1829,37 @@
             };
             return names[tariffId] || tariffId;
         }
-        
+
         // Загрузка всех заказов
         async function loadAllOrders() {
             try {
                 showDebugInfo("Загрузка данных...");
-                
+
                 const loadingElement = document.getElementById('loadingOrders');
                 if (loadingElement) loadingElement.style.display = 'block';
-                
+
                 orders = [];
                 showSkeletonLoading();
-                
+
                 if (currentDatabase === 'payments' || currentDatabase === 'all') {
                     await loadFromDatabase('payments');
                 }
-                
+
                 if (currentDatabase === 'orders' || currentDatabase === 'all') {
                     await loadFromDatabase('orders');
                 }
-                
+
                 showDebugInfo(`Загружено ${orders.length} заказов`);
                 orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                
+
                 updateStats();
                 displayOrders();
-                
+
                 document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('ru-RU', {
                     hour: '2-digit',
                     minute: '2-digit'
                 });
-                
+
             } catch (error) {
                 console.error("Ошибка загрузки заказов:", error);
                 showDebugInfo(`Ошибка: ${error.message}`);
@@ -2051,12 +1878,12 @@
                 if (loadingElement) loadingElement.style.display = 'none';
             }
         }
-        
+
         // Показать скелетон загрузки
         function showSkeletonLoading() {
             const ordersList = document.getElementById('ordersList');
             let skeletonHtml = '';
-            
+
             for (let i = 0; i < 3; i++) {
                 skeletonHtml += `
                     <div class="order-item" style="opacity: 0.6;">
@@ -2084,29 +1911,29 @@
                     </div>
                 `;
             }
-            
+
             ordersList.innerHTML = skeletonHtml;
         }
-        
+
         // Загрузка из конкретной папки
         async function loadFromDatabase(dbPath) {
             try {
                 const snapshot = await database.ref(dbPath).once('value');
-                
+
                 if (!snapshot.exists()) return;
-                
+
                 snapshot.forEach((childSnapshot) => {
                     const order = childSnapshot.val();
                     order.source = dbPath;
                     order.fullId = `${dbPath}/${order.id}`;
                     orders.push(order);
                 });
-                
+
             } catch (error) {
                 console.error(`Ошибка загрузки из ${dbPath}:`, error);
             }
         }
-        
+
         // Показать отладочную информацию
         function showDebugInfo(message) {
             const debugElement = document.getElementById('debugInfo');
@@ -2116,27 +1943,28 @@
                 setTimeout(() => debugElement.style.display = 'none', 3000);
             }
         }
-        
+
         // Обновление статистики
         function updateStats() {
             const pendingCount = orders.filter(o => o.status === 'pending').length;
             const approvedCount = orders.filter(o => o.status === 'approved').length;
             const declinedCount = orders.filter(o => o.status === 'declined').length;
-            
+
             const totalRevenue = orders
                 .filter(o => o.status === 'approved')
                 .reduce((sum, order) => sum + parseInt(order.price || 0), 0);
-            
+
             document.getElementById('pendingCount').textContent = pendingCount;
             document.getElementById('approvedCount').textContent = approvedCount;
             document.getElementById('declinedCount').textContent = declinedCount;
+            document.getElementById('totalOrders').textContent = orders.length;
             document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString('ru-RU');
         }
-        
+
         // Отображение заказов
         function displayOrders() {
             const ordersList = document.getElementById('ordersList');
-            
+
             if (orders.length === 0) {
                 ordersList.innerHTML = `
                     <div class="no-orders">
@@ -2147,12 +1975,12 @@
                 `;
                 return;
             }
-            
+
             const filteredOrders = orders.filter(order => {
                 if (currentFilter === 'all') return true;
                 return order.status === currentFilter;
             });
-            
+
             if (filteredOrders.length === 0) {
                 ordersList.innerHTML = `
                     <div class="no-orders">
@@ -2163,9 +1991,9 @@
                 `;
                 return;
             }
-            
+
             let html = '';
-            
+
             filteredOrders.forEach(order => {
                 const date = new Date(order.timestamp);
                 const formattedDate = date.toLocaleDateString('ru-RU', {
@@ -2174,16 +2002,16 @@
                     hour: '2-digit',
                     minute: '2-digit'
                 });
-                
+
                 const userName = order.userName || order.payerName || 'Не указано';
                 const userEmail = order.userEmail || order.payerEmail || 'Не указан';
                 const tariff = order.tariff || order.planName || 'Не указан';
                 const price = order.price || '0';
-                
+
                 const shortUserName = userName.length > 15 ? userName.substring(0, 15) + '...' : userName;
                 const shortEmail = userEmail.length > 20 ? userEmail.substring(0, 20) + '...' : userEmail;
                 const shortTariff = tariff.length > 15 ? tariff.substring(0, 15) + '...' : tariff;
-                
+
                 html += `
                     <div class="order-item" data-order-id="${order.id}">
                         <div class="order-header">
@@ -2238,46 +2066,46 @@
                     </div>
                 `;
             });
-            
+
             ordersList.innerHTML = html;
         }
-        
+
         // Получение текста статуса
         function getStatusText(status) {
-            switch(status) {
+            switch (status) {
                 case 'pending': return 'Ожидает';
                 case 'approved': return 'Одобрен';
                 case 'declined': return 'Отклонен';
                 default: return status;
             }
         }
-        
+
         // Обновление статуса заказа
         async function updateOrderStatus(orderId, sourcePath, newStatus) {
             try {
                 const statusText = newStatus === 'approved' ? 'одобрить' : 'отклонить';
                 if (!confirm(`Вы уверены, что хотите ${statusText} этот заказ?`)) return;
-                
+
                 const path = sourcePath || 'payments';
-                
+
                 await database.ref(`${path}/${orderId}`).update({
                     status: newStatus,
                     adminNote: `Статус изменен ${new Date().toLocaleString('ru-RU')}`
                 });
-                
+
                 const orderIndex = orders.findIndex(o => o.id === orderId && o.source === path);
                 if (orderIndex !== -1) orders[orderIndex].status = newStatus;
-                
+
                 updateStats();
                 displayOrders();
                 showDebugInfo(`Статус изменен на "${getStatusText(newStatus)}"`);
-                
+
             } catch (error) {
                 console.error("Ошибка обновления статуса:", error);
                 showDebugInfo("Ошибка: " + error.message);
             }
         }
-        
+
         // Показать детали заказа
         function showOrderDetailsModal(orderId) {
             const order = orders.find(o => o.id === orderId);
@@ -2285,7 +2113,7 @@
                 showDebugInfo('Заказ не найден');
                 return;
             }
-            
+
             const date = new Date(order.timestamp);
             const formattedDate = date.toLocaleDateString('ru-RU', {
                 day: '2-digit',
@@ -2294,12 +2122,12 @@
                 hour: '2-digit',
                 minute: '2-digit'
             });
-            
+
             const userName = order.userName || order.payerName || 'Не указано';
             const userEmail = order.userEmail || order.payerEmail || 'Не указан';
             const tariff = order.tariff || order.planName || 'Не указан';
             const price = order.price || '0';
-            
+
             let detailsHtml = `
                 <div class="details-grid">
                     <div class="details-item">
@@ -2336,7 +2164,7 @@
                     </div>
                 </div>
             `;
-            
+
             if (order.userId) {
                 detailsHtml += `
                     <div class="details-item">
@@ -2345,7 +2173,7 @@
                     </div>
                 `;
             }
-            
+
             if (order.adminNote) {
                 detailsHtml += `
                     <div class="details-item" style="background: rgba(20, 220, 130, 0.1); border-color: rgba(20, 220, 130, 0.2);">
@@ -2354,23 +2182,23 @@
                     </div>
                 `;
             }
-            
+
             document.getElementById('detailsBody').innerHTML = detailsHtml;
             document.getElementById('detailsModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
-        
+
         // Закрытие модальных окон
         function closeDetailsModal() {
             document.getElementById('detailsModal').classList.remove('active');
             document.body.style.overflow = '';
         }
-        
+
         function closeReceiptModal() {
             document.getElementById('receiptModal').classList.remove('active');
             document.body.style.overflow = '';
         }
-        
+
         // Просмотр чека
         function viewReceipt(orderId) {
             const order = orders.find(o => o.id === orderId);
@@ -2383,11 +2211,11 @@
                 showDebugInfo('Чек не найден');
             }
         }
-        
+
         // Инициализация фильтров
         function initFilters() {
             document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
+                btn.addEventListener('click', function () {
                     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     currentFilter = this.getAttribute('data-filter');
@@ -2395,19 +2223,14 @@
                 });
             });
         }
-        
+
         // Режим реального времени
         function setupRealtimeUpdates() {
             database.ref('payments').on('value', () => loadAllOrders());
             database.ref('orders').on('value', () => loadAllOrders());
             database.ref('vpn_links').on('value', () => loadVpnLinks());
-            database.ref('tariffs').on('value', () => {
-                if (currentDatabase === 'tariffs') {
-                    loadTariffs();
-                }
-            });
         }
-        
+
         // Проверка подключения
         async function testFirebaseConnection() {
             try {
@@ -2424,7 +2247,7 @@
                 return false;
             }
         }
-        
+
         // Адаптация к изменению размера
         function handleResize() {
             if (window.innerWidth >= 768) {
@@ -2432,9 +2255,250 @@
                 container.innerHTML = '';
                 createParticles();
             }
-            
+
             if (orders.length > 0) displayOrders();
+        }
+
+        // Инициализация выбора тарифа для редактирования
+        function initTariffSelector() {
+            document.querySelectorAll('.tariff-option').forEach(option => {
+                option.addEventListener('click', function () {
+                    document.querySelectorAll('.tariff-option').forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTariff = this.getAttribute('data-tariff');
+
+                    // Если мы в режиме управления тарифами
+                    if (currentDatabase === 'tariffs') {
+                        loadCurrentTariff();
+                    } else if (currentDatabase === 'vpn_links') {
+                        loadCurrentTariffLink();
+                    }
+                });
+            });
+        }
+
+        // Загрузка тарифов из Firebase
+        async function loadTariffs() {
+            try {
+                const snapshot = await database.ref('tariffs').once('value');
+                if (snapshot.exists()) {
+                    tariffs = snapshot.val();
+                    loadCurrentTariff();
+                    updateTariffPreview();
+                    showDebugInfo(`Загружено ${Object.keys(tariffs).length} тарифов`);
+                } else {
+                    // Создаем базовую структуру, если тарифов нет
+                    tariffs = {
+                        light: {
+                            name: 'Лайт VPN',
+                            price: '299',
+                            monthly_price: '299',
+                            description: 'Конфигурация для Лайт тарифа',
+                            features: [
+                                'Пинг: -30-50мс',
+                                'Лучшая регистрация урона',
+                                'Серверы в РФ и Европе'
+                            ],
+                            download_url: '',
+                            download_name: 'flowi-vpn-light.conf'
+                        },
+                        pro: {
+                            name: 'Про VPN',
+                            price: '599',
+                            monthly_price: '599',
+                            description: 'Конфигурация для Про тарифа',
+                            features: [
+                                'Высокая скорость',
+                                'Больше хедшотов',
+                                'Приоритет на серверах',
+                                'Безлимитный трафик'
+                            ],
+                            download_url: '',
+                            download_name: 'flowi-vpn-pro.conf'
+                        },
+                        flowi: {
+                            name: 'Флоуи VPN',
+                            price: '999',
+                            monthly_price: '999',
+                            description: 'Конфигурация для Флоуи тарифа',
+                            features: [
+                                'Максимальный пинг',
+                                'Эксклюзивные серверы',
+                                'Приоритетная поддержка',
+                                'Персональный менеджер'
+                            ],
+                            download_url: '',
+                            download_name: 'flowi-vpn-premium.conf'
+                        }
+                    };
+
+                    await database.ref('tariffs').set(tariffs);
+                    loadCurrentTariff();
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки тарифов:', error);
+                showDebugInfo('Ошибка загрузки тарифов');
+            }
+        }
+
+        // Загрузка текущего тарифа для редактирования
+        function loadCurrentTariff() {
+            const tariff = tariffs[currentTariff] || {};
+
+            document.getElementById('tariffName').value = tariff.name || '';
+            document.getElementById('tariffPrice').value = tariff.price || tariff.monthly_price || '';
+            document.getElementById('tariffDescription').value = tariff.description || '';
+
+            // Преобразуем массив особенностей в текст
+            if (Array.isArray(tariff.features)) {
+                document.getElementById('tariffFeatures').value = tariff.features.join('\n');
+            } else {
+                document.getElementById('tariffFeatures').value = '';
+            }
+
+            document.getElementById('tariffDownloadUrl').value = tariff.download_url || '';
+            document.getElementById('tariffDownloadName').value = tariff.download_name || '';
+
+            updateTariffPreview();
+        }
+
+        // Сохранение тарифа
+        async function saveTariff() {
+            try {
+                const name = document.getElementById('tariffName').value.trim();
+                const price = document.getElementById('tariffPrice').value.trim();
+                const description = document.getElementById('tariffDescription').value.trim();
+                const featuresText = document.getElementById('tariffFeatures').value.trim();
+                const downloadUrl = document.getElementById('tariffDownloadUrl').value.trim();
+                const downloadName = document.getElementById('tariffDownloadName').value.trim();
+
+                if (!name || !price) {
+                    alert('Пожалуйста, заполните название и цену');
+                    return;
+                }
+
+                // Преобразуем текст особенностей в массив
+                const features = featuresText.split('\n')
+                    .map(f => f.trim())
+                    .filter(f => f.length > 0);
+
+                const tariffData = {
+                    name: name,
+                    price: price,
+                    monthly_price: price,
+                    description: description || `Конфигурация для ${name}`,
+                    features: features,
+                    download_url: downloadUrl,
+                    download_name: downloadName || `flowi-vpn-${currentTariff}.conf`,
+                    updated: new Date().toISOString()
+                };
+
+                await database.ref(`tariffs/${currentTariff}`).set(tariffData);
+
+                tariffs[currentTariff] = tariffData;
+
+                const successMsg = document.getElementById('tariffSaveSuccess');
+                successMsg.classList.add('show');
+                successMsg.innerHTML = `
+            <i class="fas fa-check-circle"></i> 
+            Тариф "${name}" успешно сохранен!
+        `;
+
+                setTimeout(() => successMsg.classList.remove('show'), 3000);
+
+                updateTariffPreview();
+
+            } catch (error) {
+                console.error('Ошибка сохранения тарифа:', error);
+                alert('Ошибка сохранения: ' + error.message);
+            }
+        }
+
+        // Обновление предпросмотра тарифа
+        function updateTariffPreview() {
+            const tariff = tariffs[currentTariff];
+            if (tariff) {
+                document.getElementById('previewTariffName').textContent = tariff.name;
+                document.getElementById('previewTariffPrice').textContent = `${tariff.price} ₽/мес`;
+
+                const featuresList = document.querySelector('#previewTariffFeatures ul');
+                featuresList.innerHTML = '';
+
+                if (Array.isArray(tariff.features)) {
+                    tariff.features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.textContent = feature;
+                        featuresList.appendChild(li);
+                    });
+                }
+
+                document.getElementById('previewDownloadName').textContent = tariff.download_name;
+
+                document.getElementById('tariffPreview').classList.add('show');
+            } else {
+                document.getElementById('tariffPreview').classList.remove('show');
+            }
+        }
+
+        // Обновленная функция initDatabaseSelector
+        function initDatabaseSelector() {
+            document.querySelectorAll('.db-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.db-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentDatabase = this.getAttribute('data-db');
+
+                    // Показываем/скрываем соответствующие контейнеры
+                    const containers = {
+                        payments: {
+                            links: false,
+                            tariffs: false,
+                            stats: true,
+                            orders: true
+                        },
+                        orders: {
+                            links: false,
+                            tariffs: false,
+                            stats: true,
+                            orders: true
+                        },
+                        vpn_links: {
+                            links: true,
+                            tariffs: false,
+                            stats: false,
+                            orders: false
+                        },
+                        tariffs: {
+                            links: false,
+                            tariffs: true,
+                            stats: false,
+                            orders: false
+                        }
+                    };
+
+                    const settings = containers[currentDatabase] || containers.payments;
+
+                    document.getElementById('linksContainer').style.display = settings.links ? 'block' : 'none';
+                    document.getElementById('tariffsContainer').style.display = settings.tariffs ? 'block' : 'none';
+                    document.querySelector('.admin-stats').style.display = settings.stats ? 'grid' : 'none';
+                    document.querySelector('.orders-container').style.display = settings.orders ? 'block' : 'none';
+
+                    // Загружаем соответствующие данные
+                    switch (currentDatabase) {
+                        case 'vpn_links':
+                            loadVpnLinks();
+                            break;
+                        case 'tariffs':
+                            loadTariffs();
+                            break;
+                        default:
+                            showDebugInfo(`Папка: ${currentDatabase}`);
+                            loadAllOrders();
+                    }
+                });
+            });
         }
     </script>
 </body>
+
 </html>
