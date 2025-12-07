@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Админ панель - Управление заказами</title>
+    <title>Админ панель - Управление заказами, тарифами и ссылками VPN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -24,7 +24,6 @@
             -webkit-text-size-adjust: 100%;
         }
         
-        /* Эффект частиц - только для десктопа */
         .particles-bg {
             position: fixed;
             top: 0;
@@ -231,6 +230,7 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(20, 220, 130, 0.2);
             overflow: hidden;
+            margin-bottom: 20px;
             animation: fadeInUp 0.8s ease-out 0.4s both;
         }
         
@@ -603,7 +603,6 @@
             box-shadow: 0 6px 20px rgba(111, 66, 193, 0.4);
         }
         
-        /* Модальные окна для мобильных */
         .receipt-modal,
         .details-modal {
             display: none;
@@ -754,7 +753,7 @@
         
         .database-selector {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 8px;
             margin-top: 15px;
         }
@@ -811,7 +810,6 @@
             line-height: 1.3;
         }
         
-        /* Детали заказа для мобильных */
         .details-body {
             padding: 20px;
         }
@@ -845,14 +843,333 @@
             word-break: break-word;
         }
         
-        /* Анимации */
+        .links-container {
+            background: rgba(30, 35, 45, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(0, 204, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 204, 255, 0.2);
+            overflow: hidden;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+        
+        .links-header {
+            background: rgba(40, 45, 55, 0.8);
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 204, 255, 0.15);
+            position: relative;
+        }
+        
+        .links-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #00ccff, transparent);
+        }
+        
+        .links-header h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .links-header h2 i {
+            color: #00ccff;
+        }
+        
+        .links-form {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #fff;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .form-group small {
+            display: block;
+            color: #8a8aa0;
+            margin-top: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #00ccff;
+            background: rgba(0, 204, 255, 0.05);
+            box-shadow: 0 0 0 3px rgba(0, 204, 255, 0.1);
+        }
+        
+        .tariff-select {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .tariff-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tariff-option:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+        
+        .tariff-option.active {
+            background: rgba(0, 204, 255, 0.1);
+            border-color: #00ccff;
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.2);
+        }
+        
+        .tariff-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .tariff-light .tariff-icon {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+        }
+        
+        .tariff-pro .tariff-icon {
+            background: rgba(0, 204, 255, 0.1);
+            color: #00ccff;
+        }
+        
+        .tariff-flowi .tariff-icon {
+            background: rgba(157, 78, 221, 0.1);
+            color: #9d4edd;
+        }
+        
+        .tariff-option h4 {
+            color: #fff;
+            font-size: 1rem;
+            margin: 0;
+            text-align: center;
+        }
+        
+        .links-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        .save-btn {
+            background: linear-gradient(135deg, #00ccff, #0099ff);
+            color: #0d1117;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 204, 255, 0.3);
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #ffaa00, #ff8800);
+            color: #0d1117;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 170, 0, 0.3);
+        }
+        
+        .link-preview {
+            background: rgba(0, 204, 255, 0.05);
+            border: 1px solid rgba(0, 204, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .link-preview.show {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        .link-preview h4 {
+            color: #00ccff;
+            margin: 0 0 10px 0;
+            font-size: 0.95rem;
+        }
+        
+        .preview-link {
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .preview-qr {
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .qr-placeholder {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #8a8aa0;
+        }
+        
+        .success-message {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: #00ff88;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        /* Стили для предпросмотра тарифа */
+        .preview-info {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        
+        .preview-info h5 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .price-preview {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00ccff;
+            margin-bottom: 15px;
+        }
+        
+        .features-preview ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .features-preview li {
+            color: #b0b0c0;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.9rem;
+        }
+        
+        .features-preview li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+            font-weight: bold;
+        }
+        
+        .download-preview {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .download-preview small {
+            color: #8a8aa0;
+            font-size: 0.85rem;
+        }
+        
+        .download-preview span {
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+        
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         @keyframes fadeInUp {
@@ -889,30 +1206,16 @@
         }
         
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 0.8;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
         }
         
         @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-8px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
         
-        /* Стили для скроллбара */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -933,325 +1236,36 @@
             background: linear-gradient(to bottom, #1cf0a0, #14dc82);
         }
         
-        /* Эффекты свечения */
         .glow {
             filter: drop-shadow(0 0 6px rgba(20, 220, 130, 0.3));
         }
         
-        /* Портретный режим телефона (высота больше ширины) */
-        @media (max-height: 700px) and (orientation: portrait) {
-            .orders-list {
-                max-height: 40vh;
-            }
-            
-            .stat-card {
-                padding: 15px 12px;
-            }
-            
-            .stat-icon {
-                width: 45px;
-                height: 45px;
-                font-size: 1.4rem;
-            }
-            
-            .stat-info h3 {
-                font-size: 1.7rem;
-            }
-            
-            .order-details {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-        }
-        
-        /* Ландшафтный режим телефона */
-        @media (max-height: 500px) and (orientation: landscape) {
-            body {
-                padding: 5px;
-            }
-            
-            .admin-stats {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
-            }
-            
-            .stat-card {
-                padding: 12px 10px;
-                gap: 10px;
-            }
-            
-            .stat-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
-            
-            .stat-info h3 {
-                font-size: 1.5rem;
-            }
-            
-            .orders-list {
-                max-height: 30vh;
-            }
-        }
-        
-        /* Маленькие телефоны */
-        @media (max-width: 360px) {
-            .admin-header h1 {
-                font-size: 1.6rem;
-                gap: 10px;
-            }
-            
-            .admin-header h1 i {
-                font-size: 1.4rem;
-            }
-            
-            .stat-info h3 {
-                font-size: 1.7rem;
-            }
-            
-            .stat-info p {
-                font-size: 0.8rem;
-            }
-            
-            .orders-header h2 {
-                font-size: 1.3rem;
-            }
-            
-            .order-details {
+        @media (max-width: 768px) {
+            .tariff-select {
                 grid-template-columns: 1fr;
             }
             
-            .filter-buttons {
+            .links-buttons {
                 grid-template-columns: 1fr;
             }
             
-            .database-selector {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* Очень маленькие телефоны */
-        @media (max-width: 320px) {
-            body {
-                padding: 8px;
-            }
-            
-            .admin-header {
-                padding: 20px 15px;
-            }
-            
-            .admin-header h1 {
-                font-size: 1.4rem;
-            }
-            
-            .stat-card {
-                padding: 15px 10px;
-            }
-            
-            .stat-icon {
-                width: 40px;
-                height: 40px;
-                font-size: 1.3rem;
-            }
-            
-            .order-actions {
-                grid-template-columns: 1fr;
-            }
-            
-            .action-btn {
-                font-size: 0.8rem;
-            }
-        }
-        
-        /* Десктоп и планшеты (минимум 768px) */
-        @media (min-width: 768px) {
-            body {
-                padding: 20px;
-            }
-            
-            .admin-header {
-                padding: 40px;
-                border-radius: 24px;
-                margin-bottom: 30px;
-            }
-            
-            .admin-header h1 {
-                font-size: 2.5rem;
-                gap: 20px;
-            }
-            
-            .admin-stats {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 25px;
-                margin-bottom: 30px;
-            }
-            
-            .stat-card {
-                padding: 30px;
-                border-radius: 20px;
-                gap: 25px;
-            }
-            
-            .stat-icon {
-                width: 70px;
-                height: 70px;
-                font-size: 2.2rem;
-                border-radius: 18px;
-            }
-            
-            .stat-info h3 {
-                font-size: 3rem;
-            }
-            
-            .stat-info p {
-                font-size: 1rem;
-            }
-            
-            .orders-header {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                padding: 25px 30px;
-            }
-            
-            .header-controls {
-                flex-direction: row;
-                align-items: center;
-                gap: 20px;
-            }
-            
-            .filter-buttons {
-                grid-template-columns: repeat(4, auto);
-                gap: 12px;
-            }
-            
-            .filter-btn {
-                padding: 12px 24px;
-                font-size: 1rem;
-            }
-            
-            .refresh-container {
-                flex-direction: row;
-            }
-            
-            .refresh-btn {
-                padding: 12px 24px;
-                font-size: 1rem;
-                flex: 0;
-                white-space: nowrap;
-            }
-            
-            .order-details {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 25px;
-            }
-            
-            .order-actions {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-                gap: 12px;
-            }
-            
-            .action-btn {
-                padding: 12px 24px;
-                font-size: 0.95rem;
-            }
-            
-            .database-selector {
-                grid-template-columns: repeat(3, auto);
-                gap: 12px;
-            }
-            
-            .db-btn {
-                padding: 10px 20px;
-                font-size: 0.95rem;
-            }
-            
-            .orders-list {
-                max-height: 600px;
-            }
-            
-            /* Включаем эффект частиц только на десктопе */
-            .particles-bg {
-                display: block;
-            }
-        }
-        
-        /* Скрываем эффект частиц на мобильных для производительности */
-        @media (max-width: 767px) {
             .particles-bg {
                 display: none;
             }
-        }
-        
-        /* Ориентация телефона */
-        @media (orientation: portrait) {
-            .order-details {
+            
+            .database-selector {
                 grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (orientation: landscape) and (max-height: 500px) {
-            .order-details {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .order-actions {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-        
-        /* Улучшение касаний для мобильных */
-        @media (hover: none) and (pointer: coarse) {
-            .stat-card:hover,
-            .filter-btn:hover,
-            .action-btn:hover,
-            .refresh-btn:hover,
-            .db-btn:hover,
-            .close-modal:hover {
-                transform: none;
-            }
-            
-            .stat-card:active,
-            .filter-btn:active,
-            .action-btn:active,
-            .refresh-btn:active,
-            .db-btn:active,
-            .close-modal:active {
-                transform: scale(0.98);
-            }
-            
-            .order-item:hover {
-                transform: none;
-                background: rgba(40, 45, 55, 0.4);
-            }
-            
-            .order-item:active {
-                transform: translateX(3px);
-                background: rgba(40, 45, 55, 0.5);
-            }
-        }
-        
-        /* Улучшение читаемости на iOS */
-        @supports (-webkit-touch-callout: none) {
-            body {
-                -webkit-font-smoothing: antialiased;
-            }
-            
-            .orders-list {
-                -webkit-overflow-scrolling: touch;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Эффект частиц на фоне (только для десктопа) -->
     <div id="particlesContainer" class="particles-bg"></div>
     
     <div class="admin-container">
         <div class="admin-header">
-            <h1><i class="fas fa-cogs glow"></i> Админ панель</h1>
-            <p>Всего заказов: <span id="totalOrders" class="neon-text">0</span></p>
+            <h1><i class="fas fa-cogs glow"></i> Админ панель VPN</h1>
+            <p>Управление заказами, тарифами и ссылками для скачивания</p>
             <p>Последнее обновление: <span id="lastUpdate">только что</span></p>
             <div class="database-selector">
                 <button class="db-btn active" data-db="payments">
@@ -1260,9 +1274,169 @@
                 <button class="db-btn" data-db="orders">
                     <i class="fas fa-folder-open"></i> Orders
                 </button>
-                <button class="db-btn" data-db="all">
-                    <i class="fas fa-folder-tree"></i> Все
+                <button class="db-btn" data-db="vpn_links">
+                    <i class="fas fa-link"></i> Ссылки VPN
                 </button>
+                <button class="db-btn" data-db="tariffs">
+                    <i class="fas fa-crown"></i> Тарифы
+                </button>
+            </div>
+        </div>
+        
+        <!-- Контейнер для управления ссылками VPN -->
+        <div class="links-container" id="linksContainer" style="display: none;">
+            <div class="links-header">
+                <h2><i class="fas fa-link"></i> Управление ссылками VPN</h2>
+            </div>
+            <div class="links-form">
+                <div class="tariff-select">
+                    <div class="tariff-option tariff-light active" data-tariff="light">
+                        <div class="tariff-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h4>Лайт VPN</h4>
+                    </div>
+                    <div class="tariff-option tariff-pro" data-tariff="pro">
+                        <div class="tariff-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4>Про VPN</h4>
+                    </div>
+                    <div class="tariff-option tariff-flowi" data-tariff="flowi">
+                        <div class="tariff-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h4>Флоуи VPN</h4>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="linkUrl">Ссылка для скачивания:</label>
+                    <input type="url" id="linkUrl" class="form-input" placeholder="https://ваш-сайт.com/download/vpn-light.conf">
+                    <small>Прямая ссылка на .conf файл</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="linkName">Название файла:</label>
+                    <input type="text" id="linkName" class="form-input" placeholder="flowi-vpn-light.conf">
+                    <small>Отображается пользователям при скачивании</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="linkDescription">Описание:</label>
+                    <textarea id="linkDescription" class="form-input" rows="3" placeholder="Конфигурация для Лайт тарифа..."></textarea>
+                    <small>Краткое описание для пользователей</small>
+                </div>
+                
+                <div class="links-buttons">
+                    <button class="save-btn" onclick="saveVpnLink()">
+                        <i class="fas fa-save"></i> Сохранить ссылку
+                    </button>
+                    <button class="test-btn" onclick="testVpnLink()">
+                        <i class="fas fa-external-link-alt"></i> Проверить ссылку
+                    </button>
+                </div>
+                
+                <div id="linkPreview" class="link-preview">
+                    <h4>Предпросмотр:</h4>
+                    <div class="preview-link" id="previewLink">https://example.com/vpn.conf</div>
+                    <div class="preview-qr">
+                        <div class="qr-placeholder">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <small>QR код для быстрого доступа</small>
+                    </div>
+                </div>
+                
+                <div id="saveSuccess" class="success-message">
+                    <i class="fas fa-check-circle"></i> Ссылка успешно сохранена!
+                </div>
+            </div>
+        </div>
+        
+        <!-- Контейнер для управления тарифами -->
+        <div class="links-container" id="tariffsContainer" style="display: none;">
+            <div class="links-header">
+                <h2><i class="fas fa-crown"></i> Управление тарифами</h2>
+            </div>
+            <div class="links-form">
+                <div class="tariff-select">
+                    <div class="tariff-option tariff-light active" data-tariff="light">
+                        <div class="tariff-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h4>Лайт VPN</h4>
+                    </div>
+                    <div class="tariff-option tariff-pro" data-tariff="pro">
+                        <div class="tariff-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4>Про VPN</h4>
+                    </div>
+                    <div class="tariff-option tariff-flowi" data-tariff="flowi">
+                        <div class="tariff-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h4>Флоуи VPN</h4>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tariffName">Название тарифа:</label>
+                    <input type="text" id="tariffName" class="form-input" placeholder="Лайт VPN">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tariffPrice">Цена в месяц (₽):</label>
+                    <input type="number" id="tariffPrice" class="form-input" placeholder="299">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tariffDescription">Описание:</label>
+                    <textarea id="tariffDescription" class="form-input" rows="3" placeholder="Описание тарифа..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tariffFeatures">Особенности (каждая с новой строки):</label>
+                    <textarea id="tariffFeatures" class="form-input" rows="4" placeholder="Пинг: -30-50мс&#10;Лучшая регистрация урона&#10;Серверы в РФ и Европе"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tariffDownloadUrl">Ссылка для скачивания:</label>
+                    <input type="url" id="tariffDownloadUrl" class="form-input" placeholder="https://ваш-сайт.com/download/vpn-light.conf">
+                </div>
+                
+                <div class="form-group">
+                    <label for="tariffDownloadName">Название файла для скачивания:</label>
+                    <input type="text" id="tariffDownloadName" class="form-input" placeholder="flowi-vpn-light.conf">
+                </div>
+                
+                <div class="links-buttons">
+                    <button class="save-btn" onclick="saveTariff()">
+                        <i class="fas fa-save"></i> Сохранить тариф
+                    </button>
+                    <button class="test-btn" onclick="loadTariffs()">
+                        <i class="fas fa-sync-alt"></i> Обновить данные
+                    </button>
+                </div>
+                
+                <div id="tariffPreview" class="link-preview">
+                    <h4>Предпросмотр тарифа:</h4>
+                    <div class="preview-info">
+                        <h5 id="previewTariffName">Лайт VPN</h5>
+                        <div class="price-preview" id="previewTariffPrice">299 ₽/мес</div>
+                        <div class="features-preview" id="previewTariffFeatures">
+                            <ul></ul>
+                        </div>
+                        <div class="download-preview">
+                            <small>Скачать: <span id="previewDownloadName">flowi-vpn-light.conf</span></small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="tariffSaveSuccess" class="success-message">
+                    <i class="fas fa-check-circle"></i> Тариф успешно сохранен!
+                </div>
             </div>
         </div>
         
@@ -1347,7 +1521,6 @@
         </div>
     </div>
     
-    <!-- Модальное окно для просмотра чека -->
     <div class="receipt-modal" id="receiptModal">
         <div class="receipt-content">
             <div class="receipt-header">
@@ -1360,27 +1533,46 @@
         </div>
     </div>
     
-    <!-- Модальное окно для деталей заказа -->
     <div class="details-modal" id="detailsModal">
         <div class="details-content">
             <div class="details-header">
                 <h3><i class="fas fa-info-circle"></i> Детали</h3>
                 <button class="close-modal" onclick="closeDetailsModal()">&times;</button>
             </div>
-            <div class="details-body" id="detailsBody">
-                <!-- Детали заказа будут вставлены сюда -->
-            </div>
+            <div class="details-body" id="detailsBody"></div>
         </div>
     </div>
     
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     
     <script>
-        // Создание эффекта частиц на фоне (только для десктопа)
+        // Firebase конфигурация
+        const firebaseConfig = {
+            apiKey: "AIzaSyDG7SJfMbSiIbTkBxV6BBoPAsTAKQsLPv8",
+            authDomain: "flowie-vpn.firebaseapp.com",
+            databaseURL: "https://flowie-vpn-default-rtdb.firebaseio.com",
+            projectId: "flowie-vpn",
+            storageBucket: "flowie-vpn.firebasestorage.app",
+            messagingSenderId: "55860525820",
+            appId: "1:55860525820:web:75bd65ad5e04064b313579",
+            measurementId: "G-P8YJD4HCJ2"
+        };
+        
+        // Инициализация Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
+        let orders = [];
+        let currentFilter = 'all';
+        let currentDatabase = 'payments';
+        let currentTariff = 'light';
+        let vpnLinks = {};
+        let tariffs = {};
+        
+        // Создание эффекта частиц
         function createParticles() {
-            if (window.innerWidth < 768) return; // Только для десктопа
+            if (window.innerWidth < 768) return;
             
             const container = document.getElementById('particlesContainer');
             const particleCount = 12;
@@ -1407,51 +1599,421 @@
                 particle.style.top = Math.random() * 100 + 'vh';
                 particle.style.opacity = '0.2';
                 particle.style.filter = 'blur(30px)';
-                
-                // Анимация плавающего движения
                 particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite alternate`;
                 
                 container.appendChild(particle);
             }
         }
         
-        // Firebase конфигурация
-        const firebaseConfig = {
-            apiKey: "AIzaSyDG7SJfMbSiIbTkBxV6BBoPAsTAKQsLPv8",
-            authDomain: "flowie-vpn.firebaseapp.com",
-            databaseURL: "https://flowie-vpn-default-rtdb.firebaseio.com",
-            projectId: "flowie-vpn",
-            storageBucket: "flowie-vpn.firebasestorage.app",
-            messagingSenderId: "55860525820",
-            appId: "1:55860525820:web:75bd65ad5e04064b313579",
-            measurementId: "G-P8YJD4HCJ2"
-        };
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', async () => {
+            createParticles();
+            await testFirebaseConnection();
+            
+            initFilters();
+            initDatabaseSelector();
+            initTariffSelector();
+            
+            loadVpnLinks();
+            loadTariffs();
+            loadAllOrders();
+            
+            setupRealtimeUpdates();
+            
+            document.getElementById('receiptModal').addEventListener('click', function(e) {
+                if (e.target === this) closeReceiptModal();
+            });
+            
+            document.getElementById('detailsModal').addEventListener('click', function(e) {
+                if (e.target === this) closeDetailsModal();
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeReceiptModal();
+                    closeDetailsModal();
+                }
+            });
+            
+            setInterval(() => loadAllOrders(), 60000);
+            window.addEventListener('resize', handleResize);
+            window.addEventListener('orientationchange', () => setTimeout(handleResize, 100));
+        });
         
-        // Инициализация Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        // Инициализация селектора базы данных
+        function initDatabaseSelector() {
+            document.querySelectorAll('.db-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.db-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentDatabase = this.getAttribute('data-db');
+                    
+                    // Показываем/скрываем соответствующие контейнеры
+                    const containers = {
+                        payments: {
+                            links: false,
+                            tariffs: false,
+                            stats: true,
+                            orders: true
+                        },
+                        orders: {
+                            links: false,
+                            tariffs: false,
+                            stats: true,
+                            orders: true
+                        },
+                        vpn_links: {
+                            links: true,
+                            tariffs: false,
+                            stats: false,
+                            orders: false
+                        },
+                        tariffs: {
+                            links: false,
+                            tariffs: true,
+                            stats: false,
+                            orders: false
+                        }
+                    };
+                    
+                    const settings = containers[currentDatabase] || containers.payments;
+                    
+                    document.getElementById('linksContainer').style.display = settings.links ? 'block' : 'none';
+                    document.getElementById('tariffsContainer').style.display = settings.tariffs ? 'block' : 'none';
+                    document.querySelector('.admin-stats').style.display = settings.stats ? 'grid' : 'none';
+                    document.querySelector('.orders-container').style.display = settings.orders ? 'block' : 'none';
+                    
+                    // Загружаем соответствующие данные
+                    switch(currentDatabase) {
+                        case 'vpn_links':
+                            loadVpnLinks();
+                            break;
+                        case 'tariffs':
+                            loadTariffs();
+                            break;
+                        default:
+                            showDebugInfo(`Папка: ${currentDatabase}`);
+                            loadAllOrders();
+                    }
+                });
+            });
+        }
         
-        let orders = [];
-        let currentFilter = 'all';
-        let currentDatabase = 'payments';
+        // Инициализация выбора тарифа для редактирования
+        function initTariffSelector() {
+            document.querySelectorAll('.tariff-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.tariff-option').forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTariff = this.getAttribute('data-tariff');
+                    
+                    // Если мы в режиме управления тарифами
+                    if (currentDatabase === 'tariffs') {
+                        loadCurrentTariff();
+                    } else if (currentDatabase === 'vpn_links') {
+                        loadCurrentTariffLink();
+                    }
+                });
+            });
+        }
         
-        // Загрузка всех заказов из разных папок
+        // Загрузка сохраненных ссылок VPN
+        async function loadVpnLinks() {
+            try {
+                const snapshot = await database.ref('vpn_links').once('value');
+                if (snapshot.exists()) {
+                    vpnLinks = snapshot.val();
+                    loadCurrentTariffLink();
+                } else {
+                    vpnLinks = {
+                        light: {
+                            url: 'https://docs.google.com/uc?export=download&id=ДОБАВЬ_СВОЙ_ID_LIGHT',
+                            name: 'flowi-vpn-light.conf',
+                            description: 'Конфигурация для Лайт тарифа'
+                        },
+                        pro: {
+                            url: 'https://docs.google.com/uc?export=download&id=ДОБАВЬ_СВОЙ_ID_PRO',
+                            name: 'flowi-vpn-pro.conf',
+                            description: 'Конфигурация для Про тарифа'
+                        },
+                        flowi: {
+                            url: 'https://docs.google.com/uc?export=download&id=ДОБАВЬ_СВОЙ_ID_PREMIUM',
+                            name: 'flowi-vpn-premium.conf',
+                            description: 'Конфигурация для Флоуи тарифа'
+                        }
+                    };
+                    await database.ref('vpn_links').set(vpnLinks);
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки ссылок:', error);
+                showDebugInfo('Ошибка загрузки ссылок');
+            }
+        }
+        
+        // Загрузка тарифов из Firebase
+        async function loadTariffs() {
+            try {
+                const snapshot = await database.ref('tariffs').once('value');
+                if (snapshot.exists()) {
+                    tariffs = snapshot.val();
+                    loadCurrentTariff();
+                    updateTariffPreview();
+                    showDebugInfo(`Загружено ${Object.keys(tariffs).length} тарифов`);
+                } else {
+                    // Создаем базовую структуру, если тарифов нет
+                    tariffs = {
+                        light: {
+                            name: 'Лайт VPN',
+                            price: '299',
+                            monthly_price: '299',
+                            description: 'Конфигурация для Лайт тарифа',
+                            features: [
+                                'Пинг: -30-50мс',
+                                'Лучшая регистрация урона',
+                                'Серверы в РФ и Европе'
+                            ],
+                            download_url: '',
+                            download_name: 'flowi-vpn-light.conf'
+                        },
+                        pro: {
+                            name: 'Про VPN',
+                            price: '599',
+                            monthly_price: '599',
+                            description: 'Конфигурация для Про тарифа',
+                            features: [
+                                'Высокая скорость',
+                                'Больше хедшотов',
+                                'Приоритет на серверах',
+                                'Безлимитный трафик'
+                            ],
+                            download_url: '',
+                            download_name: 'flowi-vpn-pro.conf'
+                        },
+                        flowi: {
+                            name: 'Флоуи VPN',
+                            price: '999',
+                            monthly_price: '999',
+                            description: 'Конфигурация для Флоуи тарифа',
+                            features: [
+                                'Максимальный пинг',
+                                'Эксклюзивные серверы',
+                                'Приоритетная поддержка',
+                                'Персональный менеджер'
+                            ],
+                            download_url: '',
+                            download_name: 'flowi-vpn-premium.conf'
+                        }
+                    };
+                    
+                    await database.ref('tariffs').set(tariffs);
+                    loadCurrentTariff();
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки тарифов:', error);
+                showDebugInfo('Ошибка загрузки тарифов');
+            }
+        }
+        
+        // Загрузка текущей ссылки тарифа
+        function loadCurrentTariffLink() {
+            const link = vpnLinks[currentTariff] || {};
+            
+            document.getElementById('linkUrl').value = link.url || '';
+            document.getElementById('linkName').value = link.name || '';
+            document.getElementById('linkDescription').value = link.description || '';
+            
+            updatePreview();
+        }
+        
+        // Загрузка текущего тарифа для редактирования
+        function loadCurrentTariff() {
+            const tariff = tariffs[currentTariff] || {};
+            
+            document.getElementById('tariffName').value = tariff.name || '';
+            document.getElementById('tariffPrice').value = tariff.price || tariff.monthly_price || '';
+            document.getElementById('tariffDescription').value = tariff.description || '';
+            
+            // Преобразуем массив особенностей в текст
+            if (Array.isArray(tariff.features)) {
+                document.getElementById('tariffFeatures').value = tariff.features.join('\n');
+            } else {
+                document.getElementById('tariffFeatures').value = '';
+            }
+            
+            document.getElementById('tariffDownloadUrl').value = tariff.download_url || '';
+            document.getElementById('tariffDownloadName').value = tariff.download_name || '';
+            
+            updateTariffPreview();
+        }
+        
+        // Сохранение ссылки VPN
+        async function saveVpnLink() {
+            try {
+                const url = document.getElementById('linkUrl').value.trim();
+                const name = document.getElementById('linkName').value.trim();
+                const description = document.getElementById('linkDescription').value.trim();
+                
+                if (!url) {
+                    alert('Пожалуйста, введите ссылку');
+                    return;
+                }
+                
+                try {
+                    new URL(url);
+                } catch (e) {
+                    alert('Пожалуйста, введите корректный URL');
+                    return;
+                }
+                
+                const linkData = {
+                    url: url,
+                    name: name || `flowi-vpn-${currentTariff}.conf`,
+                    description: description || `Конфигурация для ${currentTariff} тарифа`,
+                    updated: new Date().toISOString()
+                };
+                
+                await database.ref(`vpn_links/${currentTariff}`).set(linkData);
+                
+                vpnLinks[currentTariff] = linkData;
+                
+                const successMsg = document.getElementById('saveSuccess');
+                successMsg.classList.add('show');
+                successMsg.innerHTML = `
+                    <i class="fas fa-check-circle"></i> 
+                    Ссылка для ${getTariffName(currentTariff)} успешно сохранена!
+                `;
+                
+                setTimeout(() => successMsg.classList.remove('show'), 3000);
+                
+                updatePreview();
+                
+            } catch (error) {
+                console.error('Ошибка сохранения ссылки:', error);
+                alert('Ошибка сохранения: ' + error.message);
+            }
+        }
+        
+        // Сохранение тарифа
+        async function saveTariff() {
+            try {
+                const name = document.getElementById('tariffName').value.trim();
+                const price = document.getElementById('tariffPrice').value.trim();
+                const description = document.getElementById('tariffDescription').value.trim();
+                const featuresText = document.getElementById('tariffFeatures').value.trim();
+                const downloadUrl = document.getElementById('tariffDownloadUrl').value.trim();
+                const downloadName = document.getElementById('tariffDownloadName').value.trim();
+                
+                if (!name || !price) {
+                    alert('Пожалуйста, заполните название и цену');
+                    return;
+                }
+                
+                // Преобразуем текст особенностей в массив
+                const features = featuresText.split('\n')
+                    .map(f => f.trim())
+                    .filter(f => f.length > 0);
+                
+                const tariffData = {
+                    name: name,
+                    price: price,
+                    monthly_price: price,
+                    description: description || `Конфигурация для ${name}`,
+                    features: features,
+                    download_url: downloadUrl,
+                    download_name: downloadName || `flowi-vpn-${currentTariff}.conf`,
+                    updated: new Date().toISOString()
+                };
+                
+                await database.ref(`tariffs/${currentTariff}`).set(tariffData);
+                
+                tariffs[currentTariff] = tariffData;
+                
+                const successMsg = document.getElementById('tariffSaveSuccess');
+                successMsg.classList.add('show');
+                successMsg.innerHTML = `
+                    <i class="fas fa-check-circle"></i> 
+                    Тариф "${name}" успешно сохранен!
+                `;
+                
+                setTimeout(() => successMsg.classList.remove('show'), 3000);
+                
+                updateTariffPreview();
+                
+            } catch (error) {
+                console.error('Ошибка сохранения тарифа:', error);
+                alert('Ошибка сохранения: ' + error.message);
+            }
+        }
+        
+        // Тестирование ссылки
+        function testVpnLink() {
+            const url = document.getElementById('linkUrl').value.trim();
+            if (!url) {
+                alert('Сначала введите ссылку');
+                return;
+            }
+            
+            window.open(url, '_blank');
+        }
+        
+        // Обновление предпросмотра ссылки
+        function updatePreview() {
+            const link = vpnLinks[currentTariff];
+            if (link && link.url) {
+                document.getElementById('previewLink').textContent = link.url;
+                document.getElementById('linkPreview').classList.add('show');
+            } else {
+                document.getElementById('linkPreview').classList.remove('show');
+            }
+        }
+        
+        // Обновление предпросмотра тарифа
+        function updateTariffPreview() {
+            const tariff = tariffs[currentTariff];
+            if (tariff) {
+                document.getElementById('previewTariffName').textContent = tariff.name;
+                document.getElementById('previewTariffPrice').textContent = `${tariff.price} ₽/мес`;
+                
+                const featuresList = document.querySelector('#previewTariffFeatures ul');
+                featuresList.innerHTML = '';
+                
+                if (Array.isArray(tariff.features)) {
+                    tariff.features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.textContent = feature;
+                        featuresList.appendChild(li);
+                    });
+                }
+                
+                document.getElementById('previewDownloadName').textContent = tariff.download_name;
+                
+                document.getElementById('tariffPreview').classList.add('show');
+            } else {
+                document.getElementById('tariffPreview').classList.remove('show');
+            }
+        }
+        
+        // Получение имени тарифа
+        function getTariffName(tariffId) {
+            const names = {
+                'light': 'Лайт VPN',
+                'pro': 'Про VPN',
+                'flowi': 'Флоуи VPN'
+            };
+            return names[tariffId] || tariffId;
+        }
+        
+        // Загрузка всех заказов
         async function loadAllOrders() {
             try {
                 showDebugInfo("Загрузка данных...");
                 
                 const loadingElement = document.getElementById('loadingOrders');
-                if (loadingElement) {
-                    loadingElement.style.display = 'block';
-                }
+                if (loadingElement) loadingElement.style.display = 'block';
                 
-                // Очищаем текущие заказы
                 orders = [];
-                
-                // Показываем скелетон загрузки
                 showSkeletonLoading();
                 
-                // Загружаем данные из выбранной папки или из всех папок
                 if (currentDatabase === 'payments' || currentDatabase === 'all') {
                     await loadFromDatabase('payments');
                 }
@@ -1461,14 +2023,11 @@
                 }
                 
                 showDebugInfo(`Загружено ${orders.length} заказов`);
-                
-                // Сортируем по дате (новые сверху)
                 orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 
                 updateStats();
                 displayOrders();
                 
-                // Обновляем время последнего обновления
                 document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('ru-RU', {
                     hour: '2-digit',
                     minute: '2-digit'
@@ -1489,9 +2048,7 @@
                 `;
             } finally {
                 const loadingElement = document.getElementById('loadingOrders');
-                if (loadingElement) {
-                    loadingElement.style.display = 'none';
-                }
+                if (loadingElement) loadingElement.style.display = 'none';
             }
         }
         
@@ -1531,14 +2088,12 @@
             ordersList.innerHTML = skeletonHtml;
         }
         
-        // Загрузка из конкретной папки базы данных
+        // Загрузка из конкретной папки
         async function loadFromDatabase(dbPath) {
             try {
                 const snapshot = await database.ref(dbPath).once('value');
                 
-                if (!snapshot.exists()) {
-                    return;
-                }
+                if (!snapshot.exists()) return;
                 
                 snapshot.forEach((childSnapshot) => {
                     const order = childSnapshot.val();
@@ -1548,7 +2103,7 @@
                 });
                 
             } catch (error) {
-                console.error(`Ошибка загрузки из папки ${dbPath}:`, error);
+                console.error(`Ошибка загрузки из ${dbPath}:`, error);
             }
         }
         
@@ -1558,9 +2113,7 @@
             if (debugElement) {
                 debugElement.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
                 debugElement.style.display = 'block';
-                setTimeout(() => {
-                    debugElement.style.display = 'none';
-                }, 3000);
+                setTimeout(() => debugElement.style.display = 'none', 3000);
             }
         }
         
@@ -1577,7 +2130,6 @@
             document.getElementById('pendingCount').textContent = pendingCount;
             document.getElementById('approvedCount').textContent = approvedCount;
             document.getElementById('declinedCount').textContent = declinedCount;
-            document.getElementById('totalOrders').textContent = orders.length;
             document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString('ru-RU');
         }
         
@@ -1590,10 +2142,7 @@
                     <div class="no-orders">
                         <i class="fas fa-shopping-cart"></i>
                         <h3>Заказов пока нет</h3>
-                        <p>Когда пользователи отправят заказы, они появятся здесь</p>
-                        <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">
-                            Папка: ${currentDatabase}
-                        </p>
+                        <p>Папка: ${currentDatabase}</p>
                     </div>
                 `;
                 return;
@@ -1609,11 +2158,7 @@
                     <div class="no-orders">
                         <i class="fas fa-filter"></i>
                         <h3>Нет заказов</h3>
-                        <p>С выбранным фильтром</p>
-                        <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">
-                            Фильтр: ${getStatusText(currentFilter)}<br>
-                            Папка: ${currentDatabase}
-                        </p>
+                        <p>Фильтр: ${getStatusText(currentFilter)}</p>
                     </div>
                 `;
                 return;
@@ -1635,7 +2180,6 @@
                 const tariff = order.tariff || order.planName || 'Не указан';
                 const price = order.price || '0';
                 
-                // Обрезаем длинные тексты для мобильных
                 const shortUserName = userName.length > 15 ? userName.substring(0, 15) + '...' : userName;
                 const shortEmail = userEmail.length > 20 ? userEmail.substring(0, 20) + '...' : userEmail;
                 const shortTariff = tariff.length > 15 ? tariff.substring(0, 15) + '...' : tariff;
@@ -1712,9 +2256,7 @@
         async function updateOrderStatus(orderId, sourcePath, newStatus) {
             try {
                 const statusText = newStatus === 'approved' ? 'одобрить' : 'отклонить';
-                if (!confirm(`Вы уверены, что хотите ${statusText} этот заказ?`)) {
-                    return;
-                }
+                if (!confirm(`Вы уверены, что хотите ${statusText} этот заказ?`)) return;
                 
                 const path = sourcePath || 'payments';
                 
@@ -1724,13 +2266,10 @@
                 });
                 
                 const orderIndex = orders.findIndex(o => o.id === orderId && o.source === path);
-                if (orderIndex !== -1) {
-                    orders[orderIndex].status = newStatus;
-                }
+                if (orderIndex !== -1) orders[orderIndex].status = newStatus;
                 
                 updateStats();
                 displayOrders();
-                
                 showDebugInfo(`Статус изменен на "${getStatusText(newStatus)}"`);
                 
             } catch (error) {
@@ -1739,7 +2278,7 @@
             }
         }
         
-        // Показать детали заказа в модальном окне
+        // Показать детали заказа
         function showOrderDetailsModal(orderId) {
             const order = orders.find(o => o.id === orderId);
             if (!order) {
@@ -1818,8 +2357,6 @@
             
             document.getElementById('detailsBody').innerHTML = detailsHtml;
             document.getElementById('detailsModal').classList.add('active');
-            
-            // Блокируем прокрутку фона на мобильных
             document.body.style.overflow = 'hidden';
         }
         
@@ -1859,27 +2396,15 @@
             });
         }
         
-        // Инициализация селектора базы данных
-        function initDatabaseSelector() {
-            document.querySelectorAll('.db-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.db-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    currentDatabase = this.getAttribute('data-db');
-                    showDebugInfo(`Папка: ${currentDatabase}`);
-                    loadAllOrders();
-                });
-            });
-        }
-        
         // Режим реального времени
         function setupRealtimeUpdates() {
-            database.ref('payments').on('value', () => {
-                loadAllOrders();
-            });
-            
-            database.ref('orders').on('value', () => {
-                loadAllOrders();
+            database.ref('payments').on('value', () => loadAllOrders());
+            database.ref('orders').on('value', () => loadAllOrders());
+            database.ref('vpn_links').on('value', () => loadVpnLinks());
+            database.ref('tariffs').on('value', () => {
+                if (currentDatabase === 'tariffs') {
+                    loadTariffs();
+                }
             });
         }
         
@@ -1900,73 +2425,16 @@
             }
         }
         
-        // Адаптация к изменению размера экрана
+        // Адаптация к изменению размера
         function handleResize() {
-            // Пересоздаем частицы при изменении размера (только для десктопа)
             if (window.innerWidth >= 768) {
                 const container = document.getElementById('particlesContainer');
                 container.innerHTML = '';
                 createParticles();
             }
             
-            // Перерисовываем заказы для адаптации
-            if (orders.length > 0) {
-                displayOrders();
-            }
+            if (orders.length > 0) displayOrders();
         }
-        
-        // Инициализация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Создаем эффект частиц
-            createParticles();
-            
-            // Проверяем подключение
-            await testFirebaseConnection();
-            
-            // Инициализируем UI
-            initFilters();
-            initDatabaseSelector();
-            
-            // Загружаем заказы
-            loadAllOrders();
-            
-            // Настраиваем обновление в реальном времени
-            setupRealtimeUpdates();
-            
-            // Закрытие модальных окон
-            document.getElementById('receiptModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeReceiptModal();
-                }
-            });
-            
-            document.getElementById('detailsModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeDetailsModal();
-                }
-            });
-            
-            // Закрытие модальных окон по ESC
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeReceiptModal();
-                    closeDetailsModal();
-                }
-            });
-            
-            // Обновление каждые 60 секунд
-            setInterval(() => {
-                loadAllOrders();
-            }, 60000);
-            
-            // Слушаем изменение размера окна
-            window.addEventListener('resize', handleResize);
-            
-            // Слушаем ориентацию устройства
-            window.addEventListener('orientationchange', function() {
-                setTimeout(handleResize, 100);
-            });
-        });
     </script>
 </body>
 </html>
