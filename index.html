@@ -1279,7 +1279,344 @@
             color: #fff;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
-        }ф
+        }
+
+        /* Стили для управления преимуществами */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .benefit-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .benefit-item:hover {
+            background: rgba(20, 220, 130, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .benefit-item.active {
+            border-color: #14dc82;
+        }
+
+        .benefit-item.inactive {
+            opacity: 0.6;
+        }
+
+        .benefit-icon-preview {
+            width: 40px;
+            height: 40px;
+            background: rgba(20, 220, 130, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .benefit-icon-preview i {
+            color: #14dc82;
+            font-size: 1.2rem;
+        }
+
+        .benefit-info h4 {
+            color: #fff;
+            margin: 0 0 5px 0;
+            font-size: 0.95rem;
+        }
+
+        .benefit-info p {
+            color: #b0b0c0;
+            margin: 0 0 5px 0;
+            font-size: 0.85rem;
+        }
+
+        .benefit-info small {
+            color: #8a8aa0;
+            font-size: 0.75rem;
+        }
+
+        /* Стили для управления текстами */
+        .texts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .text-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .text-item:hover {
+            background: rgba(20, 220, 130, 0.1);
+        }
+
+        .text-key {
+            color: #14dc82;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+
+        .text-value {
+            color: #fff;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Стили для управления настройками */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .setting-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .setting-item label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .setting-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px 20px;
+            color: #8a8aa0;
+        }
+
+        .error-message {
+            background: rgba(255, 77, 77, 0.1);
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            color: #ff4d4d;
+            padding: 12px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Стили для скелетона загрузки */
+        .skeleton-container {
+            padding: 20px;
+        }
+
+        .skeleton-order {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .skeleton-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .skeleton-title {
+            width: 150px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .skeleton-status {
+            width: 100px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+
+        .skeleton-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .skeleton-detail {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .skeleton-label {
+            width: 60px;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-bottom: 8px;
+        }
+
+        .skeleton-value {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .skeleton-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .skeleton-button {
+            width: 100%;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Стили для управления текстами */
+        .texts-list-container {
+            background: rgba(40, 45, 55, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .texts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .text-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .text-item:hover {
+            background: rgba(20, 220, 130, 0.15);
+            border-color: rgba(20, 220, 130, 0.3);
+            transform: translateX(3px);
+        }
+
+        .text-key {
+            color: #14dc82;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+
+        .text-value {
+            color: #fff;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            max-height: 42px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .info-box {
+            background: rgba(20, 220, 130, 0.1);
+            border: 1px solid rgba(20, 220, 130, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .info-box h5 {
+            color: #14dc82;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-box p {
+            color: #b0b0c0;
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Стили для уведомлений */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(20, 220, 130, 0.9);
+            color: #fff;
+            padding: 15px 20px;
+            border-radius: 10px;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(20, 220, 130, 0.3);
+            animation: slideIn 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.error {
+            background: rgba(255, 77, 77, 0.9);
+            border-color: rgba(255, 77, 77, 0.3);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
@@ -1292,7 +1629,7 @@
             <p>Управление заказами и ссылками для скачивания</p>
             <p>Последнее обновление: <span id="lastUpdate">только что</span></p>
             <div class="database-selector">
-                <button class="db-btn active" data-db="payments">
+                <button class="db-btn" data-db="payments">
                     <i class="fas fa-folder"></i> Payments
                 </button>
                 <button class="db-btn" data-db="orders">
@@ -1303,6 +1640,15 @@
                 </button>
                 <button class="db-btn" data-db="tariffs">
                     <i class="fas fa-crown"></i> Тарифы
+                </button>
+                <button class="db-btn" data-db="benefits">
+                    <i class="fas fa-star"></i> Преимущества
+                </button>
+                <button class="db-btn" data-db="texts">
+                    <i class="fas fa-font"></i> Тексты
+                </button>
+                <button class="db-btn" data-db="settings">
+                    <i class="fas fa-cog"></i> Настройки
                 </button>
             </div>
         </div>
@@ -1467,44 +1813,244 @@
             </div>
         </div>
 
+        <!-- Управление преимуществами -->
+        <!-- Управление преимуществами -->
+        <div class="links-container" id="benefitsContainer" style="display: none;">
+            <div class="links-header">
+                <h2><i class="fas fa-star"></i> Управление преимуществами</h2>
+            </div>
+            <div class="links-form">
+                <!-- Скрытое поле для ID -->
+                <input type="hidden" id="benefitId" value="">
+
+                <div class="form-group">
+                    <label for="benefitTitle">Заголовок:</label>
+                    <input type="text" id="benefitTitle" class="form-input" placeholder="Защита от DDoS">
+                </div>
+
+                <div class="form-group">
+                    <label for="benefitDescription">Описание:</label>
+                    <input type="text" id="benefitDescription" class="form-input" placeholder="Полная защита от атак">
+                </div>
+
+                <div class="form-group">
+                    <label for="benefitIcon">Иконка (FontAwesome):</label>
+                    <input type="text" id="benefitIcon" class="form-input" placeholder="shield-alt">
+                    <small>Название иконки из FontAwesome без "fa-" (например: shield-alt, rocket, star)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="benefitOrder">Порядок отображения:</label>
+                    <input type="number" id="benefitOrder" class="form-input" value="1" min="1" max="10">
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" id="benefitActive" checked style="width: 18px; height: 18px;">
+                        <span style="color: #fff;">Активно (отображается на сайте)</span>
+                    </label>
+                </div>
+
+                <div class="links-buttons">
+                    <button class="save-btn" onclick="saveBenefit()">
+                        <i class="fas fa-save"></i> Сохранить преимущество
+                    </button>
+                    <button class="test-btn" onclick="addNewBenefit()">
+                        <i class="fas fa-plus"></i> Новое преимущество
+                    </button>
+                    <button class="test-btn" onclick="createDefaultBenefits()"
+                        style="background: linear-gradient(135deg, #9d4edd, #7b2cbf);">
+                        <i class="fas fa-magic"></i> Создать структуру
+                    </button>
+                </div>
+
+                <div class="benefits-list-container" style="margin-top: 30px;">
+                    <h4 style="color: #fff; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-list"></i> Все преимущества:
+                    </h4>
+                    <div class="benefit-select" id="benefitList"
+                        style="background: rgba(40, 45, 55, 0.5); padding: 15px; border-radius: 10px; min-height: 200px;">
+                        <!-- Список преимуществ будет генерироваться динамически -->
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h5><i class="fas fa-info-circle"></i> Как работать с преимуществами:</h5>
+                    <ol style="color: #b0b0c0; margin: 10px 0 0 0; padding-left: 20px; font-size: 0.9rem;">
+                        <li>Нажмите "Создать структуру" для базовых преимуществ</li>
+                        <li>Кликните на преимущество в списке для редактирования</li>
+                        <li>Измените данные и нажмите "Сохранить преимущество"</li>
+                        <li>Для нового преимущества нажмите "Новое преимущество"</li>
+                        <li>Измените порядок с помощью цифр (1-10)</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Управление текстами -->
+        <div class="links-container" id="textsContainer" style="display: none;">
+            <div class="links-header">
+                <h2><i class="fas fa-font"></i> Управление текстами сайта</h2>
+            </div>
+            <div class="links-form">
+                <div class="form-group">
+                    <label for="textSearch">Поиск текста:</label>
+                    <input type="text" id="textSearch" class="form-input" placeholder="Введите ключ для поиска..."
+                        oninput="searchTexts(this.value)">
+                </div>
+
+                <div class="texts-list-container" style="margin-bottom: 20px;">
+                    <h4 style="color: #fff; margin-bottom: 10px;">Все тексты:</h4>
+                    <div class="texts-list" id="textsList"
+                        style="max-height: 300px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+                        <!-- Список текстов будет генерироваться динамически -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="textKey">Ключ текста:</label>
+                    <input type="text" id="textKey" class="form-input" readonly
+                        style="background: rgba(255,255,255,0.05);">
+                </div>
+
+                <div class="form-group">
+                    <label for="textValue">Значение текста:</label>
+                    <textarea id="textValue" class="form-input" rows="4" placeholder="Введите текст..."></textarea>
+                </div>
+
+                <div class="links-buttons">
+                    <button class="save-btn" onclick="saveText()">
+                        <i class="fas fa-save"></i> Сохранить текст
+                    </button>
+                    <button class="test-btn" onclick="loadTexts()">
+                        <i class="fas fa-sync-alt"></i> Обновить
+                    </button>
+                    <button class="test-btn" onclick="createTextsStructure()"
+                        style="background: linear-gradient(135deg, #ff6b6b, #ee5a52);">
+                        <i class="fas fa-plus-circle"></i> Создать структуру
+                    </button>
+                </div>
+
+                <div class="info-box"
+                    style="background: rgba(20, 220, 130, 0.1); border: 1px solid rgba(20, 220, 130, 0.3); border-radius: 8px; padding: 15px; margin-top: 20px;">
+                    <h5 style="color: #14dc82; margin: 0 0 10px 0;"><i class="fas fa-info-circle"></i> Как это работает:
+                    </h5>
+                    <p style="color: #b0b0c0; margin: 0; font-size: 0.9rem;">
+                        1. Нажмите "Создать структуру" чтобы создать все тексты<br>
+                        2. Кликните на любой текст в списке для редактирования<br>
+                        3. Измените текст и нажмите "Сохранить"<br>
+                        4. Изменения автоматически появятся на сайте
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Управление настройками -->
+        <div class="links-container" id="settingsContainer" style="display: none;">
+            <div class="links-header">
+                <h2><i class="fas fa-cog"></i> Настройки сайта</h2>
+            </div>
+            <div class="links-form">
+                <div class="form-group">
+                    <label for="siteTitle">Заголовок сайта:</label>
+                    <input type="text" id="siteTitle" class="form-input" placeholder="ФЛОУИ VPN - PUBG Mobile">
+                </div>
+
+                <div class="form-group">
+                    <label for="themeColor">Цвет темы:</label>
+                    <input type="color" id="themeColor" class="form-input" value="#00ff88">
+                </div>
+
+                <div class="form-group">
+                    <label for="defaultPing">Начальный пинг (мс):</label>
+                    <input type="number" id="defaultPing" class="form-input" placeholder="15" min="1" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="pingEnabled" checked> Включить проверку пинга
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="showLiveBadge" checked> Показывать бейдж LIVE
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="maintenanceMode"> Режим обслуживания
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="maintenanceMessage">Сообщение при обслуживании:</label>
+                    <textarea id="maintenanceMessage" class="form-input" rows="2"
+                        placeholder="Сайт на техническом обслуживании"></textarea>
+                </div>
+
+                <div class="links-buttons">
+                    <button class="save-btn" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Сохранить настройки
+                    </button>
+                    <button class="test-btn" onclick="loadSettings()">
+                        <i class="fas fa-sync-alt"></i> Загрузить текущие
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="admin-stats">
-            <div class="stat-card pending">
-                <div class="stat-icon">
-                    <i class="fas fa-clock"></i>
+            <div class="admin-stats">
+                <div class="stat-card pending">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="pendingCount">0</h3>
+                        <p>Ожидают</p>
+                    </div>
                 </div>
-                <div class="stat-info">
-                    <h3 id="pendingCount">0</h3>
-                    <p>Ожидают</p>
-                </div>
-            </div>
 
-            <div class="stat-card approved">
-                <div class="stat-icon">
-                    <i class="fas fa-check-circle"></i>
+                <div class="stat-card approved">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="approvedCount">0</h3>
+                        <p>Одобрено</p>
+                    </div>
                 </div>
-                <div class="stat-info">
-                    <h3 id="approvedCount">0</h3>
-                    <p>Одобрено</p>
-                </div>
-            </div>
 
-            <div class="stat-card declined">
-                <div class="stat-icon">
-                    <i class="fas fa-times-circle"></i>
+                <div class="stat-card declined">
+                    <div class="stat-icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="declinedCount">0</h3>
+                        <p>Отклонено</p>
+                    </div>
                 </div>
-                <div class="stat-info">
-                    <h3 id="declinedCount">0</h3>
-                    <p>Отклонено</p>
-                </div>
-            </div>
 
-            <div class="stat-card total">
-                <div class="stat-icon">
-                    <i class="fas fa-shopping-cart"></i>
+                <div class="stat-card total">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalOrders">0</h3>
+                        <p>Всего заказов</p>
+                    </div>
                 </div>
-                <div class="stat-info">
-                    <h3 id="totalRevenue">0</h3>
-                    <p>Выручка (₽)</p>
+
+                <div class="stat-card total">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalRevenue">0</h3>
+                        <p>Выручка (₽)</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1556,12 +2102,10 @@
             </div>
             <div class="receipt-image" id="receiptImageContainer">
                 <img id="receiptImage" src="" alt="Чек об оплате"
-                    onerror="this.onerror=null; this.src='data:image/svg+xml,<svg xmlns=\" http://www.w3.org/2000/svg\"
-                    width=\"400\" height=\"300\" viewBox=\"0 0 400 300\">
-                <rect width=\"400\" height=\"300\" fill=\"%23161b22\" /><text x=\"200\" y=\"150\" font-family=\"Arial\"
-                    font-size=\"20\" fill=\"%2314dc82\" text-anchor=\"middle\">Изображение не загружено</text></svg>';">
+                    onerror="this.onerror=null; this.src='data:image/svg+xml,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;400&quot; height=&quot;300&quot; viewBox=&quot;0 0 400 300&quot;&gt;&lt;rect width=&quot;400&quot; height=&quot;300&quot; fill=&quot;%23161b22&quot;/&gt;&lt;text x=&quot;200&quot; y=&quot;150&quot; font-family=&quot;Arial&quot; font-size=&quot;20&quot; fill=&quot;%2314dc82&quot; text-anchor=&quot;middle&quot;&gt;Изображение не загружено&lt;/text&gt;&lt;/svg&gt;';">
             </div>
         </div>
+    </div>
     </div>
 
     <div class="details-modal" id="detailsModal">
@@ -1695,6 +2239,70 @@
             });
         }
 
+        // В админ-панели добавьте эту функцию
+        async function createTextsStructure() {
+            try {
+                const defaultTexts = {
+                    pingCheck: "Проверка пинга",
+                    currentPing: "Текущая задержка в PUBG Mobile",
+                    checkNow: "Проверить сейчас",
+                    excellentConnection: "Идеальное соединение",
+                    chooseVPN: "Выберите VPN",
+                    optimizedForPUBG: "Оптимизировано для PUBG Mobile",
+                    choosePlan: "Выбрать тариф",
+                    advantages: "Преимущества",
+                    whyChooseUs: "Почему выбирают нас",
+                    vpn: "VPN",
+                    profile: "Профиль",
+                    settings: "Настройки",
+                    checkout: "Оформление заказа",
+                    paymentMethod: "Способ оплаты",
+                    proceedToPayment: "Перейти к оплате",
+                    payment: "Оплата тарифа",
+                    paymentDetails: "Реквизиты для перевода",
+                    cardNumber: "Номер карты",
+                    recipient: "Получатель",
+                    bank: "Банк",
+                    instructions: "Инструкция",
+                    copyDetails: "Скопируйте реквизиты карты",
+                    makeTransfer: "Совершите перевод на указанную карту",
+                    saveScreenshot: "Сохраните скриншот или фото чека",
+                    uploadReceiptForm: "Загрузите чек в форму ниже",
+                    uploadReceipt: "Загрузите чек об оплате",
+                    yourNameOptional: "Ваше имя (необязательно)",
+                    emailOptional: "Email для связи (необязательно)",
+                    uploadClick: "Нажмите для загрузки чека",
+                    uploadFormats: "JPG, PNG, GIF (макс. 5MB)",
+                    submitReceipt: "Отправить чек на проверку",
+                    paymentSuccess: "Оплата успешно завершена!",
+                    vpnActivated: "Ваш VPN активирован!",
+                    downloadConfig: "Скачайте конфигурацию VPN",
+                    externalLinkWarning: "Вы будете перенаправлены на страницу загрузки",
+                    installInstructions: "Инструкция по установке в WireGuard",
+                    installWireGuard: "Установите WireGuard",
+                    installWireGuardDesc: "Скачайте и установите WireGuard с официального сайта или из магазина приложений вашего устройства",
+                    importConfig: "Импортируйте конфигурацию",
+                    importConfigDesc: "В приложении WireGuard нажмите \"Добавить туннель\" → \"Импорт из файла\" и выберите скачанный файл flowi-vpn.conf",
+                    activateConnection: "Активируйте подключение",
+                    activateConnectionDesc: "Нажмите на переключатель рядом с вашим туннелем в списке для активации VPN подключения",
+                    checkConnection: "Проверьте подключение",
+                    checkConnectionDesc: "Убедитесь, что статус подключения изменился на \"Active\" и появился значок VPN в статус-баре",
+                    confirmation: "Я сохранил файл конфигурации и прочитал инструкцию",
+                    confirmationDesc: "Я понимаю, что без файла конфигурации я не смогу подключиться к VPN",
+                    continue: "Продолжить"
+                };
+
+                await database.ref('texts').set(defaultTexts);
+
+                alert('Структура текстов создана! Теперь можно редактировать.');
+                loadTexts();
+
+            } catch (error) {
+                console.error('Ошибка создания структуры:', error);
+                alert('Ошибка: ' + error.message);
+            }
+        }
+
         // Инициализация выбора тарифа
         function initTariffSelector() {
             document.querySelectorAll('.tariff-option').forEach(option => {
@@ -1704,6 +2312,22 @@
                     currentTariff = this.getAttribute('data-tariff');
                     loadCurrentTariffLink();
                 });
+            });
+        }
+
+        // Функция поиска текстов
+        function searchTexts(query) {
+            const textItems = document.querySelectorAll('.text-item');
+            const searchLower = query.toLowerCase();
+
+            textItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchLower)) {
+                    item.style.display = 'block';
+                    item.style.background = 'rgba(20, 220, 130, 0.1)';
+                } else {
+                    item.style.display = 'none';
+                }
             });
         }
 
@@ -1831,106 +2455,154 @@
         }
 
         // Загрузка всех заказов
+        // В функции loadAllOrders() добавьте загрузку из обеих папок:
+        // Замена существующей функции loadAllOrders
         async function loadAllOrders() {
             try {
                 showDebugInfo("Загрузка данных...");
 
-                const loadingElement = document.getElementById('loadingOrders');
-                if (loadingElement) loadingElement.style.display = 'block';
-
-                orders = [];
+                // Показываем скелетон
                 showSkeletonLoading();
 
-                if (currentDatabase === 'payments' || currentDatabase === 'all') {
-                    await loadFromDatabase('payments');
-                }
+                orders = [];
 
-                if (currentDatabase === 'orders' || currentDatabase === 'all') {
-                    await loadFromDatabase('orders');
-                }
+                // Загружаем из orders и payments параллельно
+                const [ordersFromOrders, ordersFromPayments] = await Promise.all([
+                    loadFromDatabase('orders'),
+                    loadFromDatabase('payments')
+                ]);
 
-                showDebugInfo(`Загружено ${orders.length} заказов`);
-                orders.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                // Объединяем все заказы
+                if (ordersFromOrders) orders.push(...ordersFromOrders);
+                if (ordersFromPayments) orders.push(...ordersFromPayments);
+
+                // Убираем дубликаты по ID
+                const uniqueOrders = [];
+                const seenIds = new Set();
+
+                orders.forEach(order => {
+                    if (order && order.id && !seenIds.has(order.id)) {
+                        seenIds.add(order.id);
+                        uniqueOrders.push(order);
+                    }
+                });
+
+                orders = uniqueOrders;
+
+                // Сортируем по дате (новые сверху)
+                orders.sort((a, b) => {
+                    const dateA = a.timestamp ? new Date(a.timestamp) : new Date(0);
+                    const dateB = b.timestamp ? new Date(b.timestamp) : new Date(0);
+                    return dateB - dateA;
+                });
 
                 updateStats();
                 displayOrders();
 
-                document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('ru-RU', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
+                showDebugInfo(`Загружено ${orders.length} заказов`);
 
             } catch (error) {
-                console.error("Ошибка загрузки заказов:", error);
+                console.error("Ошибка загрузки:", error);
                 showDebugInfo(`Ошибка: ${error.message}`);
-                document.getElementById('ordersList').innerHTML = `
-                    <div class="no-orders">
-                        <i class="fas fa-exclamation-circle"></i>
-                        <h3>Ошибка загрузки</h3>
-                        <p>${error.message}</p>
-                        <button class="action-btn" onclick="loadAllOrders()" style="margin-top: 15px; background: linear-gradient(135deg, #14dc82, #0fa968); color: #0d1117;">
-                            <i class="fas fa-sync-alt"></i> Повторить
-                        </button>
-                    </div>
-                `;
-            } finally {
-                const loadingElement = document.getElementById('loadingOrders');
-                if (loadingElement) loadingElement.style.display = 'none';
+
+                // Показываем сообщение об ошибке
+                const ordersList = document.getElementById('ordersList');
+                if (ordersList) {
+                    ordersList.innerHTML = `
+                <div class="no-orders">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Ошибка загрузки</h3>
+                    <p>${error.message}</p>
+                </div>
+            `;
+                }
             }
         }
 
-        // Показать скелетон загрузки
         function showSkeletonLoading() {
             const ordersList = document.getElementById('ordersList');
-            let skeletonHtml = '';
+            if (!ordersList) return;
 
-            for (let i = 0; i < 3; i++) {
-                skeletonHtml += `
-                    <div class="order-item" style="opacity: 0.6;">
-                        <div class="order-header">
-                            <div>
-                                <h3 style="background: rgba(255,255,255,0.1); width: 120px; height: 24px; border-radius: 4px;"></h3>
-                                <div class="order-id" style="background: rgba(255,255,255,0.05); width: 180px; height: 16px; border-radius: 3px; margin-top: 8px;"></div>
-                            </div>
-                            <div style="background: rgba(255,255,255,0.1); width: 100px; height: 32px; border-radius: 16px;"></div>
-                        </div>
-                        
-                        <div class="order-details">
-                            ${Array(4).fill().map(() => `
-                                <div class="detail-item">
-                                    <h4 style="background: rgba(255,255,255,0.05); width: 60px; height: 14px; border-radius: 2px;"></h4>
-                                    <p style="background: rgba(255,255,255,0.1); width: 100%; height: 20px; border-radius: 3px; margin-top: 8px;"></p>
-                                </div>
-                            `).join('')}
-                        </div>
-                        
-                        <div class="order-actions">
-                            <div style="background: rgba(20,220,130,0.1); width: 100%; height: 44px; border-radius: 8px;"></div>
-                            <div style="background: rgba(255,77,77,0.1); width: 100%; height: 44px; border-radius: 8px;"></div>
-                        </div>
+            ordersList.innerHTML = `
+        <div class="skeleton-container">
+            ${Array(3).fill().map(() => `
+                <div class="skeleton-order">
+                    <div class="skeleton-header">
+                        <div class="skeleton-title"></div>
+                        <div class="skeleton-status"></div>
                     </div>
-                `;
-            }
-
-            ordersList.innerHTML = skeletonHtml;
+                    <div class="skeleton-details">
+                        ${Array(4).fill().map(() => `
+                            <div class="skeleton-detail">
+                                <div class="skeleton-label"></div>
+                                <div class="skeleton-value"></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="skeleton-actions">
+                        <div class="skeleton-button"></div>
+                        <div class="skeleton-button"></div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
         }
 
+
         // Загрузка из конкретной папки
+        // Замена существующей функции loadFromDatabase
         async function loadFromDatabase(dbPath) {
             try {
+                console.log(`Загрузка из ${dbPath}...`);
                 const snapshot = await database.ref(dbPath).once('value');
 
-                if (!snapshot.exists()) return;
+                if (!snapshot.exists()) {
+                    console.log(`Папка ${dbPath} пуста`);
+                    return;
+                }
+
+                const loadedOrders = [];
 
                 snapshot.forEach((childSnapshot) => {
-                    const order = childSnapshot.val();
-                    order.source = dbPath;
-                    order.fullId = `${dbPath}/${order.id}`;
-                    orders.push(order);
+                    try {
+                        const order = childSnapshot.val();
+
+                        // Пропускаем пустые объекты
+                        if (!order || typeof order !== 'object') {
+                            console.log(`Пропущен пустой объект из ${dbPath}`);
+                            return;
+                        }
+
+                        // Создаем ID если его нет
+                        if (!order.id) {
+                            order.id = childSnapshot.key;
+                        }
+
+                        // Нормализуем данные
+                        order.source = dbPath;
+                        order.fullId = `${dbPath}/${order.id}`;
+
+                        if (!order.status) order.status = 'pending';
+                        if (!order.payerName && order.userName) order.payerName = order.userName;
+                        if (!order.payerEmail && order.userEmail) order.payerEmail = order.userEmail;
+                        if (!order.planName && order.plan) order.planName = order.plan;
+                        if (!order.price && order.planPrice) order.price = order.planPrice;
+
+                        loadedOrders.push(order);
+                        console.log(`Загружен заказ ${order.id} из ${dbPath}`);
+
+                    } catch (orderError) {
+                        console.error(`Ошибка обработки заказа из ${dbPath}:`, orderError);
+                    }
                 });
+
+                console.log(`Из ${dbPath} загружено ${loadedOrders.length} записей`);
+                return loadedOrders;
 
             } catch (error) {
                 console.error(`Ошибка загрузки из ${dbPath}:`, error);
+                throw error;
             }
         }
 
@@ -1945,20 +2617,38 @@
         }
 
         // Обновление статистики
+        // Обновление статистики
         function updateStats() {
-            const pendingCount = orders.filter(o => o.status === 'pending').length;
-            const approvedCount = orders.filter(o => o.status === 'approved').length;
-            const declinedCount = orders.filter(o => o.status === 'declined').length;
+            try {
+                const pendingCount = orders.filter(o => o.status === 'pending').length;
+                const approvedCount = orders.filter(o => o.status === 'approved').length;
+                const declinedCount = orders.filter(o => o.status === 'declined').length;
+                const totalOrders = orders.length;
 
-            const totalRevenue = orders
-                .filter(o => o.status === 'approved')
-                .reduce((sum, order) => sum + parseInt(order.price || 0), 0);
+                const totalRevenue = orders
+                    .filter(o => o.status === 'approved')
+                    .reduce((sum, order) => sum + parseInt(order.price || 0), 0);
 
-            document.getElementById('pendingCount').textContent = pendingCount;
-            document.getElementById('approvedCount').textContent = approvedCount;
-            document.getElementById('declinedCount').textContent = declinedCount;
-            document.getElementById('totalOrders').textContent = orders.length;
-            document.getElementById('totalRevenue').textContent = totalRevenue.toLocaleString('ru-RU');
+                // Безопасное обновление элементов
+                const updateElement = (id, value) => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.textContent = value;
+                    } else {
+                        console.warn(`Элемент #${id} не найден`);
+                    }
+                };
+
+                updateElement('pendingCount', pendingCount);
+                updateElement('approvedCount', approvedCount);
+                updateElement('declinedCount', declinedCount);
+                updateElement('totalOrders', totalOrders);
+                updateElement('totalRevenue', totalRevenue.toLocaleString('ru-RU'));
+
+            } catch (error) {
+                console.error("Ошибка в updateStats:", error);
+                showDebugInfo("Ошибка обновления статистики: " + error.message);
+            }
         }
 
         // Отображение заказов
@@ -1967,35 +2657,40 @@
 
             if (orders.length === 0) {
                 ordersList.innerHTML = `
-                    <div class="no-orders">
-                        <i class="fas fa-shopping-cart"></i>
-                        <h3>Заказов пока нет</h3>
-                        <p>Папка: ${currentDatabase}</p>
-                    </div>
-                `;
+            <div class="no-orders">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Заказов пока нет</h3>
+                <p>Папка: ${currentDatabase}</p>
+            </div>
+        `;
                 return;
             }
 
             const filteredOrders = orders.filter(order => {
                 if (currentFilter === 'all') return true;
-                return order.status === currentFilter;
+                return order && order.status === currentFilter;
             });
 
             if (filteredOrders.length === 0) {
                 ordersList.innerHTML = `
-                    <div class="no-orders">
-                        <i class="fas fa-filter"></i>
-                        <h3>Нет заказов</h3>
-                        <p>Фильтр: ${getStatusText(currentFilter)}</p>
-                    </div>
-                `;
+            <div class="no-orders">
+                <i class="fas fa-filter"></i>
+                <h3>Нет заказов</h3>
+                <p>Фильтр: ${getStatusText(currentFilter)}</p>
+            </div>
+        `;
                 return;
             }
 
             let html = '';
 
             filteredOrders.forEach(order => {
-                const date = new Date(order.timestamp);
+                if (!order || !order.id) {
+                    console.warn('Пропускаем некорректный заказ:', order);
+                    return;
+                }
+
+                const date = new Date(order.timestamp || Date.now());
                 const formattedDate = date.toLocaleDateString('ru-RU', {
                     day: '2-digit',
                     month: '2-digit',
@@ -2003,68 +2698,85 @@
                     minute: '2-digit'
                 });
 
-                const userName = order.userName || order.payerName || 'Не указано';
-                const userEmail = order.userEmail || order.payerEmail || 'Не указан';
-                const tariff = order.tariff || order.planName || 'Не указан';
+                // Безопасное получение данных с проверкой
+                const userName = order.payerName || order.userName || 'Не указано';
+                const userEmail = order.payerEmail || order.userEmail || 'Не указан';
+                const tariff = order.planName || order.plan || order.tariff || 'Не указан';
                 const price = order.price || '0';
+                const status = order.status || 'pending';
+                const orderId = order.id || 'unknown';
 
-                const shortUserName = userName.length > 15 ? userName.substring(0, 15) + '...' : userName;
-                const shortEmail = userEmail.length > 20 ? userEmail.substring(0, 20) + '...' : userEmail;
-                const shortTariff = tariff.length > 15 ? tariff.substring(0, 15) + '...' : tariff;
+                // Ограничение длины строк для отображения
+                const shortUserName = typeof userName === 'string' && userName.length > 15
+                    ? userName.substring(0, 15) + '...'
+                    : userName;
+
+                const shortEmail = typeof userEmail === 'string' && userEmail.length > 20
+                    ? userEmail.substring(0, 20) + '...'
+                    : userEmail;
+
+                const shortTariff = typeof tariff === 'string' && tariff.length > 15
+                    ? tariff.substring(0, 15) + '...'
+                    : tariff;
+
+                // Генерируем короткий ID для отображения
+                const shortOrderId = typeof orderId === 'string' && orderId.length > 6
+                    ? orderId.substring(0, 6)
+                    : orderId;
 
                 html += `
-                    <div class="order-item" data-order-id="${order.id}">
-                        <div class="order-header">
-                            <div>
-                                <h3>Заказ #${order.id.substring(0, 6)}</h3>
-                                <div class="order-id">
-                                    <i class="fas fa-folder" style="color: #14dc82;"></i> ${order.source || 'unknown'}
-                                </div>
-                            </div>
-                            <div class="order-status status-${order.status}">
-                                ${getStatusText(order.status)}
-                            </div>
-                        </div>
-                        
-                        <div class="order-details">
-                            <div class="detail-item">
-                                <h4>Тариф</h4>
-                                <p><i class="fas fa-box"></i>${shortTariff}</p>
-                            </div>
-                            <div class="detail-item">
-                                <h4>Цена</h4>
-                                <p><i class="fas fa-ruble-sign"></i>${price} ₽</p>
-                            </div>
-                            <div class="detail-item">
-                                <h4>Имя</h4>
-                                <p><i class="fas fa-user"></i>${shortUserName}</p>
-                            </div>
-                            <div class="detail-item">
-                                <h4>Email</h4>
-                                <p><i class="fas fa-envelope"></i>${shortEmail}</p>
-                            </div>
-                        </div>
-                        
-                        <div class="order-actions">
-                            ${order.status === 'pending' ? `
-                                <button class="action-btn approve-btn" onclick="updateOrderStatus('${order.id}', '${order.source || 'payments'}', 'approved')">
-                                    <i class="fas fa-check"></i> Одобрить
-                                </button>
-                                <button class="action-btn decline-btn" onclick="updateOrderStatus('${order.id}', '${order.source || 'payments'}', 'declined')">
-                                    <i class="fas fa-times"></i> Отклонить
-                                </button>
-                            ` : ''}
-                            ${order.receipt ? `
-                                <button class="action-btn view-receipt-btn" onclick="viewReceipt('${order.id}')">
-                                    <i class="fas fa-receipt"></i> Чек
-                                </button>
-                            ` : ''}
-                            <button class="action-btn info-btn" onclick="showOrderDetailsModal('${order.id}')">
-                                <i class="fas fa-info-circle"></i> Подробнее
-                            </button>
+            <div class="order-item" data-order-id="${orderId}">
+                <div class="order-header">
+                    <div>
+                        <h3>Заказ #${shortOrderId}</h3>
+                        <div class="order-id">
+                            <i class="fas fa-folder" style="color: #14dc82;"></i> ${order.source || 'unknown'}
                         </div>
                     </div>
-                `;
+                    <div class="order-status status-${status}">
+                        ${getStatusText(status)}
+                    </div>
+                </div>
+                
+                <div class="order-details">
+                    <div class="detail-item">
+                        <h4>Тариф</h4>
+                        <p><i class="fas fa-box"></i>${shortTariff}</p>
+                    </div>
+                    <div class="detail-item">
+                        <h4>Цена</h4>
+                        <p><i class="fas fa-ruble-sign"></i>${price} ₽</p>
+                    </div>
+                    <div class="detail-item">
+                        <h4>Имя</h4>
+                        <p><i class="fas fa-user"></i>${shortUserName}</p>
+                    </div>
+                    <div class="detail-item">
+                        <h4>Email</h4>
+                        <p><i class="fas fa-envelope"></i>${shortEmail}</p>
+                    </div>
+                </div>
+                
+                <div class="order-actions">
+                    ${status === 'pending' ? `
+                        <button class="action-btn approve-btn" onclick="updateOrderStatus('${orderId}', '${order.source || 'payments'}', 'approved')">
+                            <i class="fas fa-check"></i> Одобрить
+                        </button>
+                        <button class="action-btn decline-btn" onclick="updateOrderStatus('${orderId}', '${order.source || 'payments'}', 'declined')">
+                            <i class="fas fa-times"></i> Отклонить
+                        </button>
+                    ` : ''}
+                    ${order.receipt ? `
+                        <button class="action-btn view-receipt-btn" onclick="viewReceipt('${orderId}')">
+                            <i class="fas fa-receipt"></i> Чек
+                        </button>
+                    ` : ''}
+                    <button class="action-btn info-btn" onclick="showOrderDetailsModal('${orderId}')">
+                        <i class="fas fa-info-circle"></i> Подробнее
+                    </button>
+                </div>
+            </div>
+        `;
             });
 
             ordersList.innerHTML = html;
@@ -2108,13 +2820,13 @@
 
         // Показать детали заказа
         function showOrderDetailsModal(orderId) {
-            const order = orders.find(o => o.id === orderId);
+            const order = orders.find(o => o && o.id === orderId);
             if (!order) {
                 showDebugInfo('Заказ не найден');
                 return;
             }
 
-            const date = new Date(order.timestamp);
+            const date = new Date(order.timestamp || Date.now());
             const formattedDate = date.toLocaleDateString('ru-RU', {
                 day: '2-digit',
                 month: '2-digit',
@@ -2123,64 +2835,80 @@
                 minute: '2-digit'
             });
 
-            const userName = order.userName || order.payerName || 'Не указано';
-            const userEmail = order.userEmail || order.payerEmail || 'Не указан';
-            const tariff = order.tariff || order.planName || 'Не указан';
+            // Безопасное получение данных
+            const userName = order.payerName || order.userName || 'Не указано';
+            const userEmail = order.payerEmail || order.userEmail || 'Не указан';
+            const tariff = order.planName || order.plan || order.tariff || 'Не указан';
             const price = order.price || '0';
+            const status = order.status || 'pending';
 
             let detailsHtml = `
-                <div class="details-grid">
-                    <div class="details-item">
-                        <h4>ID заказа</h4>
-                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">${order.id}</p>
-                    </div>
-                    <div class="details-item">
-                        <h4>Статус</h4>
-                        <p><span class="order-status status-${order.status}">${getStatusText(order.status)}</span></p>
-                    </div>
-                    <div class="details-item">
-                        <h4>Тариф</h4>
-                        <p>${tariff}</p>
-                    </div>
-                    <div class="details-item">
-                        <h4>Цена</h4>
-                        <p>${price} ₽</p>
-                    </div>
-                    <div class="details-item">
-                        <h4>Имя клиента</h4>
-                        <p>${userName}</p>
-                    </div>
-                    <div class="details-item">
-                        <h4>Email</h4>
-                        <p>${userEmail}</p>
-                    </div>
-                    <div class="details-item">
-                        <h4>Дата</h4>
-                        <p>${formattedDate}</p>
-                    </div>
-                    <div class="details-item">
-                        <h4>Источник</h4>
-                        <p>${order.source || 'Неизвестно'}</p>
-                    </div>
-                </div>
-            `;
+        <div class="details-grid">
+            <div class="details-item">
+                <h4>ID заказа</h4>
+                <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">${order.id}</p>
+            </div>
+            <div class="details-item">
+                <h4>Статус</h4>
+                <p><span class="order-status status-${status}">${getStatusText(status)}</span></p>
+            </div>
+            <div class="details-item">
+                <h4>Тариф</h4>
+                <p>${tariff}</p>
+            </div>
+            <div class="details-item">
+                <h4>Цена</h4>
+                <p>${price} ₽</p>
+            </div>
+            <div class="details-item">
+                <h4>Имя клиента</h4>
+                <p>${userName}</p>
+            </div>
+            <div class="details-item">
+                <h4>Email</h4>
+                <p>${userEmail}</p>
+            </div>
+            <div class="details-item">
+                <h4>Дата</h4>
+                <p>${formattedDate}</p>
+            </div>
+            <div class="details-item">
+                <h4>Источник</h4>
+                <p>${order.source || 'Неизвестно'}</p>
+            </div>
+        </div>
+    `;
 
-            if (order.userId) {
+            if (order.userId || order.telegramUser) {
                 detailsHtml += `
-                    <div class="details-item">
-                        <h4>User ID</h4>
-                        <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; word-break: break-all;">${order.userId}</p>
-                    </div>
-                `;
+            <div class="details-item">
+                <h4>User ID</h4>
+                <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; word-break: break-all;">
+                    ${order.userId || (order.telegramUser && order.telegramUser.id) || 'Неизвестно'}
+                </p>
+            </div>
+        `;
             }
 
             if (order.adminNote) {
                 detailsHtml += `
-                    <div class="details-item" style="background: rgba(20, 220, 130, 0.1); border-color: rgba(20, 220, 130, 0.2);">
-                        <h4>Заметка</h4>
-                        <p>${order.adminNote}</p>
-                    </div>
-                `;
+            <div class="details-item" style="background: rgba(20, 220, 130, 0.1); border-color: rgba(20, 220, 130, 0.2);">
+                <h4>Заметка</h4>
+                <p>${order.adminNote}</p>
+            </div>
+        `;
+            }
+
+            if (order.receipt) {
+                detailsHtml += `
+            <div class="details-item">
+                <h4>Чек</h4>
+                <p>Изображение загружено (${order.fileName || 'файл'})</p>
+                <button class="action-btn view-receipt-btn" onclick="viewReceipt('${order.id}')" style="margin-top: 10px;">
+                    <i class="fas fa-receipt"></i> Посмотреть чек
+                </button>
+            </div>
+        `;
             }
 
             document.getElementById('detailsBody').innerHTML = detailsHtml;
@@ -2225,10 +2953,19 @@
         }
 
         // Режим реального времени
+        // В функции setupRealtimeUpdates() админ-панели добавьте:
         function setupRealtimeUpdates() {
             database.ref('payments').on('value', () => loadAllOrders());
             database.ref('orders').on('value', () => loadAllOrders());
             database.ref('vpn_links').on('value', () => loadVpnLinks());
+
+            // Добавьте слушатель для тарифов
+            database.ref('tariffs').on('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    console.log('Тарифы обновлены в реальном времени');
+                    // Если нужно, обновите UI админ-панели
+                }
+            });
         }
 
         // Проверка подключения
@@ -2363,8 +3100,10 @@
         }
 
         // Сохранение тарифа
+        // Сохранение тарифа
         async function saveTariff() {
             try {
+                // Получаем значения из формы
                 const name = document.getElementById('tariffName').value.trim();
                 const price = document.getElementById('tariffPrice').value.trim();
                 const description = document.getElementById('tariffDescription').value.trim();
@@ -2372,8 +3111,22 @@
                 const downloadUrl = document.getElementById('tariffDownloadUrl').value.trim();
                 const downloadName = document.getElementById('tariffDownloadName').value.trim();
 
-                if (!name || !price) {
-                    alert('Пожалуйста, заполните название и цену');
+                // Валидация обязательных полей
+                if (!name) {
+                    alert('Пожалуйста, введите название тарифа');
+                    document.getElementById('tariffName').focus();
+                    return;
+                }
+
+                if (!price) {
+                    alert('Пожалуйста, введите цену тарифа');
+                    document.getElementById('tariffPrice').focus();
+                    return;
+                }
+
+                if (isNaN(parseFloat(price)) || parseFloat(price) <= 0) {
+                    alert('Пожалуйста, введите корректную цену (число больше 0)');
+                    document.getElementById('tariffPrice').focus();
                     return;
                 }
 
@@ -2382,35 +3135,110 @@
                     .map(f => f.trim())
                     .filter(f => f.length > 0);
 
+                // Подготавливаем данные тарифа
                 const tariffData = {
+                    id: currentTariff, // light, pro, flowi
                     name: name,
-                    price: price,
-                    monthly_price: price,
+                    price: parseFloat(price),
+                    monthly_price: parseFloat(price), // дублируем для совместимости
                     description: description || `Конфигурация для ${name}`,
                     features: features,
                     download_url: downloadUrl,
                     download_name: downloadName || `flowi-vpn-${currentTariff}.conf`,
-                    updated: new Date().toISOString()
+                    created_at: new Date().toISOString(),
+                    updated_at: new Date().toISOString(),
+                    active: true,
+                    duration_days: 30,
+                    currency: 'RUB', download_url: downloadUrl,
+                    download_name: downloadName || `flowi-vpn-${currentTariff}.conf`,
                 };
 
-                await database.ref(`tariffs/${currentTariff}`).set(tariffData);
+                console.log('Сохранение тарифа:', tariffData);
+                console.log('Путь сохранения:', `tariffs/${currentTariff}`);
 
-                tariffs[currentTariff] = tariffData;
+                // Показываем индикатор загрузки
+                const saveBtn = document.querySelector('.save-btn[onclick="saveTariff()"]');
+                const originalBtnText = saveBtn.innerHTML;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Сохранение...';
+                saveBtn.disabled = true;
 
-                const successMsg = document.getElementById('tariffSaveSuccess');
-                successMsg.classList.add('show');
-                successMsg.innerHTML = `
-            <i class="fas fa-check-circle"></i> 
-            Тариф "${name}" успешно сохранен!
-        `;
+                try {
+                    // Сохраняем в Firebase
+                    await database.ref(`tariffs/${currentTariff}`).set(tariffData);
 
-                setTimeout(() => successMsg.classList.remove('show'), 3000);
+                    // Обновляем локальный кэш
+                    if (!tariffs) tariffs = {};
+                    tariffs[currentTariff] = tariffData;
 
-                updateTariffPreview();
+                    // Показываем успешное сообщение
+                    const successMsg = document.getElementById('tariffSaveSuccess');
+                    successMsg.classList.add('show');
+                    successMsg.innerHTML = `
+                <i class="fas fa-check-circle"></i> 
+                Тариф "${name}" успешно сохранен!<br>
+                <small>Изменения применятся на сайте в течение 1 минуты</small>
+            `;
+
+                    // Обновляем предпросмотр
+                    updateTariffPreview();
+
+                    // Записываем в лог
+                    const logData = {
+                        action: 'tariff_updated',
+                        tariff_id: currentTariff,
+                        tariff_name: name,
+                        price: price,
+                        timestamp: new Date().toISOString(),
+                        admin: 'admin_panel'
+                    };
+
+                    await database.ref('admin_logs').push(logData);
+
+                    console.log('Тариф успешно сохранен в Firebase');
+                    showDebugInfo(`Тариф "${name}" сохранен в папку tariffs/${currentTariff}`);
+
+                    // Автоматически скрываем сообщение через 5 секунд
+                    setTimeout(() => {
+                        successMsg.classList.remove('show');
+                    }, 5000);
+
+                } catch (firebaseError) {
+                    console.error('Ошибка Firebase:', firebaseError);
+                    throw firebaseError;
+                }
 
             } catch (error) {
                 console.error('Ошибка сохранения тарифа:', error);
-                alert('Ошибка сохранения: ' + error.message);
+
+                // Показываем сообщение об ошибке
+                const successMsg = document.getElementById('tariffSaveSuccess');
+                successMsg.classList.add('show');
+                successMsg.innerHTML = `
+            <i class="fas fa-exclamation-circle"></i> 
+            Ошибка сохранения: ${error.message}<br>
+            <small>Проверьте подключение к интернету и повторите попытку</small>
+        `;
+
+                successMsg.style.background = 'rgba(255, 77, 77, 0.1)';
+                successMsg.style.borderColor = 'rgba(255, 77, 77, 0.3)';
+                successMsg.style.color = '#ff4d4d';
+
+                setTimeout(() => {
+                    successMsg.classList.remove('show');
+                    successMsg.style.background = '';
+                    successMsg.style.borderColor = '';
+                    successMsg.style.color = '';
+                }, 5000);
+
+                showDebugInfo(`Ошибка: ${error.message}`);
+
+            } finally {
+                // Восстанавливаем кнопку
+                const saveBtn = document.querySelector('.save-btn[onclick="saveTariff()"]');
+                if (saveBtn) {
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = '<i class="fas fa-save"></i> Сохранить тариф';
+                }
             }
         }
 
@@ -2498,7 +3326,586 @@
                 });
             });
         }
+
+        // Добавьте эту функцию в админ-панель (перед функцией saveBenefit)
+        async function editBenefit(benefitId) {
+            try {
+                console.log('Редактирование преимущества:', benefitId);
+
+                // Загружаем данные преимущества из Firebase
+                const snapshot = await database.ref(`benefits/${benefitId}`).once('value');
+
+                if (!snapshot.exists()) {
+                    alert('Преимущество не найдено');
+                    return;
+                }
+
+                const benefit = snapshot.val();
+
+                // Заполняем форму данными
+                document.getElementById('benefitId').value = benefitId;
+                document.getElementById('benefitTitle').value = benefit.title || '';
+                document.getElementById('benefitDescription').value = benefit.description || '';
+                document.getElementById('benefitIcon').value = benefit.icon || 'star';
+                document.getElementById('benefitOrder').value = benefit.order || 1;
+                document.getElementById('benefitActive').checked = benefit.active !== false;
+
+                // Прокручиваем к форме
+                document.getElementById('benefitTitle').scrollIntoView({ behavior: 'smooth' });
+
+                // Показываем уведомление
+                showNotification(`Редактирование: ${benefit.title}`, 'info');
+
+            } catch (error) {
+                console.error('Ошибка редактирования преимущества:', error);
+                showNotification('Ошибка: ' + error.message, 'error');
+            }
+        }
+
+        // Управление преимуществами
+        async function loadBenefits() {
+            try {
+                const snapshot = await database.ref('benefits').once('value');
+                const benefitsContainer = document.getElementById('benefitList');
+
+                if (!benefitsContainer) {
+                    console.error('Контейнер benefitList не найден');
+                    return;
+                }
+
+                if (!snapshot.exists()) {
+                    benefitsContainer.innerHTML = `
+                <div class="no-data" style="text-align: center; padding: 40px 20px;">
+                    <i class="fas fa-star" style="font-size: 3rem; color: rgba(20, 220, 130, 0.3); margin-bottom: 15px;"></i>
+                    <h3 style="color: #fff; margin-bottom: 10px;">Преимущества не найдены</h3>
+                    <p style="color: #b0b0c0; margin-bottom: 20px;">Создайте первое преимущество</p>
+                </div>
+            `;
+                    return;
+                }
+
+                const benefits = snapshot.val();
+                let html = '<div class="benefits-grid">';
+
+                Object.entries(benefits).forEach(([id, benefit]) => {
+                    // Безопасное получение данных
+                    const title = benefit.title || 'Без названия';
+                    const description = benefit.description || '';
+                    const icon = benefit.icon || 'star';
+                    const order = benefit.order || 1;
+                    const active = benefit.active !== false;
+
+                    html += `
+                <div class="benefit-item ${active ? 'active' : 'inactive'}" 
+                     onclick="editBenefit('${id}')"
+                     style="cursor: pointer;">
+                    <div class="benefit-icon-preview" style="background: ${active ? 'rgba(20, 220, 130, 0.1)' : 'rgba(255, 255, 255, 0.05)'};">
+                        <i class="fas fa-${icon}" style="color: ${active ? '#14dc82' : '#8a8aa0'};"></i>
+                    </div>
+                    <div class="benefit-info">
+                        <h4 style="color: ${active ? '#fff' : '#8a8aa0'}; margin: 0 0 5px 0;">${title}</h4>
+                        <p style="color: ${active ? '#b0b0c0' : '#666'}; margin: 0 0 5px 0; font-size: 0.85rem;">${description}</p>
+                        <small style="color: ${active ? '#8a8aa0' : '#555'}; font-size: 0.75rem;">
+                            <i class="fas fa-sort-numeric-down"></i> Порядок: ${order} | 
+                            <i class="fas fa-${active ? 'check-circle' : 'times-circle'}"></i> ${active ? 'Активно' : 'Неактивно'}
+                        </small>
+                    </div>
+                </div>
+            `;
+                });
+
+                html += '</div>';
+                benefitsContainer.innerHTML = html;
+
+            } catch (error) {
+                console.error('Ошибка загрузки преимуществ:', error);
+
+                const benefitsContainer = document.getElementById('benefitList');
+                if (benefitsContainer) {
+                    benefitsContainer.innerHTML = `
+                <div class="no-data" style="text-align: center; padding: 40px 20px; color: #ff4d4d;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Ошибка загрузки</h3>
+                    <p>${error.message}</p>
+                </div>
+            `;
+                }
+            }
+        }
+
+        // Функция для создания структуры преимуществ
+        async function createDefaultBenefits() {
+            try {
+                const defaultBenefits = {
+                    benefit1: {
+                        id: 'benefit1',
+                        title: 'Защита от DDoS',
+                        description: 'Полная защита от атак',
+                        icon: 'shield-alt',
+                        order: 1,
+                        active: true,
+                        created: new Date().toISOString()
+                    },
+                    benefit2: {
+                        id: 'benefit2',
+                        title: 'Стабильность 99.9%',
+                        description: 'Минимальные потери пакетов',
+                        icon: 'tachometer-alt',
+                        order: 2,
+                        active: true,
+                        created: new Date().toISOString()
+                    },
+                    benefit3: {
+                        id: 'benefit3',
+                        title: 'Поддержка 24/7',
+                        description: 'Круглосуточная помощь',
+                        icon: 'headset',
+                        order: 3,
+                        active: true,
+                        created: new Date().toISOString()
+                    },
+                    benefit4: {
+                        id: 'benefit4',
+                        title: 'Оптимизация',
+                        description: 'Настроено для PUBG Mobile',
+                        icon: 'gamepad',
+                        order: 4,
+                        active: true,
+                        created: new Date().toISOString()
+                    }
+                };
+
+                await database.ref('benefits').set(defaultBenefits);
+
+                showNotification('Структура преимуществ создана!', 'success');
+                loadBenefits();
+
+            } catch (error) {
+                console.error('Ошибка создания преимуществ:', error);
+                showNotification('Ошибка: ' + error.message, 'error');
+            }
+        }
+
+        // Замена существующей функции saveBenefit
+        async function saveBenefit() {
+            try {
+                // Получаем элементы DOM
+                const benefitIdInput = document.getElementById('benefitId');
+                const benefitTitleInput = document.getElementById('benefitTitle');
+                const benefitDescInput = document.getElementById('benefitDescription');
+                const benefitIconInput = document.getElementById('benefitIcon');
+                const benefitOrderInput = document.getElementById('benefitOrder');
+                const benefitActiveInput = document.getElementById('benefitActive');
+
+                // Проверяем, что элементы существуют
+                if (!benefitTitleInput || !benefitDescInput || !benefitIconInput || !benefitOrderInput) {
+                    console.error('Не найдены поля формы преимуществ');
+                    alert('Ошибка: форма не загружена правильно');
+                    return;
+                }
+
+                // Получаем значения
+                const benefitId = benefitIdInput.value || `benefit_${Date.now()}`;
+                const benefitData = {
+                    id: benefitId,
+                    title: benefitTitleInput.value.trim(),
+                    description: benefitDescInput.value.trim(),
+                    icon: benefitIconInput.value.trim(),
+                    order: parseInt(benefitOrderInput.value) || 1,
+                    active: benefitActiveInput ? benefitActiveInput.checked : true,
+                    updated: new Date().toISOString()
+                };
+
+                // Валидация
+                if (!benefitData.title) {
+                    alert('Пожалуйста, введите заголовок преимущества');
+                    benefitTitleInput.focus();
+                    return;
+                }
+
+                if (!benefitData.description) {
+                    alert('Пожалуйста, введите описание преимущества');
+                    benefitDescInput.focus();
+                    return;
+                }
+
+                if (!benefitData.icon) {
+                    alert('Пожалуйста, введите иконку');
+                    benefitIconInput.focus();
+                    return;
+                }
+
+                // Сохраняем в Firebase
+                await database.ref(`benefits/${benefitId}`).set(benefitData);
+
+                // Показываем успешное сообщение
+                const successMsg = document.getElementById('saveSuccess');
+                if (successMsg) {
+                    successMsg.classList.add('show');
+                    successMsg.innerHTML = `
+                <i class="fas fa-check-circle"></i> 
+                Преимущество "${benefitData.title}" успешно сохранено!
+            `;
+                    setTimeout(() => successMsg.classList.remove('show'), 3000);
+                } else {
+                    alert('Преимущество сохранено!');
+                }
+
+                // Обновляем список
+                await loadBenefits();
+
+                // Очищаем форму для нового ввода
+                benefitIdInput.value = '';
+                benefitTitleInput.value = '';
+                benefitDescInput.value = '';
+                benefitIconInput.value = '';
+                if (benefitOrderInput) benefitOrderInput.value = '1';
+                if (benefitActiveInput) benefitActiveInput.checked = true;
+
+            } catch (error) {
+                console.error('Ошибка сохранения преимущества:', error);
+
+                // Показываем сообщение об ошибке
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'error-message';
+                errorMsg.innerHTML = `<i class="fas fa-exclamation-circle"></i> Ошибка: ${error.message}`;
+                errorMsg.style.position = 'fixed';
+                errorMsg.style.top = '20px';
+                errorMsg.style.right = '20px';
+                errorMsg.style.zIndex = '9999';
+                errorMsg.style.padding = '12px 20px';
+                errorMsg.style.background = 'rgba(255, 77, 77, 0.1)';
+                errorMsg.style.border = '1px solid rgba(255, 77, 77, 0.3)';
+                errorMsg.style.color = '#ff4d4d';
+                errorMsg.style.borderRadius = '10px';
+
+                document.body.appendChild(errorMsg);
+                setTimeout(() => errorMsg.remove(), 5000);
+            }
+        }
+
+        // Добавление нового преимущества
+        function addNewBenefit() {
+            // Сбрасываем форму
+            document.getElementById('benefitId').value = '';
+            document.getElementById('benefitTitle').value = '';
+            document.getElementById('benefitDescription').value = '';
+            document.getElementById('benefitIcon').value = '';
+            document.getElementById('benefitOrder').value = '1';
+            document.getElementById('benefitActive').checked = true;
+
+            // Фокус на первое поле
+            document.getElementById('benefitTitle').focus();
+        }
+
+        // Управление текстами
+        // Замените функцию loadTexts на эту
+        async function loadTexts() {
+            try {
+                const snapshot = await database.ref('texts').once('value');
+                const textsList = document.getElementById('textsList');
+
+                if (!textsList) {
+                    console.error('Элемент textsList не найден');
+                    return;
+                }
+
+                if (!snapshot.exists()) {
+                    textsList.innerHTML = `
+                <div class="no-data" style="text-align: center; padding: 40px 20px;">
+                    <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #ffaa00; margin-bottom: 15px;"></i>
+                    <h3 style="color: #fff; margin-bottom: 10px;">Тексты не найдены</h3>
+                    <p style="color: #b0b0c0; margin-bottom: 20px;">Нажмите кнопку ниже чтобы создать структуру текстов</p>
+                    <button onclick="createTextsStructure()" class="test-btn" style="background: linear-gradient(135deg, #ffaa00, #ff8800);">
+                        <i class="fas fa-plus-circle"></i> Создать структуру текстов
+                    </button>
+                </div>
+            `;
+                    return;
+                }
+
+                const texts = snapshot.val();
+                let html = '<div class="texts-grid">';
+
+                Object.entries(texts).forEach(([key, value]) => {
+                    // Экранируем кавычки
+                    const safeValue = String(value).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+                    html += `
+                <div class="text-item" onclick="editText('${key}', \`${safeValue}\`)">
+                    <div class="text-key">${key}</div>
+                    <div class="text-value">${value.length > 50 ? value.substring(0, 50) + '...' : value}</div>
+                </div>
+            `;
+                });
+
+                html += '</div>';
+                textsList.innerHTML = html;
+
+                // Заполняем первое поле для редактирования
+                const firstText = Object.entries(texts)[0];
+                if (firstText) {
+                    editText(firstText[0], firstText[1]);
+                }
+
+            } catch (error) {
+                console.error('Ошибка загрузки текстов:', error);
+                const textsList = document.getElementById('textsList');
+                if (textsList) {
+                    textsList.innerHTML = `
+                <div class="no-data" style="text-align: center; padding: 40px 20px; color: #ff4d4d;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Ошибка загрузки</h3>
+                    <p>${error.message}</p>
+                </div>
+            `;
+                }
+            }
+        }
+
+        // Функция редактирования текста
+        function editText(key, value) {
+            document.getElementById('textKey').value = key;
+            document.getElementById('textValue').value = value;
+
+            // Прокручиваем к форме
+            document.getElementById('textValue').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function saveText() {
+            try {
+                const keyInput = document.getElementById('textKey');
+                const valueInput = document.getElementById('textValue');
+
+                if (!keyInput || !valueInput) {
+                    console.error('Поля формы не найдены');
+                    return;
+                }
+
+                const key = keyInput.value.trim();
+                const value = valueInput.value.trim();
+
+                if (!key) {
+                    alert('Ключ текста не может быть пустым');
+                    return;
+                }
+
+                if (!value) {
+                    if (!confirm('Сохранить пустое значение?')) {
+                        return;
+                    }
+                }
+
+                // Сохраняем в Firebase
+                await database.ref(`texts/${key}`).set(value);
+
+                // Показываем уведомление
+                showNotification(`Текст "${key}" сохранен!`, 'success');
+
+                // Обновляем список
+                setTimeout(() => loadTexts(), 500);
+
+            } catch (error) {
+                console.error('Ошибка сохранения текста:', error);
+                showNotification('Ошибка: ' + error.message, 'error');
+            }
+        }
+
+        // Функция для показа уведомлений
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        <span>${message}</span>
+    `;
+
+            notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? 'rgba(20, 220, 130, 0.9)' : 'rgba(255, 77, 77, 0.9)'};
+        color: #fff;
+        padding: 15px 20px;
+        border-radius: 10px;
+        z-index: 9999;
+        backdrop-filter: blur(10px);
+        border: 1px solid ${type === 'success' ? 'rgba(20, 220, 130, 0.3)' : 'rgba(255, 77, 77, 0.3)'};
+        animation: slideIn 0.3s ease-out;
+    `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Добавьте анимации в CSS
+        const style = document.createElement('style');
+        style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+`;
+        document.head.appendChild(style);
+
+        // Управление настройками
+        async function loadSettings() {
+            try {
+                const snapshot = await database.ref('settings').once('value');
+
+                if (snapshot.exists()) {
+                    const settings = snapshot.val();
+
+                    document.getElementById('siteTitle').value = settings.site_title || '';
+                    document.getElementById('themeColor').value = settings.theme_color || '#00ff88';
+                    document.getElementById('defaultPing').value = settings.default_ping || 15;
+                    document.getElementById('pingEnabled').checked = settings.ping_enabled !== false;
+                    document.getElementById('showLiveBadge').checked = settings.show_live_badge !== false;
+                    document.getElementById('maintenanceMode').checked = settings.maintenance_mode || false;
+                    document.getElementById('maintenanceMessage').value = settings.maintenance_message || '';
+                }
+
+            } catch (error) {
+                console.error('Ошибка загрузки настроек:', error);
+            }
+        }
+
+        async function saveSettings() {
+            try {
+                const settings = {
+                    site_title: document.getElementById('siteTitle').value,
+                    theme_color: document.getElementById('themeColor').value,
+                    default_ping: parseInt(document.getElementById('defaultPing').value) || 15,
+                    ping_enabled: document.getElementById('pingEnabled').checked,
+                    show_live_badge: document.getElementById('showLiveBadge').checked,
+                    maintenance_mode: document.getElementById('maintenanceMode').checked,
+                    maintenance_message: document.getElementById('maintenanceMessage').value,
+                    updated: new Date().toISOString()
+                };
+
+                await database.ref('settings').set(settings);
+
+                showSuccess('Настройки сохранены!');
+
+            } catch (error) {
+                console.error('Ошибка сохранения настроек:', error);
+                showError('Ошибка сохранения');
+            }
+        }
+
+        // Вспомогательные функции
+        function showSuccess(message) {
+            const div = document.createElement('div');
+            div.className = 'success-message';
+            div.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            div.style.position = 'fixed';
+            div.style.top = '20px';
+            div.style.right = '20px';
+            div.style.zIndex = '9999';
+
+            document.body.appendChild(div);
+
+            setTimeout(() => div.remove(), 3000);
+        }
+
+        function showError(message) {
+            const div = document.createElement('div');
+            div.className = 'error-message';
+            div.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+            div.style.position = 'fixed';
+            div.style.top = '20px';
+            div.style.right = '20px';
+            div.style.zIndex = '9999';
+
+            document.body.appendChild(div);
+
+            setTimeout(() => div.remove(), 3000);
+        }
+
+        // Обновление initDatabaseSelector для новых разделов
+        function initDatabaseSelector() {
+            document.querySelectorAll('.db-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.db-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentDatabase = this.getAttribute('data-db');
+
+                    // Скрываем все контейнеры
+                    const containers = [
+                        'linksContainer',
+                        'tariffsContainer',
+                        'benefitsContainer',
+                        'textsContainer',
+                        'settingsContainer'
+                    ];
+
+                    containers.forEach(container => {
+                        document.getElementById(container).style.display = 'none';
+                    });
+
+                    document.querySelector('.admin-stats').style.display = 'none';
+                    document.querySelector('.orders-container').style.display = 'none';
+
+                    // Показываем нужный контейнер
+                    switch (currentDatabase) {
+                        case 'vpn_links':
+                            document.getElementById('linksContainer').style.display = 'block';
+                            loadVpnLinks();
+                            break;
+
+                        case 'tariffs':
+                            document.getElementById('tariffsContainer').style.display = 'block';
+                            loadTariffs();
+                            break;
+
+                        case 'benefits':
+                            document.getElementById('benefitsContainer').style.display = 'block';
+                            loadBenefits();
+                            break;
+
+                        case 'texts':
+                            document.getElementById('textsContainer').style.display = 'block';
+                            loadTexts();
+                            break;
+
+                        case 'settings':
+                            document.getElementById('settingsContainer').style.display = 'block';
+                            loadSettings();
+                            break;
+
+                        default:
+                            document.querySelector('.admin-stats').style.display = 'grid';
+                            document.querySelector('.orders-container').style.display = 'block';
+                            showDebugInfo(`Папка: ${currentDatabase}`);
+                            loadAllOrders();
+                    }
+                });
+            });
+        }
     </script>
+    <script src="firebase-admin.js"></script>
+    <script src="admin-fixes.js"></script>
 </body>
 
 </html>
