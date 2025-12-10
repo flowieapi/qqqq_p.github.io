@@ -2059,6 +2059,19 @@
             <div class="orders-header">
                 <h2><i class="fas fa-list glow"></i> Список заказов</h2>
                 <div class="header-controls">
+                    <button class="test-btn" onclick="emergencyDebug()"
+                        style="background: linear-gradient(135deg, #ff4757, #ff3838); margin-bottom: 10px;">
+                        <i class="fas fa-fire"></i> ЭКСТРЕННАЯ ОТЛАДКА
+                    </button>
+                    <button class="test-btn" onclick="debugOrderStructure()"
+                        style="background: linear-gradient(135deg, #9d4edd, #7b2cbf);">
+                        <i class="fas fa-bug"></i> Отладка структуры
+                    </button>
+                    <!-- Добавьте в header-controls -->
+                    <button class="test-btn" onclick="debugDatabaseStructure()"
+                        style="background: linear-gradient(135deg, #ffaa00, #ff8800); margin-top: 10px;">
+                        <i class="fas fa-search"></i> Проверить структуру
+                    </button>
                     <div class="filter-buttons">
                         <button class="filter-btn active" data-filter="all">
                             <i class="fas fa-layer-group"></i> Все
@@ -2140,7 +2153,7 @@
 
         let orders = [];
         let currentFilter = 'all';
-        let currentDatabase = 'payments';
+        let currentDatabase = 'orders';
         let currentTariff = 'light';
         let vpnLinks = {};
 
@@ -2221,6 +2234,7 @@
                 btn.addEventListener('click', function () {
                     document.querySelectorAll('.db-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
+                    currentDatabase = 'orders';
                     currentDatabase = this.getAttribute('data-db');
 
                     if (currentDatabase === 'vpn_links') {
@@ -2459,63 +2473,287 @@
         // Замена существующей функции loadAllOrders
         async function loadAllOrders() {
             try {
-                showDebugInfo("Загрузка данных...");
+                console.log('🔍 LOAD ALL ORDERS STARTED');
 
-                // Показываем скелетон
-                showSkeletonLoading();
+                const ordersList = document.getElementById('ordersList');
+                ordersList.innerHTML = `
+            <div class="loading" id="loadingOrders">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Загрузка заказов...</p>
+            </div>
+        `;
 
+                // Сбрасываем массив
                 orders = [];
 
-                // Загружаем из orders и payments параллельно
-                const [ordersFromOrders, ordersFromPayments] = await Promise.all([
-                    loadFromDatabase('orders'),
-                    loadFromDatabase('payments')
-                ]);
+                // Загружаем из Firebase
+                const snapshot = await database.ref('orders').once('value');
 
-                // Объединяем все заказы
-                if (ordersFromOrders) orders.push(...ordersFromOrders);
-                if (ordersFromPayments) orders.push(...ordersFromPayments);
+                if (!snapshot.exists()) {
+                    ordersList.innerHTML = `
+                <div class="no-orders">
+                    <i class="fas fa-database"></i>
+                    <h3>Нет данных</h3>
+                    <p>В Firebase нет заказов в папке "orders"</p>
+                </div>
+            `;
+                    return;
+                }
 
-                // Убираем дубликаты по ID
-                const uniqueOrders = [];
-                const seenIds = new Set();
+                // Обрабатываем данные с правильной структурой
+                snapshot.forEach((childSnapshot) => {
+                    const orderData = childSnapshot.val();
 
-                orders.forEach(order => {
-                    if (order && order.id && !seenIds.has(order.id)) {
-                        seenIds.add(order.id);
-                        uniqueOrders.push(order);
-                    }
+                    // НОРМАЛИЗУЕМ ДАННЫЕ - это ключевой момент!
+                    const normalizedOrder = {
+                        // Обязательные поля
+                        id: childSnapshot.key,
+                        status: orderData.status || 'pending', // Если нет статуса - ставим "pending"
+                        timestamp: orderData.timestamp || new Date().toISOString(),
+                        source: 'orders',
+
+                        // Данные пользователя
+                        payerName: orderData.payerName || orderData.userName || orderData.name || 'Аноним',
+                        payerEmail: orderData.payerEmail || orderData.userEmail || orderData.email || 'Не указан',
+
+                        // Данные о заказе
+                        plan: orderData.plan || 'light',
+                        planName: orderData.planName || getPlanName(orderData.plan) || 'Тариф VPN',
+                        price: orderData.price || orderData.amount || 0,
+
+                        // Чек и файлы
+                        receipt: orderData.receipt || orderData.screenshot || '',
+                        fileName: orderData.fileName || '',
+                        download_url: orderData.download_url || '',
+                        download_name: orderData.download_name || '',
+
+                        // Дополнительные данные
+                        adminNote: orderData.adminNote || '',
+                        userId: orderData.userId || orderData.user_id || ''
+                    };
+
+                    console.log('Нормализованный заказ:', normalizedOrder);
+                    orders.push(normalizedOrder);
                 });
 
-                orders = uniqueOrders;
+                console.log(`✅ Загружено ${orders.length} заказов`);
 
-                // Сортируем по дате (новые сверху)
-                orders.sort((a, b) => {
-                    const dateA = a.timestamp ? new Date(a.timestamp) : new Date(0);
-                    const dateB = b.timestamp ? new Date(b.timestamp) : new Date(0);
-                    return dateB - dateA;
-                });
+                // Обновляем статистику
+                updateStats();
 
+                // Отображаем заказы
+                displayOrders();
+
+            } catch (error) {
+                console.error('❌ Ошибка загрузки:', error);
+                showErrorMessage('Ошибка загрузки заказов: ' + error.message);
+            }
+        }
+
+        function showOrderDetails(orderIndex) {
+            if (!orders[orderIndex]) return;
+
+            const order = orders[orderIndex];
+
+            // Создаем модальное окно
+            const modal = document.createElement('div');
+            modal.className = 'details-modal active';
+            modal.innerHTML = `
+        <div class="details-content">
+            <div class="details-header">
+                <h3><i class="fas fa-info-circle"></i> Детали заказа</h3>
+                <button class="close-modal" onclick="this.parentElement.parentElement.remove()">&times;</button>
+            </div>
+            <div class="details-body">
+                <pre style="color: white; font-family: monospace; white-space: pre-wrap;">${JSON.stringify(order, null, 2)}</pre>
+            </div>
+        </div>
+    `;
+
+            // Добавляем в body и блокируем скролл
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+
+            // Закрытие по клику вне окна
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        function showNoOrdersMessage() {
+            const ordersList = document.getElementById('ordersList');
+            if (ordersList) {
+                ordersList.innerHTML = `
+            <div class="no-orders">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Заказов пока нет</h3>
+                <p>Новые заказы появятся здесь автоматически</p>
+                <button class="action-btn approve-btn" onclick="loadAllOrders()" 
+                        style="margin-top: 15px;">
+                    <i class="fas fa-sync-alt"></i> Обновить
+                </button>
+            </div>
+        `;
+            }
+        }
+
+        function showErrorLoadingMessage(error) {
+            const ordersList = document.getElementById('ordersList');
+            if (ordersList) {
+                ordersList.innerHTML = `
+            <div class="no-orders">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Ошибка загрузки</h3>
+                <p>${error.message || 'Неизвестная ошибка'}</p>
+                <button class="action-btn approve-btn" onclick="loadAllOrders()" 
+                        style="margin-top: 15px;">
+                    <i class="fas fa-redo"></i> Попробовать снова
+                </button>
+            </div>
+        `;
+            }
+        }
+
+        async function emergencyDebug() {
+            console.clear();
+            console.log('🚨 EMERGENCY DEBUG STARTED');
+
+            // 1. Проверим Firebase соединение
+            try {
+                const testRef = database.ref('.info/connected');
+                const connected = await testRef.once('value');
+                console.log('✅ Firebase connection:', connected.val() ? 'CONNECTED' : 'DISCONNECTED');
+            } catch (e) {
+                console.error('❌ Firebase connection error:', e);
+            }
+
+            // 2. Проверим данные в Firebase
+            try {
+                const snapshot = await database.ref('orders').once('value');
+                console.log('📊 Firebase orders data:', snapshot.val());
+                console.log('📈 Number of orders:', snapshot.numChildren());
+
+                if (snapshot.exists()) {
+                    snapshot.forEach((child, index) => {
+                        console.log(`Order ${index}:`, child.key, child.val());
+                    });
+                }
+            } catch (e) {
+                console.error('❌ Error reading Firebase:', e);
+            }
+
+            // 3. Проверим локальный массив orders
+            console.log('💾 Local orders array:', orders);
+            console.log('🔢 Local orders length:', orders.length);
+
+            // 4. Форсированно отобразим заказы
+            if (orders.length > 0) {
+                console.log('🎨 Forcing display of orders...');
+                displayOrders();
+            } else {
+                console.log('📭 No orders in local array');
+
+                // Попробуем загрузить напрямую
+                const snapshot = await database.ref('orders').once('value');
+                if (snapshot.exists()) {
+                    console.log('🔄 Loading orders directly from Firebase...');
+                    orders = [];
+                    snapshot.forEach(child => {
+                        orders.push({
+                            id: child.key,
+                            ...child.val()
+                        });
+                    });
+                    displayOrders();
+                }
+            }
+
+            // 5. Создадим тестовый заказ, если нет данных
+            if (orders.length === 0) {
+                console.log('🆕 Creating test order...');
+                await createTestOrder();
+            }
+
+            console.log('🚨 EMERGENCY DEBUG COMPLETED');
+            alert('Проверка завершена. Смотрите консоль (F12)');
+        }
+
+        async function createTestOrder() {
+            try {
+                const testId = 'test_' + Date.now();
+                const testOrder = {
+                    id: testId,
+                    status: 'pending',
+                    payerName: 'Тестовый Пользователь',
+                    payerEmail: 'test@example.com',
+                    plan: 'light',
+                    planName: 'Лайт VPN',
+                    price: 299,
+                    timestamp: new Date().toISOString(),
+                    receipt: 'https://via.placeholder.com/400x300/14dc82/ffffff?text=Test+Receipt',
+                    adminNote: 'Тестовый заказ создан ' + new Date().toLocaleString()
+                };
+
+                // Сохраняем в Firebase
+                await database.ref(`orders/${testId}`).set(testOrder);
+
+                // Добавляем в локальный массив
+                orders.push(testOrder);
+
+                // Обновляем отображение
                 updateStats();
                 displayOrders();
 
-                showDebugInfo(`Загружено ${orders.length} заказов`);
+                console.log('✅ Test order created:', testOrder);
+                alert('Тестовый заказ создан!');
 
             } catch (error) {
-                console.error("Ошибка загрузки:", error);
-                showDebugInfo(`Ошибка: ${error.message}`);
+                console.error('❌ Error creating test order:', error);
+                alert('Ошибка: ' + error.message);
+            }
+        }
 
-                // Показываем сообщение об ошибке
-                const ordersList = document.getElementById('ordersList');
-                if (ordersList) {
-                    ordersList.innerHTML = `
-                <div class="no-orders">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <h3>Ошибка загрузки</h3>
-                    <p>${error.message}</p>
-                </div>
-            `;
-                }
+        // Добавьте после loadAllOrders
+        function checkLoadedData() {
+            console.log('=== ПРОВЕРКА ДАННЫХ ===');
+            console.log('orders массив:', orders);
+            console.log('Длина orders:', orders.length);
+            console.log('Тип orders:', typeof orders);
+
+            if (orders && orders.length > 0) {
+                console.log('Первый заказ:', orders[0]);
+                console.log('Ключи первого заказа:', Object.keys(orders[0]));
+                console.log('ID первого заказа:', orders[0].id);
+                console.log('Статус первого заказа:', orders[0].status);
+            } else {
+                console.log('Заказы не загружены в массив orders!');
+            }
+        }
+
+        async function debugDatabaseStructure() {
+            try {
+                // Проверим все доступные папки
+                const snapshot = await database.ref('/').once('value');
+                console.log('Все папки в базе:', Object.keys(snapshot.val() || {}));
+
+                // Проверим папку orders
+                const ordersSnapshot = await database.ref('orders').once('value');
+                const ordersCount = ordersSnapshot.exists() ? ordersSnapshot.numChildren() : 0;
+                console.log(`Папка 'orders': ${ordersCount} записей`);
+
+                // Проверим папку payments
+                const paymentsSnapshot = await database.ref('payments').once('value');
+                const paymentsCount = paymentsSnapshot.exists() ? paymentsSnapshot.numChildren() : 0;
+                console.log(`Папка 'payments': ${paymentsCount} записей`);
+
+                showDebugInfo(`База данных: orders=${ordersCount}, payments=${paymentsCount}`);
+
+            } catch (error) {
+                console.error('Ошибка проверки базы:', error);
+                showDebugInfo('Ошибка проверки базы данных');
             }
         }
 
@@ -2559,43 +2797,74 @@
 
                 if (!snapshot.exists()) {
                     console.log(`Папка ${dbPath} пуста`);
-                    return;
+                    return [];
                 }
 
                 const loadedOrders = [];
 
-                snapshot.forEach((childSnapshot) => {
-                    try {
-                        const order = childSnapshot.val();
+                // Разные стратегии обработки для разных папок
+                if (dbPath === 'orders') {
+                    // Папка orders содержит объекты с ID как ключами
+                    snapshot.forEach((childSnapshot) => {
+                        try {
+                            const orderData = childSnapshot.val();
 
-                        // Пропускаем пустые объекты
-                        if (!order || typeof order !== 'object') {
-                            console.log(`Пропущен пустой объект из ${dbPath}`);
-                            return;
+                            if (!orderData || typeof orderData !== 'object') {
+                                console.log(`Пропущен пустой объект в orders`);
+                                return;
+                            }
+
+                            // Создаем объект заказа с ID
+                            const order = {
+                                id: childSnapshot.key,
+                                ...orderData,
+                                source: 'orders'
+                            };
+
+                            // Нормализуем статус
+                            if (!order.status) order.status = 'pending';
+
+                            loadedOrders.push(order);
+                            console.log(`Загружен заказ из orders: ${order.id}`, order);
+
+                        } catch (orderError) {
+                            console.error(`Ошибка обработки заказа из orders:`, orderError);
                         }
+                    });
+                } else if (dbPath === 'payments') {
+                    // Папка payments содержит объекты с ID как ключами
+                    snapshot.forEach((childSnapshot) => {
+                        try {
+                            const paymentData = childSnapshot.val();
 
-                        // Создаем ID если его нет
-                        if (!order.id) {
-                            order.id = childSnapshot.key;
+                            if (!paymentData || typeof paymentData !== 'object') {
+                                return;
+                            }
+
+                            // Преобразуем платеж в формат заказа
+                            const order = {
+                                id: childSnapshot.key,
+                                status: paymentData.status || 'pending',
+                                payerName: paymentData.payerName || paymentData.userName || 'Не указано',
+                                payerEmail: paymentData.payerEmail || paymentData.userEmail || 'Не указан',
+                                plan: paymentData.plan || 'light',
+                                planName: paymentData.planName || paymentData.plan,
+                                price: paymentData.price || 0,
+                                receipt: paymentData.receipt,
+                                timestamp: paymentData.timestamp || new Date().toISOString(),
+                                source: 'payments',
+                                fileName: paymentData.fileName,
+                                adminNote: paymentData.adminNote
+                            };
+
+                            loadedOrders.push(order);
+                            console.log(`Загружен заказ из payments: ${order.id}`);
+
+                        } catch (error) {
+                            console.error(`Ошибка обработки платежа:`, error);
                         }
-
-                        // Нормализуем данные
-                        order.source = dbPath;
-                        order.fullId = `${dbPath}/${order.id}`;
-
-                        if (!order.status) order.status = 'pending';
-                        if (!order.payerName && order.userName) order.payerName = order.userName;
-                        if (!order.payerEmail && order.userEmail) order.payerEmail = order.userEmail;
-                        if (!order.planName && order.plan) order.planName = order.plan;
-                        if (!order.price && order.planPrice) order.price = order.planPrice;
-
-                        loadedOrders.push(order);
-                        console.log(`Загружен заказ ${order.id} из ${dbPath}`);
-
-                    } catch (orderError) {
-                        console.error(`Ошибка обработки заказа из ${dbPath}:`, orderError);
-                    }
-                });
+                    });
+                }
 
                 console.log(`Из ${dbPath} загружено ${loadedOrders.length} записей`);
                 return loadedOrders;
@@ -2603,6 +2872,38 @@
             } catch (error) {
                 console.error(`Ошибка загрузки из ${dbPath}:`, error);
                 throw error;
+            }
+        }
+
+        async function debugOrderStructure() {
+            try {
+                console.log('=== ОТЛАДКА СТРУКТУРЫ ЗАКАЗОВ ===');
+
+                // Загружаем напрямую
+                const snapshot = await database.ref('orders').once('value');
+
+                if (!snapshot.exists()) {
+                    console.log('Папка orders пуста!');
+                    return;
+                }
+
+                console.log('Количество записей в orders:', snapshot.numChildren());
+
+                // Проверяем первую запись
+                snapshot.forEach((childSnapshot, index) => {
+                    if (index === 0) {
+                        console.log('Ключ первой записи:', childSnapshot.key);
+                        console.log('Значение первой записи:', childSnapshot.val());
+                        console.log('Тип данных:', typeof childSnapshot.val());
+                        console.log('ID в данных:', childSnapshot.val().id);
+                        console.log('Все ключи в данных:', Object.keys(childSnapshot.val() || {}));
+                    }
+                });
+
+                showDebugInfo(`orders: ${snapshot.numChildren()} записей. Проверьте консоль.`);
+
+            } catch (error) {
+                console.error('Ошибка отладки:', error);
             }
         }
 
@@ -2652,134 +2953,202 @@
         }
 
         // Отображение заказов
+        // ЗАМЕНИТЕ ВСЮ ФУНКЦИЮ displayOrders() на эту версию:
         function displayOrders() {
-            const ordersList = document.getElementById('ordersList');
+            console.log('=== DISPLAY ORDERS ===');
 
-            if (orders.length === 0) {
+            const ordersList = document.getElementById('ordersList');
+            if (!ordersList) return;
+
+            // Очищаем
+            ordersList.innerHTML = '';
+
+            if (!orders || orders.length === 0) {
                 ordersList.innerHTML = `
             <div class="no-orders">
-                <i class="fas fa-shopping-cart"></i>
-                <h3>Заказов пока нет</h3>
-                <p>Папка: ${currentDatabase}</p>
+                <i class="fas fa-box-open"></i>
+                <h3>Нет заказов</h3>
+                <p>Все заказы обработаны</p>
             </div>
         `;
                 return;
             }
 
+            // Фильтруем
             const filteredOrders = orders.filter(order => {
+                if (!order) return false;
                 if (currentFilter === 'all') return true;
-                return order && order.status === currentFilter;
+                return order.status === currentFilter;
             });
 
             if (filteredOrders.length === 0) {
                 ordersList.innerHTML = `
             <div class="no-orders">
                 <i class="fas fa-filter"></i>
-                <h3>Нет заказов</h3>
+                <h3>Нет заказов по фильтру</h3>
                 <p>Фильтр: ${getStatusText(currentFilter)}</p>
             </div>
         `;
                 return;
             }
 
-            let html = '';
+            // Создаем заказы
+            filteredOrders.forEach((order, index) => {
+                console.log(`Order ${index} status:`, order.status);
 
-            filteredOrders.forEach(order => {
-                if (!order || !order.id) {
-                    console.warn('Пропускаем некорректный заказ:', order);
-                    return;
-                }
-
-                const date = new Date(order.timestamp || Date.now());
-                const formattedDate = date.toLocaleDateString('ru-RU', {
+                // Форматируем дату
+                const date = new Date(order.timestamp);
+                const formattedDate = date.toLocaleString('ru-RU', {
                     day: '2-digit',
                     month: '2-digit',
+                    year: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit'
                 });
 
-                // Безопасное получение данных с проверкой
-                const userName = order.payerName || order.userName || 'Не указано';
-                const userEmail = order.payerEmail || order.userEmail || 'Не указан';
-                const tariff = order.planName || order.plan || order.tariff || 'Не указан';
-                const price = order.price || '0';
-                const status = order.status || 'pending';
-                const orderId = order.id || 'unknown';
-
-                // Ограничение длины строк для отображения
-                const shortUserName = typeof userName === 'string' && userName.length > 15
-                    ? userName.substring(0, 15) + '...'
-                    : userName;
-
-                const shortEmail = typeof userEmail === 'string' && userEmail.length > 20
-                    ? userEmail.substring(0, 20) + '...'
-                    : userEmail;
-
-                const shortTariff = typeof tariff === 'string' && tariff.length > 15
-                    ? tariff.substring(0, 15) + '...'
-                    : tariff;
-
-                // Генерируем короткий ID для отображения
-                const shortOrderId = typeof orderId === 'string' && orderId.length > 6
-                    ? orderId.substring(0, 6)
-                    : orderId;
-
-                html += `
-            <div class="order-item" data-order-id="${orderId}">
+                // Создаем HTML
+                const orderHTML = `
+            <div class="order-item" data-order-id="${order.id}">
                 <div class="order-header">
                     <div>
-                        <h3>Заказ #${shortOrderId}</h3>
+                        <h3>Заказ #${order.id.substring(0, 8)}</h3>
                         <div class="order-id">
-                            <i class="fas fa-folder" style="color: #14dc82;"></i> ${order.source || 'unknown'}
+                            <i class="fas fa-calendar-alt"></i> ${formattedDate}
                         </div>
                     </div>
-                    <div class="order-status status-${status}">
-                        ${getStatusText(status)}
+                    <div class="order-status status-${order.status}">
+                        ${getStatusText(order.status)}
                     </div>
                 </div>
                 
                 <div class="order-details">
                     <div class="detail-item">
                         <h4>Тариф</h4>
-                        <p><i class="fas fa-box"></i>${shortTariff}</p>
+                        <p><i class="fas fa-crown"></i> ${order.planName}</p>
                     </div>
                     <div class="detail-item">
                         <h4>Цена</h4>
-                        <p><i class="fas fa-ruble-sign"></i>${price} ₽</p>
+                        <p><i class="fas fa-ruble-sign"></i> ${order.price} ₽</p>
                     </div>
                     <div class="detail-item">
                         <h4>Имя</h4>
-                        <p><i class="fas fa-user"></i>${shortUserName}</p>
+                        <p><i class="fas fa-user"></i> ${order.payerName}</p>
                     </div>
                     <div class="detail-item">
                         <h4>Email</h4>
-                        <p><i class="fas fa-envelope"></i>${shortEmail}</p>
+                        <p><i class="fas fa-envelope"></i> ${order.payerEmail}</p>
                     </div>
                 </div>
                 
-                <div class="order-actions">
-                    ${status === 'pending' ? `
-                        <button class="action-btn approve-btn" onclick="updateOrderStatus('${orderId}', '${order.source || 'payments'}', 'approved')">
-                            <i class="fas fa-check"></i> Одобрить
-                        </button>
-                        <button class="action-btn decline-btn" onclick="updateOrderStatus('${orderId}', '${order.source || 'payments'}', 'declined')">
-                            <i class="fas fa-times"></i> Отклонить
-                        </button>
-                    ` : ''}
-                    ${order.receipt ? `
-                        <button class="action-btn view-receipt-btn" onclick="viewReceipt('${orderId}')">
-                            <i class="fas fa-receipt"></i> Чек
-                        </button>
-                    ` : ''}
-                    <button class="action-btn info-btn" onclick="showOrderDetailsModal('${orderId}')">
-                        <i class="fas fa-info-circle"></i> Подробнее
-                    </button>
+                <div class="order-actions" id="actions-${order.id}">
+                    <!-- Кнопки будут вставлены динамически -->
                 </div>
             </div>
         `;
-            });
 
-            ordersList.innerHTML = html;
+                // Добавляем в список
+                ordersList.insertAdjacentHTML('beforeend', orderHTML);
+
+                // ДИНАМИЧЕСКИ добавляем кнопки в контейнер
+                const actionsContainer = document.getElementById(`actions-${order.id}`);
+                if (actionsContainer) {
+                    actionsContainer.innerHTML = generateActionButtons(order);
+                }
+            });
+        }
+
+        // Новая функция для генерации кнопок
+        function generateActionButtons(order) {
+            console.log('Generating buttons for order:', order.id, 'status:', order.status);
+
+            let buttonsHTML = '';
+
+            // Кнопки в зависимости от статуса
+            if (order.status === 'pending') {
+                buttonsHTML = `
+            <button class="action-btn approve-btn" 
+                    onclick="updateOrderStatus('${order.id}', 'approved')">
+                <i class="fas fa-check"></i> Одобрить
+            </button>
+            <button class="action-btn decline-btn" 
+                    onclick="updateOrderStatus('${order.id}', 'declined')">
+                <i class="fas fa-times"></i> Отклонить
+            </button>
+        `;
+            } else if (order.status === 'approved') {
+                buttonsHTML = `
+            <button class="action-btn info-btn" style="background: linear-gradient(135deg, #00b894, #00a085);">
+                <i class="fas fa-check-double"></i> Одобрено
+            </button>
+        `;
+            } else if (order.status === 'declined') {
+                buttonsHTML = `
+            <button class="action-btn info-btn" style="background: linear-gradient(135deg, #636e72, #2d3436);">
+                <i class="fas fa-ban"></i> Отклонено
+            </button>
+        `;
+            }
+
+            // Всегда показываем кнопки просмотра
+            buttonsHTML += `
+        ${order.receipt ? `
+            <button class="action-btn view-receipt-btn" onclick="viewReceipt('${order.id}')">
+                <i class="fas fa-receipt"></i> Чек
+            </button>
+        ` : ''}
+        <button class="action-btn info-btn" onclick="showOrderDetails('${order.id}')">
+            <i class="fas fa-info-circle"></i> Подробно
+        </button>
+    `;
+
+            return buttonsHTML;
+        }
+
+        // Новая функция для генерации кнопок
+        function generateActionButtons(order) {
+            console.log('Generating buttons for order:', order.id, 'status:', order.status);
+
+            let buttonsHTML = '';
+
+            // Кнопки в зависимости от статуса
+            if (order.status === 'pending') {
+                buttonsHTML = `
+            <button class="action-btn approve-btn" 
+                    onclick="updateOrderStatus('${order.id}', 'approved')">
+                <i class="fas fa-check"></i> Одобрить
+            </button>
+            <button class="action-btn decline-btn" 
+                    onclick="updateOrderStatus('${order.id}', 'declined')">
+                <i class="fas fa-times"></i> Отклонить
+            </button>
+        `;
+            } else if (order.status === 'approved') {
+                buttonsHTML = `
+            <button class="action-btn info-btn" style="background: linear-gradient(135deg, #00b894, #00a085);">
+                <i class="fas fa-check-double"></i> Одобрено
+            </button>
+        `;
+            } else if (order.status === 'declined') {
+                buttonsHTML = `
+            <button class="action-btn info-btn" style="background: linear-gradient(135deg, #636e72, #2d3436);">
+                <i class="fas fa-ban"></i> Отклонено
+            </button>
+        `;
+            }
+
+            // Всегда показываем кнопки просмотра
+            buttonsHTML += `
+        ${order.receipt ? `
+            <button class="action-btn view-receipt-btn" onclick="viewReceipt('${order.id}')">
+                <i class="fas fa-receipt"></i> Чек
+            </button>
+        ` : ''}
+        <button class="action-btn info-btn" onclick="showOrderDetails('${order.id}')">
+            <i class="fas fa-info-circle"></i> Подробно
+        </button>
+    `;
+
+            return buttonsHTML;
         }
 
         // Получение текста статуса
@@ -2793,28 +3162,38 @@
         }
 
         // Обновление статуса заказа
-        async function updateOrderStatus(orderId, sourcePath, newStatus) {
+        async function updateOrderStatus(orderId, newStatus) {
             try {
-                const statusText = newStatus === 'approved' ? 'одобрить' : 'отклонить';
-                if (!confirm(`Вы уверены, что хотите ${statusText} этот заказ?`)) return;
+                const confirmMessage = newStatus === 'approved'
+                    ? 'Одобрить этот заказ?'
+                    : 'Отклонить этот заказ?';
 
-                const path = sourcePath || 'payments';
+                if (!confirm(confirmMessage)) return;
 
-                await database.ref(`${path}/${orderId}`).update({
+                // Обновляем в Firebase
+                await database.ref(`orders/${orderId}`).update({
                     status: newStatus,
-                    adminNote: `Статус изменен ${new Date().toLocaleString('ru-RU')}`
+                    adminNote: `Статус изменен на "${newStatus}" ${new Date().toLocaleString('ru-RU')}`,
+                    processedAt: new Date().toISOString()
                 });
 
-                const orderIndex = orders.findIndex(o => o.id === orderId && o.source === path);
-                if (orderIndex !== -1) orders[orderIndex].status = newStatus;
+                // Обновляем локальный массив
+                const orderIndex = orders.findIndex(o => o.id === orderId);
+                if (orderIndex !== -1) {
+                    orders[orderIndex].status = newStatus;
+                    orders[orderIndex].adminNote = `Статус изменен на "${newStatus}"`;
+                }
 
+                // Обновляем UI
                 updateStats();
                 displayOrders();
-                showDebugInfo(`Статус изменен на "${getStatusText(newStatus)}"`);
+
+                // Уведомление
+                showNotification(`Заказ ${orderId.substring(0, 8)} ${newStatus === 'approved' ? 'одобрен' : 'отклонен'}!`, 'success');
 
             } catch (error) {
-                console.error("Ошибка обновления статуса:", error);
-                showDebugInfo("Ошибка: " + error.message);
+                console.error('Ошибка обновления статуса:', error);
+                showNotification('Ошибка: ' + error.message, 'error');
             }
         }
 
